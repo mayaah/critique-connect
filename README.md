@@ -1,2 +1,1 @@
-# critique-connect
-
+# Critique Connect
