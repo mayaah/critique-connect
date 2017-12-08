@@ -9,11 +9,7 @@ class Footer extends Component {
   render() {
     return (
       <footer>
-        <ul className="site-links">
-          <li>
-            © {this.state.year} 
-          </li>
-        </ul>
+        © {this.state.year} The Seas
       </footer>
     );
   }

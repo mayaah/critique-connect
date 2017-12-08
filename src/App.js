@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Logout from './components/Logout';
+import SplashPage from './SplashPage';
 import { app, base } from './base'
 
 
@@ -54,8 +55,17 @@ class App extends Component {
             <Header authenticated={this.state.authenticated} />
             <div className="main-content" style={{padding: "1em"}}>
               <div className="workspace">
+                {this.props.authenticated
+                    ? (
+                      <h1>Welcome back to Critique Connect</h1>
+                    )
+                    : (
+                      <SplashPage />
+                    )
+                }
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/logout" component={Logout}/>
+                
               </div>
             </div>
           </div>
