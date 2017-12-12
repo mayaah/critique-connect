@@ -2,9 +2,92 @@
   font-family: 'Lato-Light';
   src: local('Lato-Light'), url(./Lato-Light.ttf) format('ttf');
 }
-
+html {
+	height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Lato-Light';
+  min-height: 100%;
+}
+
+:root {
+  --red: #c21500;
+  --yellow: #ffc500;
+  --navy: #001fc1;
+}
+
+.splash-page {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+}
+
+.title {
+	font-family: 'Lato-Light';
+	display: inline-block;
+	color: var(--red); /*non-webkit fallback*/
+	text-transform: uppercase;
+	background: -webkit-linear-gradient(180deg, var(--yellow), var(--red));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 125px;
+	margin-bottom: 40px;
+}
+
+nav.pt-navbar {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	border-bottom: 1px solid navy;
+}
+
+.login-styles {
+	font-family: 'Lato-Light';
+	font-size: 20px;
+}
+
+.splash-page label.pt-label .pt-input, label.pt-label .pt-select {
+	border: 1px solid black;
+	box-shadow: none;
+	font-size: 15px;
+}
+
+.splash-page .pt-callout[class*="pt-icon-"]::before{
+	color: var(--red);
+}
+
+.splash-page .pt-callout{
+	background-color: white;
+	border: 2px solid var(--red);
+	color: var(--red);
+	font-weight: bold;
+	font-size: 15px;
+
+}
+
+.splash-page .pt-button.pt-intent-primary {
+	background: var(--yellow);
+	background: -webkit-linear-gradient(180deg, var(--yellow), var(--red));
+	padding: 10px;
+	font-size: 15px;
+	text-transform: uppercase;
+	box-shadow: none;
+}
+
+.splash-page .pt-button.pt-intent-primary:hover {
+	background-color: black;
+}
+
+.email-auth {
+	margin-bottom: 20px;
+}
+
+.fb-auth {
+	margin-top: 20px;
 }

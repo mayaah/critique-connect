@@ -25,10 +25,11 @@ class Login extends Component {
 
   authWithFacebook() {
     app.auth().signInWithPopup(facebookProvider)
-      .then((result, error) => {
+      .then((user, error) => {
         if (error) {
           this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Facebook" })
         } else {
+          this.props.setCurrentUser(user)
           this.setState({ redirect: true })
         }
       })
@@ -42,21 +43,23 @@ class Login extends Component {
 
     app.auth().fetchProvidersForEmail(email)
       .then((providers) => {
-        console.log("we're hitting the first then")
         if (providers.length === 0) {
           // create user
           return app.auth().createUserWithEmailAndPassword(email, password)
         } else if (providers.indexOf("password") === -1) {
+          // they used facebook
+          this.loginForm.reset()
           this.toaster.show({ intent: Intent.WARNING, message: "Try alternative login." })
         } else {
-          // sign in with email/password
+          // sign user in
           return app.auth().signInWithEmailAndPassword(email, password)
         }
       })
       .then((user) => {
         if (user && user.email) {
           this.loginForm.reset()
-          this.setState({ redirect: true })
+          this.props.setCurrentUser(user)
+          this.setState({redirect: true})
         }
       })
       .catch((error) => {
@@ -66,35 +69,35 @@ class Login extends Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirect } = this.state
 
-    if (redirect) {
-      return (
-        <Redirect to={from} />
-      )
+    if (this.state.redirect === true) {
+      return <Redirect to={from} />
     }
 
+
     return (
-      <div style={loginStyles}>
-        <Toaster ref={(element) => { this.toaster = element }} />
-        <button style={{width: "100%"}} className="pt-button pt-intent-primary" onClick={() => this.authWithFacebook()}>Log In with Facebook</button>
-        <hr style={{marginTop: "10px", marginBottom: "10px"}} />
-        <form onSubmit={(event) => this.authWithEmailPassword(event)}
-          ref={(form) => { this.loginForm = form }}>
-          <div style={{marginBottom: "10px"}} className="pt-callout pt-icon-info-sign">
-            <h5>Note</h5>
-            If you've never logged in, this will create your account.
-          </div>
-          <label className="pt-label">
-            Email
-            <input style={{width: "100%"}} className="pt-input" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="Email"></input>
-          </label>
-          <label className="pt-label">
-            Password
-            <input style={{width: "100%"}} className="pt-input" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="Password"></input>
-          </label>
-          <input style={{width: "100%"}} type="submit" className="pt-button pt-intent-primary" value="Log In"></input>
-        </form>
+    <div className="splash-page">
+      <div class="title">Critique Connect</div>
+        <div className="login-styles">
+          <Toaster ref={(element) => { this.toaster = element }} />
+          <form className="email-auth" onSubmit={(event) => this.authWithEmailPassword(event)}
+            ref={(form) => { this.loginForm = form }}>
+            <div style={{marginBottom: "10px"}} className="pt-callout pt-icon-info-sign">
+              If you've never logged in, this will create your account.
+            </div>
+            <label className="pt-label">
+              Email
+              <input style={{width: "100%"}} className="pt-input" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="Email"></input>
+            </label>
+            <label className="pt-label">
+              Password
+              <input style={{width: "100%"}} className="pt-input" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="Password"></input>
+            </label>
+            <input style={{width: "100%"}} type="submit" className="pt-button pt-intent-primary" value="Log In"></input>
+          </form>
+          <center><span className="or-auth-separator">OR</span></center>
+          <button style={{width: "100%"}} className="pt-button pt-intent-primary fb-auth" onClick={() => this.authWithFacebook()}>Log In with Facebook</button>
+        </div>
       </div>
     )
   }
