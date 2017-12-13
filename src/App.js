@@ -80,6 +80,7 @@ class App extends Component {
        <div>
         <BrowserRouter>
           <div>
+            <Header authenticated={this.state.authenticated} />
             {this.props.authenticated ? (<Redirect to="/homepage" />) :  (<Redirect to="/login" />)}
             <Route exact path="/homepage" render={(props) => {
                 return <HomePage authenticated={this.state.authenticated} {...props} />

@@ -7,6 +7,7 @@ class Header extends Component {
     return (
      <nav className="pt-navbar pt-fixed-top">
         <div className="pt-navbar-group pt-align-left">
+          <div className="pt-navbar-heading">Critique Connect</div>
           {this.props.authenticated
               ? <input className="pt-input" placeholder="Search..." type="text" />
               : null
@@ -22,11 +23,7 @@ class Header extends Component {
               </div>
 
             )
-            : (
-              <div className="pt-navbar-group pt-align-right">
-                <Link className="pt-button pt-intent-primary" to="/login">Register/Log In</Link>
-              </div>
-            )
+            : null
         }
       </nav>
     );

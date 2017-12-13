@@ -76,8 +76,8 @@ class Login extends Component {
 
 
     return (
-    <div className="splash-page">
-      <div class="title">Critique Connect</div>
+    <div>
+      <div className="splash-page">
         <div className="login-styles">
           <Toaster ref={(element) => { this.toaster = element }} />
           <form className="email-auth" onSubmit={(event) => this.authWithEmailPassword(event)}
@@ -86,11 +86,9 @@ class Login extends Component {
               If you've never logged in, this will create your account.
             </div>
             <label className="pt-label">
-              Email
               <input style={{width: "100%"}} className="pt-input" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="Email"></input>
             </label>
             <label className="pt-label">
-              Password
               <input style={{width: "100%"}} className="pt-input" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="Password"></input>
             </label>
             <input style={{width: "100%"}} type="submit" className="pt-button pt-intent-primary" value="Log In"></input>
@@ -99,6 +97,7 @@ class Login extends Component {
           <button style={{width: "100%"}} className="pt-button pt-intent-primary fb-auth" onClick={() => this.authWithFacebook()}>Log In with Facebook</button>
         </div>
       </div>
+    </div>
     )
   }
 }

@@ -2,6 +2,12 @@
   font-family: 'Lato-Light';
   src: local('Lato-Light'), url(./Lato-Light.ttf) format('ttf');
 }
+
+@font-face {
+	font-family: 'Lato-Regular';
+	src: local('Lato-Regular'), url(./Lato-Regular.ttf) format('ttf');
+}
+
 html {
 	height: 100%;
 }
@@ -13,75 +19,108 @@ body {
 }
 
 :root {
-  --red: #c21500;
+  --red: #ec1a00;
+  --green: #00cc64;
+  --blue: #17a3ef;
   --yellow: #ffc500;
   --navy: #001fc1;
 }
+
 
 .splash-page {
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+	padding-top: 150px;
+/*	background-image: url("images/threepencils.jpg");
+	background-size: cover;*/
 
 }
 
 .title {
-	font-family: 'Lato-Light';
+	font-family: 'Lato-Regular';
 	display: inline-block;
-	color: var(--red); /*non-webkit fallback*/
+	color: black; /*non-webkit fallback*/
 	text-transform: uppercase;
-	background: -webkit-linear-gradient(180deg, var(--yellow), var(--red));
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	font-size: 125px;
-	margin-bottom: 40px;
+/*	background: -webkit-linear-gradient(180deg, var(--yellow), var(--red));*/
+/*	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;*/
+	font-size: 40px;
+	padding: 10px;
+	margin-bottom: 100px;
 }
 
 nav.pt-navbar {
 	box-shadow: none;
 	-webkit-box-shadow: none;
-	border-bottom: 1px solid navy;
+	border-bottom:3px solid #c4268c;
+	height: 60px;
+}
+
+nav.pt-navbar:before {
+  content:'';
+  position:absolute;
+  width:100%;
+  height:3px;
+  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+  bottom:-3px;
+  left:0;
+}
+
+.pt-navbar-heading {
+	font-family: 'Lato-Light';
+	color: black; /*non-webkit fallback*/
+	text-transform: uppercase;
+	font-size: 30px !important;
 }
 
 .login-styles {
-	font-family: 'Lato-Light';
+	flex-display: 1 1 0;
+	font-family: 'Lato-Regular';
 	font-size: 20px;
+	width: 500px;
+	margin: 0 auto;
 }
 
 .splash-page label.pt-label .pt-input, label.pt-label .pt-select {
-	border: 1px solid black;
 	box-shadow: none;
-	font-size: 15px;
+	border-bottom: 2px solid black;
+	font-size: 20px;
+	height: 40px;
+}
+
+input::-webkit-input-placeholder {
+	color: #636363 !important;
+}
+
+.splash-page .pt-callout[class*="pt-icon-"] {
+	padding-left: 0;
 }
 
 .splash-page .pt-callout[class*="pt-icon-"]::before{
-	color: var(--red);
+	color: white;
 }
 
 .splash-page .pt-callout{
-	background-color: white;
-	border: 2px solid var(--red);
-	color: var(--red);
+	background-color: var(--green);
+	color: white;
 	font-weight: bold;
 	font-size: 15px;
-
+	text-align: center;
 }
 
 .splash-page .pt-button.pt-intent-primary {
-	background: var(--yellow);
-	background: -webkit-linear-gradient(180deg, var(--yellow), var(--red));
+	background: black;
 	padding: 10px;
 	font-size: 15px;
 	text-transform: uppercase;
 	box-shadow: none;
+	-webkit-transition: all 2s; 
+  transition: all 2s;
 }
 
 .splash-page .pt-button.pt-intent-primary:hover {
-	background-color: black;
+	background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
 }
 
 .email-auth {
@@ -91,3 +130,4 @@ nav.pt-navbar {
 .fb-auth {
 	margin-top: 20px;
 }
+

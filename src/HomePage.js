@@ -16,6 +16,7 @@ class HomePage extends Component {
     	<div>
         	<BrowserRouter>
     			<div>
+    			Fjidajfida
     				<Header authenticated={this.props.authenticated} />
     			</div>
     		</BrowserRouter>
