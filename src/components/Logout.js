@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Spinner } from '@blueprintjs/core';
-import { app } from '../base'
+import { firebaseDB } from '../base'
 
 class Logout extends Component {
   constructor() {
@@ -12,7 +12,7 @@ class Logout extends Component {
   }
 
   componentWillMount() {
-    app.auth().signOut().then((user, error) => {
+    firebaseDB.auth().signOut().then((user, error) => {
       this.setState({ redirect: true })
     });
   }

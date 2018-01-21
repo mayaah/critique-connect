@@ -21,7 +21,6 @@ class Header extends Component {
                 <button className="pt-button pt-minimal pt-icon-cog"></button>
                 <Link className="pt-button pt-minimal pt-icon-log-out" aria-label="Log Out" to="/logout"></Link>
               </div>
-
             )
             : null
         }

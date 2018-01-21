@@ -6,7 +6,9 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import HomePage from './HomePage';
-import { app, base } from './base'
+import User from './User';
+
+import { firebaseDB, base } from './base'
 
 function AuthenticatedRoute({component: Component, authenticated, ...rest}) {
   return (
@@ -44,8 +46,20 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    firebaseDB.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          authenticated: true,
+          currentUser: user,
+          loading: false
+        })
+      } 
+    })
+  }
+
   componentWillMount() {
-    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+    this.removeAuthListener = firebaseDB.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
           authenticated: true,
@@ -86,7 +100,7 @@ class App extends Component {
                 return <HomePage authenticated={this.state.authenticated} {...props} />
               }} />
             <Route exact path="/login" render={(props) => {
-                return <Login setCurrentUser={this.setCurrentUser} {...props} />
+                return <Login setCurrentUser={this.setCurrentUser} authenticated={this.state.authenticated} {...props} />
               }} />
             <Route exact path="/logout" component={Logout}/>
           </div>

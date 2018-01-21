@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Toaster, Intent } from "@blueprintjs/core";
+import User from '../User';
 
-import { app, facebookProvider } from '../base'
+import { firebaseDB, facebookProvider, googleProvider, twitterProvider } from '../base'
 
 const loginStyles = {
   width: "90%",
@@ -17,54 +18,57 @@ class Login extends Component {
   constructor() {
     super()
     this.authWithFacebook = this.authWithFacebook.bind(this)
-    this.authWithEmailPassword = this.authWithEmailPassword.bind(this)
+    this.authWithGoogle = this.authWithGoogle.bind(this)
     this.state = {
       redirect: false
     }
   }
 
   authWithFacebook() {
-    app.auth().signInWithPopup(facebookProvider)
+    firebaseDB.auth().signInWithPopup(facebookProvider)
       .then((user, error) => {
         if (error) {
           this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Facebook" })
         } else {
           this.props.setCurrentUser(user)
           this.setState({ redirect: true })
+          this.createNewUser()
         }
       })
   }
 
-  authWithEmailPassword(event) {
-    event.preventDefault()
-
-    const email = this.emailInput.value
-    const password = this.passwordInput.value
-
-    app.auth().fetchProvidersForEmail(email)
-      .then((providers) => {
-        if (providers.length === 0) {
-          // create user
-          return app.auth().createUserWithEmailAndPassword(email, password)
-        } else if (providers.indexOf("password") === -1) {
-          // they used facebook
-          this.loginForm.reset()
-          this.toaster.show({ intent: Intent.WARNING, message: "Try alternative login." })
+  authWithGoogle() {
+    firebaseDB.auth().signInWithPopup(googleProvider)
+      .then((user, error) => {
+        if (error) {
+          this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Google" })
         } else {
-          // sign user in
-          return app.auth().signInWithEmailAndPassword(email, password)
-        }
-      })
-      .then((user) => {
-        if (user && user.email) {
-          this.loginForm.reset()
           this.props.setCurrentUser(user)
-          this.setState({redirect: true})
+          this.setState({ redirect: true })
+          this.createNewUser()
         }
       })
-      .catch((error) => {
-        this.toaster.show({ intent: Intent.DANGER, message: error.message })
+  }
+
+  authWithTwitter() {
+    firebaseDB.auth().signInWithPopup(twitterProvider)
+      .then((user, error) => {
+        if (error) {
+          this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Twitter" })
+        } else {
+          this.props.setCurrentUser(user)
+          this.setState({ redirect: true })
+          this.createNewUser()
+        }
       })
+  }
+
+  createNewUser() {
+    var user = firebaseDB.auth().currentUser;
+    console.log(user.displayName)
+    firebaseDB.database().ref(`Users/${user.uid}`).set({
+      displayName: user.displayName
+    });
   }
 
   render() {
@@ -74,28 +78,21 @@ class Login extends Component {
       return <Redirect to={from} />
     }
 
-
     return (
     <div>
       <div className="splash-page">
-        <div className="login-styles">
-          <Toaster ref={(element) => { this.toaster = element }} />
-          <form className="email-auth" onSubmit={(event) => this.authWithEmailPassword(event)}
-            ref={(form) => { this.loginForm = form }}>
-            <div style={{marginBottom: "10px"}} className="pt-callout pt-icon-info-sign">
-              If you've never logged in, this will create your account.
-            </div>
-            <label className="pt-label">
-              <input style={{width: "100%"}} className="pt-input" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="Email"></input>
-            </label>
-            <label className="pt-label">
-              <input style={{width: "100%"}} className="pt-input" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="Password"></input>
-            </label>
-            <input style={{width: "100%"}} type="submit" className="pt-button pt-intent-primary" value="Log In"></input>
-          </form>
-          <center><span className="or-auth-separator">OR</span></center>
-          <button style={{width: "100%"}} className="pt-button pt-intent-primary fb-auth" onClick={() => this.authWithFacebook()}>Log In with Facebook</button>
-        </div>
+        {this.props.authenticated
+          ? (
+            null
+            )
+          : (
+          <div className="login-styles">
+            <button style={{width: "100%"}} className="pt-button pt-intent-primary login-auth g-auth" onClick={() => this.authWithGoogle()}>Log In or Join with Google</button>
+            <button style={{width: "100%"}} className="pt-button pt-intent-primary login-auth fb-auth" onClick={() => this.authWithFacebook()}>Log In or Join with Facebook</button>
+            <button style={{width: "100%"}} className="pt-button pt-intent-primary login-auth t-auth" onClick={() => this.authWithTwitter()}>Log In or Join with Twitter</button>
+          </div>
+          )
+        }
       </div>
     </div>
     )
