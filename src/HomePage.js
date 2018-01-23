@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Header from './components/Header';
+import Logout from './components/Logout';
 import './HomePage.css';
 
 class HomePage extends Component {
@@ -15,9 +16,10 @@ class HomePage extends Component {
     return (
     	<div>
         	<BrowserRouter>
-    			<div>
-    			Fjidajfida
-    				<Header authenticated={this.props.authenticated} />
+    			<div style={{marginTop: "100px"}}>
+    			Search
+				<Header authenticated={this.props.authenticated} />
+				<Route exact path="/logout" component={Logout}/>
     			</div>
     		</BrowserRouter>
     	</div>

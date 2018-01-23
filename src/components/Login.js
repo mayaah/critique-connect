@@ -5,15 +5,6 @@ import User from '../User';
 
 import { firebaseDB, facebookProvider, googleProvider, twitterProvider } from '../base'
 
-const loginStyles = {
-  width: "90%",
-  maxWidth: "315px",
-  margin: "20px auto",
-  border: "1px solid #ddd",
-  borderRadius: "5px",
-  padding: "10px"
-};
-
 class Login extends Component {
   constructor() {
     super()
@@ -45,6 +36,8 @@ class Login extends Component {
         } else {
           this.props.setCurrentUser(user)
           this.setState({ redirect: true })
+          console.log(user)
+          console.log(firebaseDB.auth().currentUser)
           this.createNewUser()
         }
       })
@@ -72,7 +65,13 @@ class Login extends Component {
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { from } = this.props.authenticated ? { from: { pathname: '/homepage'} } : { from: {pathname: '/'} }
+    // if (this.props.state.authenticated) {
+    //   const { from } = { from: { pathname: '/homepage'} }
+    // } else {
+    //   const { from } = { from: {pathname: '/'} }
+    // }
+    // const { from } = this.props.location.state || { from: { pathname: '/' } }
 
     if (this.state.redirect === true) {
       return <Redirect to={from} />
