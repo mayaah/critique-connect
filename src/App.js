@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import HomePage from './HomePage';
+import UserProfile from './components/UserProfile';
 
 import { firebaseDB, base } from './base'
 
@@ -93,7 +94,7 @@ class App extends Component {
        <div>
         <BrowserRouter>
           <div>
-            <Header authenticated={this.state.authenticated} />
+            <Header authenticated={this.state.authenticated}/>
             <Route exact path="/homepage" render={(props) => {
                 return <HomePage authenticated={this.state.authenticated} {...props} />
               }} />
@@ -101,6 +102,7 @@ class App extends Component {
                 return <Login setCurrentUser={this.setCurrentUser} authenticated={this.state.authenticated} {...props} />
               }} />
             <Route exact path="/logout" component={Logout}/>
+            <Route path={"/user/:id"} component={UserProfile}/>
             {this.state.authenticated ? (<Redirect to="/homepage" />) :  (<Redirect to="/login" />)}
           </div>
         </BrowserRouter>

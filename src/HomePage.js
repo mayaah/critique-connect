@@ -18,8 +18,7 @@ class HomePage extends Component {
         	<BrowserRouter>
     			<div style={{marginTop: "100px"}}>
     			Search
-				<Header authenticated={this.props.authenticated} />
-				<Route exact path="/logout" component={Logout}/>
+
     			</div>
     		</BrowserRouter>
     	</div>
