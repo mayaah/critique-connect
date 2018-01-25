@@ -22,6 +22,7 @@ class Login extends Component {
           this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Facebook" })
         } else {
           this.props.setCurrentUser(user)
+          this.props.setCurrentUserId()
           this.setState({ redirect: true })
           this.createNewUser()
         }
@@ -35,6 +36,7 @@ class Login extends Component {
           this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Google" })
         } else {
           this.props.setCurrentUser(user)
+          this.props.setCurrentUserId()
           this.setState({ redirect: true })
           console.log(user)
           console.log(firebaseDB.auth().currentUser)
@@ -50,6 +52,7 @@ class Login extends Component {
           this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Twitter" })
         } else {
           this.props.setCurrentUser(user)
+          this.props.setCurrentUserId()
           this.setState({ redirect: true })
           this.createNewUser()
         }

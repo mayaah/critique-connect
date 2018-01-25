@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import HomePage from './HomePage';
 import UserProfile from './components/UserProfile';
+import NewWIPForm from './components/NewWIPForm';
 
 import { firebaseDB, base } from './base'
 
@@ -25,10 +26,12 @@ class App extends Component {
    constructor() {
     super();
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.setCurrentUserId = this.setCurrentUserId.bind(this);
     this.state = {
       authenticated: false,
       loading: true,
       currentUser: null,
+      currentUserId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : ""
     };
   }
 
@@ -46,13 +49,22 @@ class App extends Component {
     }
   }
 
+  setCurrentUserId() {
+    if (firebaseDB.auth().currentUser) { 
+      this.setState({
+        currentUserId: firebaseDB.auth().currentUser.uid
+      })
+    }
+  }
+
   componentDidMount() {
     firebaseDB.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
           authenticated: true,
           currentUser: user,
-          loading: false
+          loading: false,
+          currentUserId: user.uid
         })
       } 
     })
@@ -94,15 +106,18 @@ class App extends Component {
        <div>
         <BrowserRouter>
           <div>
-            <Header authenticated={this.state.authenticated}/>
+            <Header authenticated={this.state.authenticated} currentUserId={this.state.currentUserId}/>
             <Route exact path="/homepage" render={(props) => {
                 return <HomePage authenticated={this.state.authenticated} {...props} />
               }} />
             <Route exact path="/login" render={(props) => {
-                return <Login setCurrentUser={this.setCurrentUser} authenticated={this.state.authenticated} {...props} />
+                return <Login setCurrentUser={this.setCurrentUser} setCurrentUserId = {this.setCurrentUserId} authenticated={this.state.authenticated} {...props} />
               }} />
             <Route exact path="/logout" component={Logout}/>
-            <Route path={"/user/:id"} component={UserProfile}/>
+            <Route path="/user/:id" component={UserProfile}/>
+            <Route exact path="/submit_wip" render={(props) => {
+              return <NewWIPForm authenticated={this.state.authenticated} {...props} />
+            }} />
             {this.state.authenticated ? (<Redirect to="/homepage" />) :  (<Redirect to="/login" />)}
           </div>
         </BrowserRouter>
