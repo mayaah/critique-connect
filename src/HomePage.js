@@ -18,7 +18,6 @@ class HomePage extends Component {
         	<BrowserRouter>
     			<div style={{marginTop: "100px"}}>
     			Search
-
     			</div>
     		</BrowserRouter>
     	</div>

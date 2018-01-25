@@ -1,25 +1,49 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 
+import { firebaseDB, base } from '../base'
+
 
 class NewWIPForm extends Component {
   constructor(props) {
     super(props)
     this.createWIP = this.createWIP.bind(this)
+    this.addWIPToUser = this.addWIPToUser.bind(this)
     this.state = {
-      redirect: false
+      redirect: false,
+      userId: this.props.match.params.userId
     }
   }
 
   createWIP(event) {
     event.preventDefault()
-    const title = this.titleInput.value
-    this.props.addSong(title)
+		const WIPsRef = firebaseDB.database().ref('WIPs');
+	  const WIP = {
+	    title: this.titleInput.value,
+	    writer: this.state.userId
+	  }
+	  var newWIPRef = WIPsRef.push(WIP);
+	  var WIPId = newWIPRef.key;
+    this.addWIPToUser(WIPId)
     this.WIPForm.reset()
-    this.props.postSubmitHandler()
+    this.setState({ redirect: true })
+  }
+
+  addWIPToUser(WIPId) {
+    firebaseDB.database().ref(`/Users/${this.state.userId}`).on('value', snapshot => {
+      this.setState({
+        displayName: snapshot.val().displayName
+      });
+    });
+    firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`).update({
+      [WIPId]: true
+    });
   }
 
   render() {
+  	if (this.state.redirect === true) {
+      return <Redirect to= {{pathname: '/user/' + this.state.userId}} />
+    }
     return (
     	<div>
 	    	<BrowserRouter>
