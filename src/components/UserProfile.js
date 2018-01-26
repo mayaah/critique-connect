@@ -12,14 +12,19 @@ class UserProfile extends Component {
       userId: this.props.match.params.id,
       displayName: ""
     }
+    this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
   }
 
-  componentDidMount() {
-    firebaseDB.database().ref(`/Users/${this.state.userId}`).on('value', snapshot => {
+  componentWillMount() {
+    this.userRef.on('value', snapshot => {
       this.setState({
         displayName: snapshot.val().displayName
       });
     });
+  }
+
+  componentWillUnmount() {
+    this.userRef.off();
   }
 
   render() {

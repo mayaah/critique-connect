@@ -7,12 +7,22 @@ import { firebaseDB, base } from '../base'
 class NewWIPForm extends Component {
   constructor(props) {
     super(props)
-    this.createWIP = this.createWIP.bind(this)
-    this.addWIPToUser = this.addWIPToUser.bind(this)
     this.state = {
       redirect: false,
       userId: this.props.match.params.userId
     }
+    this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
+    this.WIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
+  }
+
+  componentWillMount() {
+  	this.createWIP = this.createWIP.bind(this)
+    this.addWIPToUser = this.addWIPToUser.bind(this)
+  }
+
+  componentWillUnmount() {
+  	this.userRef.off();
+  	this.WIPsRef.off();
   }
 
   createWIP(event) {
@@ -30,12 +40,12 @@ class NewWIPForm extends Component {
   }
 
   addWIPToUser(WIPId) {
-    firebaseDB.database().ref(`/Users/${this.state.userId}`).on('value', snapshot => {
+    this.userRef.on('value', snapshot => {
       this.setState({
         displayName: snapshot.val().displayName
       });
     });
-    firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`).update({
+    this.WIPsRef.update({
       [WIPId]: true
     });
   }
