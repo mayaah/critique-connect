@@ -20,6 +20,12 @@ class UserProfile extends Component {
     // })
   }
 
+  getInitialState() {
+    return {
+      data: { WIPs: [] } 
+    }
+  }
+
   componentWillMount() {
     this.userRef.on('value', snapshot => {
       this.setState({
@@ -33,8 +39,11 @@ class UserProfile extends Component {
         var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
         WIPRef.once('value', snapshot => {
           var WIP = snapshot.val()
+          console.log(WIP)
+          console.log(WIPRef)
+          console.log(userWIP)
           newState.push({
-            // id: WIP.key,
+            id: WIPRef.key,
             title: WIP.title
           });
         })
@@ -61,7 +70,7 @@ class UserProfile extends Component {
                 <ul>
                   {this.state.WIPs.map((WIP) => {
                     return (
-                      <li>
+                      <li key={WIP.id}>
                         <h3>{WIP.title}</h3>
                       </li>
                     )

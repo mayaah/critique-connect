@@ -32,10 +32,23 @@ body {
 	height: 100%;
 	width: 100%;
 	padding-top: 150px;
-/*	background-image: url("images/threepencils.jpg");
+/*	background-image: url("images/sharpen.jpg");
 	background-size: cover;*/
 
 }
+
+/*.splash-page:after {
+    content : "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url("images/sharpen.jpg");
+    width: 100%;
+    height: 100%;
+    opacity : 0.6;
+    z-index: -1;
+}*/
 
 .title {
 	font-family: 'Lato-Regular';
@@ -75,11 +88,14 @@ nav.pt-navbar:before {
 }
 
 .login-styles {
-	flex-display: 1 1 0;
+/*	flex-display: 1 1 0;
+*/
+	display: flex;
+	justify-content: space-evenly;
 	font-family: 'Lato-Regular';
 	font-size: 20px;
-	width: 500px;
-	margin: 0 auto;
+/*	width: 400px;
+	margin: 0 auto;*/
 }
 
 .splash-page label.pt-label .pt-input, label.pt-label .pt-select {
@@ -110,7 +126,13 @@ input::-webkit-input-placeholder {
 }
 
 .splash-page .pt-button.pt-intent-primary {
-	background: black;
+/*	background: black;*/
+	display: flex;
+	text-align: center;
+	width: 350px;
+	justify-content: space-evenly;
+	align-items: center;
+	border: 1px black solid;
 	padding: 10px;
 	font-size: 15px;
 	text-transform: uppercase;
@@ -126,4 +148,30 @@ input::-webkit-input-placeholder {
 .login-auth {
 	margin-top: 20px;
 }
+
+.splash-page .pt-button.pt-intent-primary img {
+	width: 30px;
+}
+
+.splash-page .pt-button.pt-intent-primary.fb-auth {
+	background: white;
+	border: 2px #4267B2 solid;
+	color: #4267B2;
+}
+
+.splash-page .pt-button.pt-intent-primary.g-auth {
+	background: white;
+	border: 2px #dd4b39 solid;
+	color: #dd4b39;
+}
+
+.splash-page .pt-button.pt-intent-primary.t-auth {
+	background: white;
+	border: 2px #00aced solid;
+	color: #00aced;
+}
+
+
+
+
 

@@ -89,9 +89,18 @@ class Login extends Component {
             )
           : (
           <div className="login-styles">
-            <button style={{width: "100%"}} className="pt-button pt-intent-primary login-auth g-auth" onClick={() => this.authWithGoogle()}>Log In or Join with Google</button>
-            <button style={{width: "100%"}} className="pt-button pt-intent-primary login-auth fb-auth" onClick={() => this.authWithFacebook()}>Log In or Join with Facebook</button>
-            <button style={{width: "100%"}} className="pt-button pt-intent-primary login-auth t-auth" onClick={() => this.authWithTwitter()}>Log In or Join with Twitter</button>
+            <button className="pt-button pt-intent-primary login-auth g-auth" onClick={() => this.authWithGoogle()}>
+              <img src={require('../images/google-icon.png')} />
+              <span class="login-button-text">Continue with Google</span>
+            </button>
+            <button className="pt-button pt-intent-primary login-auth fb-auth" onClick={() => this.authWithFacebook()}>
+              <img src={require('../images/fb-icon.png')} />
+              <span class="login-button-text">Continue with Facebook</span>
+            </button>
+            <button className="pt-button pt-intent-primary login-auth t-auth" onClick={() => this.authWithTwitter()}>
+              <img src={require('../images/twitter-icon.png')} />
+              <span class="login-button-text">Continue with Twitter</span>
+            </button>
           </div>
           )
         }
