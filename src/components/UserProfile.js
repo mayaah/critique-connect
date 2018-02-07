@@ -20,13 +20,7 @@ class UserProfile extends Component {
     // })
   }
 
-  getInitialState() {
-    return {
-      data: { WIPs: [] } 
-    }
-  }
-
-  componentWillMount() {
+  componentDidMount() {
     this.userRef.on('value', snapshot => {
       this.setState({
         displayName: snapshot.val().displayName
@@ -35,22 +29,23 @@ class UserProfile extends Component {
     this.usersWIPsRef.on('value', snapshot => {
       let usersWIPs = snapshot.val();
       let newState = [];
+      let promises = [];
       for (let userWIP in usersWIPs) {
         var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
-        WIPRef.once('value', snapshot => {
+        promises.push(WIPRef.once('value')); 
+      }
+      Promise.all(promises).then((snapshots) => {
+        snapshots.forEach((snapshot) => {
           var WIP = snapshot.val()
-          console.log(WIP)
-          console.log(WIPRef)
-          console.log(userWIP)
           newState.push({
             id: WIPRef.key,
             title: WIP.title
           });
-        })
-      }
-      this.setState({
-        WIPs: newState
-      })
+        });
+        this.setState({
+          WIPs: newState
+        });
+      });
     });
   }
 
