@@ -38,7 +38,7 @@ class UserProfile extends Component {
         snapshots.forEach((snapshot) => {
           var WIP = snapshot.val()
           newState.push({
-            id: WIPRef.key,
+            id: snapshot.key,
             title: WIP.title
           });
         });
