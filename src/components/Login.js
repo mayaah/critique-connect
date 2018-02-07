@@ -62,7 +62,7 @@ class Login extends Component {
   createNewUser() {
     var user = firebaseDB.auth().currentUser;
     console.log(user.displayName)
-    firebaseDB.database().ref(`Users/${user.uid}`).set({
+    firebaseDB.database().ref(`Users/${user.uid}`).update({
       displayName: user.displayName
     });
   }
@@ -91,15 +91,15 @@ class Login extends Component {
           <div className="login-styles">
             <button className="pt-button pt-intent-primary login-auth g-auth" onClick={() => this.authWithGoogle()}>
               <img src={require('../images/google-icon.png')} />
-              <span class="login-button-text">Continue with Google</span>
+              <span className="login-button-text">Continue with Google</span>
             </button>
             <button className="pt-button pt-intent-primary login-auth fb-auth" onClick={() => this.authWithFacebook()}>
               <img src={require('../images/fb-icon.png')} />
-              <span class="login-button-text">Continue with Facebook</span>
+              <span className="login-button-text">Continue with Facebook</span>
             </button>
             <button className="pt-button pt-intent-primary login-auth t-auth" onClick={() => this.authWithTwitter()}>
               <img src={require('../images/twitter-icon.png')} />
-              <span class="login-button-text">Continue with Twitter</span>
+              <span className="login-button-text">Continue with Twitter</span>
             </button>
           </div>
           )
