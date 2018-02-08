@@ -20,6 +20,11 @@ class UserProfile extends Component {
     // })
   }
 
+  componentWillMount() {
+    this.removeWIP = this.removeWIP.bind(this)
+  }
+
+
   componentDidMount() {
     this.userRef.on('value', snapshot => {
       this.setState({
@@ -55,6 +60,13 @@ class UserProfile extends Component {
     // this.WIPsRef.off()
   }
 
+  removeWIP(WIPId) {
+    const WIPRef = firebaseDB.database().ref(`/WIPs/${WIPId}`);
+    WIPRef.remove();
+    const usersWIPRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs/${WIPId}`)
+    usersWIPRef.remove();
+  }
+
   render() {
     return (
         <div style={{marginTop: "100px"}}>
@@ -67,6 +79,7 @@ class UserProfile extends Component {
                     return (
                       <li key={WIP.id}>
                         <h3>{WIP.title}</h3>
+                        <button onClick={() => this.removeWIP(WIP.id)}>Remove Item</button>
                       </li>
                     )
                   })}
