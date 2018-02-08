@@ -103,7 +103,7 @@ class App extends Component {
     }
 
     return (
-       <div>
+       <html>
         <BrowserRouter>
           <div>
             <Header authenticated={this.state.authenticated} currentUserId={this.state.currentUserId}/>
@@ -121,7 +121,7 @@ class App extends Component {
             {this.state.authenticated ? null :  (<Redirect to="/login" />)}
           </div>
         </BrowserRouter>
-      </div>
+      </html>
     );
   }
 }

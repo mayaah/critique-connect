@@ -88,19 +88,26 @@ class Login extends Component {
             null
             )
           : (
-          <div className="login-styles">
-            <button className="pt-button pt-intent-primary login-auth g-auth" onClick={() => this.authWithGoogle()}>
-              <img src={require('../images/google-icon.png')} />
-              <span className="login-button-text">Continue with Google</span>
-            </button>
-            <button className="pt-button pt-intent-primary login-auth fb-auth" onClick={() => this.authWithFacebook()}>
-              <img src={require('../images/fb-icon.png')} />
-              <span className="login-button-text">Continue with Facebook</span>
-            </button>
-            <button className="pt-button pt-intent-primary login-auth t-auth" onClick={() => this.authWithTwitter()}>
-              <img src={require('../images/twitter-icon.png')} />
-              <span className="login-button-text">Continue with Twitter</span>
-            </button>
+          <div>
+            <div className="cc-title">
+              Critique&nbsp;&nbsp;
+                <img src={require('../images/sharpener-gradient.png')} />
+              &nbsp;&nbsp;Connect
+            </div>
+            <div className="login-styles">
+              <button className="pt-button pt-intent-primary login-auth g-auth" onClick={() => this.authWithGoogle()}>
+                <img src={require('../images/google-icon.png')} />
+                <span className="login-button-text">Continue with Google</span>
+              </button>
+              <button className="pt-button pt-intent-primary login-auth fb-auth" onClick={() => this.authWithFacebook()}>
+                <img src={require('../images/fb-icon.png')} />
+                <span className="login-button-text">Continue with Facebook</span>
+              </button>
+              <button className="pt-button pt-intent-primary login-auth t-auth" onClick={() => this.authWithTwitter()}>
+                <img src={require('../images/twitter-icon.png')} />
+                <span className="login-button-text">Continue with Twitter</span>
+              </button>
+            </div>
           </div>
           )
         }
