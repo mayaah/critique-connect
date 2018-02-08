@@ -114,11 +114,11 @@ class App extends Component {
                 return <Login setCurrentUser={this.setCurrentUser} setCurrentUserId = {this.setCurrentUserId} authenticated={this.state.authenticated} {...props} />
               }} />
             <Route exact path="/logout" component={Logout}/>
-            <Route path="/user/:id" component={UserProfile}/>
+            <Route path="/user/:id" component={UserProfile} currentUserId={this.state.currentUserId}/>
             <Route exact path="/submit_wip/:userId" render={(props) => {
               return <NewWIPForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />
             }} />
-            {this.state.authenticated ? (<Redirect to="/homepage" />) :  (<Redirect to="/login" />)}
+            {this.state.authenticated ? null :  (<Redirect to="/login" />)}
           </div>
         </BrowserRouter>
       </div>

@@ -10,6 +10,7 @@ class UserProfile extends Component {
     this.state = {
       redirect: false,
       userId: this.props.match.params.id,
+      currentUserId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       displayName: "",
       WIPs: []
     }
@@ -71,21 +72,31 @@ class UserProfile extends Component {
     return (
         <div style={{marginTop: "100px"}}>
           <h1>{this.state.displayName}</h1>
-          <Link className="pt-button" aria-label="Log Out" to={"/submit_wip/"+this.state.userId} >Submit a Work in Progress</Link>
-          <section className='display-WIPs'>
-              <div className="wrapper">
-                <ul>
-                  {this.state.WIPs.map((WIP) => {
-                    return (
-                      <li key={WIP.id}>
-                        <h3>{WIP.title}</h3>
-                        <button onClick={() => this.removeWIP(WIP.id)}>Remove Item</button>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-          </section>
+
+          {(this.state.userId == this.state.currentUserId) 
+            ? (
+            <div>
+              <Link className="pt-button" aria-label="Log Out" to={"/submit_wip/"+this.state.userId} >Submit a Work in Progress</Link>
+              <section className='display-WIPs'>
+                  <div className="wrapper">
+                    <ul>
+                      {this.state.WIPs.map((WIP) => {
+                        return (
+                          <li key={WIP.id}>
+                            <h3>{WIP.title}</h3>
+                            <button className="pt-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</button>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+              </section>
+            </div>
+            )
+            : (
+              null
+              ) 
+          }
         </div>
       );
   }
