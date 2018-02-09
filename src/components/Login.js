@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Toaster, Intent } from "@blueprintjs/core";
+import { Grid, Row, Col, Image, Button } from 'react-bootstrap';
 import User from '../User';
 
 import { firebaseDB, facebookProvider, googleProvider, twitterProvider } from '../base'
@@ -88,27 +89,37 @@ class Login extends Component {
             null
             )
           : (
-          <div>
-            <div className="cc-title">
-              Critique&nbsp;&nbsp;
-                <img src={require('../images/sharpener-gradient.png')} />
-              &nbsp;&nbsp;Connect
-            </div>
-            <div className="login-styles">
-              <button className="pt-button pt-intent-primary login-auth g-auth" onClick={() => this.authWithGoogle()}>
-                <img src={require('../images/google-icon.png')} />
-                <span className="login-button-text">Continue with Google</span>
-              </button>
-              <button className="pt-button pt-intent-primary login-auth fb-auth" onClick={() => this.authWithFacebook()}>
-                <img src={require('../images/fb-icon.png')} />
-                <span className="login-button-text">Continue with Facebook</span>
-              </button>
-              <button className="pt-button pt-intent-primary login-auth t-auth" onClick={() => this.authWithTwitter()}>
-                <img src={require('../images/twitter-icon.png')} />
-                <span className="login-button-text">Continue with Twitter</span>
-              </button>
-            </div>
-          </div>
+          <Grid>
+            <Row>
+              <Col xs={12} sm={12} lg={12}>
+                <div className="cc-title">
+                  Critique&nbsp;&nbsp;
+                    <Image src={require('../images/sharpener-gradient.png')} responsive/>
+                  &nbsp;&nbsp;Connect
+                </div>
+              </Col>
+            </Row>
+            <Row className="login-styles">
+              <Col xs={4} sm={4} lg={4}>
+                <Button className="login-auth g-auth" onClick={() => this.authWithGoogle()} block>
+                  <img src={require('../images/google-icon.png')} responsive />
+                  <span className="login-button-text">Continue with Google</span>
+                </Button>
+              </Col>
+              <Col xs={4} sm={4} lg={4}>
+                <Button className="login-auth fb-auth" onClick={() => this.authWithFacebook()} block>
+                  <img src={require('../images/fb-icon.png')} responsive />
+                  <span className="login-button-text">Continue with Facebook</span>
+                </Button>
+              </Col>
+              <Col xs={4} sm={4} lg={4}>
+                <Button className="login-auth t-auth" onClick={() => this.authWithTwitter()} block>
+                  <img src={require('../images/twitter-icon.png')} responsive />
+                  <span className="login-button-text">Continue with Twitter</span>
+                </Button>
+              </Col>
+            </Row>
+          </Grid>
           )
         }
       </div>

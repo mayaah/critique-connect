@@ -17,7 +17,7 @@ class HomePage extends Component {
     	<div>
         	<BrowserRouter>
     			<div style={{marginTop: "100px"}}>
-    			Search
+    			 <input className="pt-input" placeholder="Search..." type="text" />
     			</div>
     		</BrowserRouter>
     	</div>

@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { firebaseDB, base } from '../base';
 
+const headerStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center"
+}
 
 class Header extends Component {
   constructor(props){
@@ -15,17 +20,13 @@ class Header extends Component {
         ? (
         <div> 
           <div className="pt-navbar-group pt-align-left">
-            <Link className="pt-navbar-heading" to="/homepage">Critique Connect</Link>
-            {this.props.authenticated
-                ? <input className="pt-input" placeholder="Search..." type="text" />
-                : null
-            }
+            <Link style={headerStyle} className="pt-navbar-heading" to="/homepage">Critique&nbsp;<img class="img-fluid" style={{width: "35px"}} src={require('../images/sharpener-gradient.png')} />&nbsp;Connect</Link>
           </div>
           <div className="pt-navbar-group pt-align-right">
             <span className="pt-navbar-divider"></span>
-            <Link className="pt-button pt-minimal pt-icon-user" to={"/user/"+this.props.currentUserId}></Link>
-            <button className="pt-button pt-minimal pt-icon-cog"></button>
-            <Link className="pt-button pt-minimal pt-icon-log-out" aria-label="Log Out" to="/logout"></Link>
+            <Link className="pt-button pt-minimal profile-link" to={"/user/"+this.props.currentUserId}>My Profile</Link>
+            <span className="pt-navbar-divider"></span>
+            <Link className="pt-button pt-minimal log-out-link" aria-label="Log Out" to="/logout">Logout</Link>
           </div>
         </div>
       )

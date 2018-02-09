@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import NewWIPForm from './NewWIPForm';
+import EditProfileForm from './EditProfileForm';
 
 import { firebaseDB, base } from '../base'
 
@@ -77,6 +78,7 @@ class UserProfile extends Component {
             ? (
             <div>
               <Link className="pt-button" aria-label="Log Out" to={"/submit_wip/"+this.state.userId} >Submit a Work in Progress</Link>
+              <Link className="pt-button" aria-label="Log Out" to={"/edit_profile"} >Edit Profile</Link>
               <section className='display-WIPs'>
                   <div className="wrapper">
                     <ul>
