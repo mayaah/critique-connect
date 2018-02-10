@@ -8,7 +8,7 @@ import Logout from './components/Logout';
 import HomePage from './HomePage';
 import UserProfile from './components/UserProfile';
 import NewWIPForm from './components/NewWIPForm';
-import EditProfileForm from './components/EditProfileForm';
+import EditProfileForm from './components/EditProfileForm'
 
 import { firebaseDB, base } from './base'
 

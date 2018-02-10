@@ -20,7 +20,7 @@ class Header extends Component {
         ? (
         <div> 
           <div className="pt-navbar-group pt-align-left">
-            <Link style={headerStyle} className="pt-navbar-heading" to="/homepage">Critique&nbsp;<img class="img-fluid" style={{width: "35px"}} src={require('../images/sharpener-gradient.png')} />&nbsp;Connect</Link>
+            <Link style={headerStyle} className="pt-navbar-heading" to="/homepage">Critique&nbsp;<img className="img-fluid" style={{width: "35px"}} src={require('../images/sharpener-gradient.png')} />&nbsp;Connect</Link>
           </div>
           <div className="pt-navbar-group pt-align-right">
             <span className="pt-navbar-divider"></span>

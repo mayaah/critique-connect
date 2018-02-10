@@ -61,7 +61,7 @@ class NewWIPForm extends Component {
 		        <form onSubmit={(event) => this.createWIP(event)} ref={(form) => this.WIPForm = form}>
 		          <label className="pt-label">
 		            WIP Title
-		            <input style={{width: "100%"}} className="pt-input" name="title" type="text" ref={(input) => { this.nameInput = input }} placeholder="Staying Alive"></input>
+		            <input style={{width: "100%"}} className="pt-input" name="title" type="text" ref={(input) => { this.titleInput = input }} placeholder="Staying Alive"></input>
 		          </label>
 		          <input style={{width: "100%"}} type="submit" className="pt-button pt-intent-primary" value="Submit Work In Progress"></input>
 		        </form>

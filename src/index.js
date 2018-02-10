@@ -7,6 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'raf/polyfill';
+import 'react-select/dist/react-select.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'normalize.css/normalize.css';
