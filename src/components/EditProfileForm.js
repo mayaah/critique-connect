@@ -10,6 +10,7 @@ const GENRES = [
 	{ label: "Contemporary, Mainstream, & Realistic Fiction", value: "cmrf" },
 	{ label: "Children's", value: "children" },
 	{ label: "Erotic Fiction", value: "erotic" },
+	{ label: "Essays", value: "essays"},
 	{ label: "Fantasy", value: "fantasy" },
 	{ label: "Historical Fiction", value: "historical" },
 	{ label: "Horror & Supernatural", value: "hs" },
@@ -19,7 +20,9 @@ const GENRES = [
 	{ label: "Middle Grade", value: "mg" },
 	{ label: "Mystery, Thriller, & Suspense", value: "mts" },
 	{ label: "New Adult", value: "na" },
+	{ label: "Other Nonfiction", value: "nonfiction"},
 	{ label: "Plays", value: "plays" },
+	{ label: "Poetry", value: "poetry"},
 	{ label: "Religious, Spiritual, & New Age", value: "rsna" },
 	{ label: "Romance", value: "romance" },
 	{ label: "Satire, Humor, & Parody", value: "shp" },
@@ -28,7 +31,6 @@ const GENRES = [
 	{ label: "Women's Fiction", value: "wf" },
 	{ label: "Young Adult", value: "ya" },
 ];
-
 
 class EditProfileForm extends Component {
 	constructor(props) {
@@ -44,12 +46,15 @@ class EditProfileForm extends Component {
       location: "",
       occupation: "",
       website: "",
-      genres: []
+      genresWrite: []
     }
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
-    this.userRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}`)
+    this.handleGenreWriteSelectChange = this.handleGenreWriteSelectChange.bind(this);
+    this.handleGenreReadSelectChange = this.handleGenreReadSelectChange.bind(this);
+    this.userRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}`);
+    this.genresWriteRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresWrite`);
+    this.genresReadRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresRead`);
   }
 
   handleChange(event) {
@@ -70,26 +75,81 @@ class EditProfileForm extends Component {
 	      bio: currentUser.bio ? currentUser.bio : "",
 	      location: currentUser.location ? currentUser.location : "",
 	      occupation: currentUser.occupation ? currentUser.occupation : "",
-	      website: currentUser.website ? currentUser.website : ""
+	      website: currentUser.website ? currentUser.website : "",
       });
     });
+    this.genresWriteRef.on('value', snapshot => {
+    	let genresWriteHash = snapshot.val()
+    	let selectedGenresWrite = []
+    	for (let genre in genresWriteHash) {
+    		if (genresWriteHash[genre]) {
+    			selectedGenresWrite.push(genre)
+    		}
+    	}
+    	this.setState({
+    		genresWrite: selectedGenresWrite
+    	})
+    })
+    this.genresReadRef.on('value', snapshot => {
+    	console.log(snapshot.val())
+    	let genresReadHash = snapshot.val()
+    	let selectedGenresRead = []
+    	for (let genre in genresReadHash) {
+    		if (genresReadHash[genre]) {
+    			selectedGenresRead.push(genre)
+    		}
+    	}
+    	this.setState({
+    		genresRead: selectedGenresRead
+    	})
+    })
   }
 
-  handleSelectChange (value) {
-		// console.log('You\'ve selected:', value);
-		// var selectedGenres = this.state.genres.concat(value);
+  handleGenreWriteSelectChange (value) {
 		this.setState({
-			genres: value }
-		);
-		// this.setState({ genres });
+			genresWrite: value 
+		});
+	}
+
+	handleGenreReadSelectChange (value) {
+		this.setState({
+			genresRead: value
+		})
 	}
 
   componentWillUnmount() {
 		this.userRef.off();
+		this.genresWriteRef.off();
+		this.genresReadRef.off();
   }
 
   updateUserProfile(event) {
     event.preventDefault()
+    for (let genreKey in GENRES) {
+    	let genre = GENRES[genreKey].value
+    	let genresWriteString = this.state.genresWrite
+    	if (genresWriteString.length > 0 && genresWriteString.split(',').includes(genre)) {
+				this.genresWriteRef.update({
+					[genre] : true
+				})
+			}
+			else {
+				this.genresWriteRef.update({
+					[genre] : false
+				})
+    	}
+    	let genresReadString = this.state.genresRead
+    	if (genresReadString.length > 0 && genresReadString.split(',').includes(genre)) {
+				this.genresReadRef.update({
+					[genre] : true
+				})
+			}
+			else {
+				this.genresReadRef.update({
+					[genre] : false
+				})
+			}	
+    }
 	  this.userRef.update({
       displayName: this.state.displayName,
 	    lfr: this.state.lfr,
@@ -98,7 +158,6 @@ class EditProfileForm extends Component {
 	    location: this.state.location,
 	    occupation: this.state.occupation,
 	    website: this.state.website,
-	    genres: this.state.genres.split(',')
     });
     this.EditProfileForm.reset()
     this.setState({ redirect: true })
@@ -141,14 +200,27 @@ class EditProfileForm extends Component {
 									closeOnSelect={false}
 									disabled={false}
 									multi
-									onChange={this.handleSelectChange}
+									onChange={this.handleGenreWriteSelectChange}
 									options={GENRES}
 									placeholder="Select your favorite(s)"
-				          removeSelected={true}
 									simpleValue
-									value={this.state.genres}
+									value={this.state.genresWrite}
 								/>
 							</label>
+							<label className="pt-label">
+		          	Genres I Read
+			          <Select
+									closeOnSelect={false}
+									disabled={false}
+									multi
+									onChange={this.handleGenreReadSelectChange}
+									options={GENRES}
+									placeholder="Select your favorite(s)"
+									simpleValue
+									value={this.state.genresRead}
+								/>
+							</label>
+
 		          <input type="submit" className="pt-button pt-intent-primary" value="Save"></input>
 		        </form>
 		      </div>
