@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
+import FileUploader from 'react-firebase-file-uploader';
+
 
 import { firebaseDB, base } from '../base'
 
@@ -46,12 +48,20 @@ class EditProfileForm extends Component {
       location: "",
       occupation: "",
       website: "",
-      genresWrite: []
+      genresWrite: "",
+      avatar: "",
+	    avatarIsUploading: false,
+	    avatarUploadProgress: 0,
+	    avatarURL: ""
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleGenreWriteSelectChange = this.handleGenreWriteSelectChange.bind(this);
     this.handleGenreReadSelectChange = this.handleGenreReadSelectChange.bind(this);
+    this.handleUploadStart = this.handleUploadStart.bind(this);
+    this.handleProgress = this.handleProgress.bind(this);
+    this.handleUploadError = this.handleUploadError.bind(this);
+    this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}`);
     this.genresWriteRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresWrite`);
     this.genresReadRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresRead`);
@@ -65,29 +75,73 @@ class EditProfileForm extends Component {
     });
   }
 
+  handleGenreWriteSelectChange(value) {
+		this.setState({
+			genresWrite: value 
+		});
+	}
+
+	handleGenreReadSelectChange(value) {
+		this.setState({
+			genresRead: value
+		})
+	}
+
+	handleUploadStart() {
+		this.setState({
+			avatarIsUploading: true,
+			avatarUploadProgress: 0
+		})
+	}
+
+	handleProgress(progress) {
+		this.setState({
+			avatarUploadProgress: progress
+		})
+	}
+
+	handleUploadError(error) {
+    this.setState({avatarIsUploading: false});
+    console.error(error);
+  }
+
+  handleUploadSuccess(filename) {
+    this.setState({
+    	avatar: filename, 
+    	avatarUploadProgress: 100, 
+    	avatarIsUploading: false
+    });
+    firebaseDB.storage().ref('images').child(filename).getDownloadURL().then(url => 
+    	this.setState({
+    		avatarURL: url
+    	})
+  	);
+  };
+
   componentDidMount() {
     this.userRef.on('value', snapshot => {
     	let currentUser = snapshot.val()
       this.setState({
         displayName: currentUser.displayName,
-	      lfr: currentUser.lfr,
-	      ltr: currentUser.ltr,
+	      lfr: currentUser.lfr ? currentUser.lfr : false,
+	      ltr: currentUser.ltr ? currentUser.ltr : false,
 	      bio: currentUser.bio ? currentUser.bio : "",
 	      location: currentUser.location ? currentUser.location : "",
 	      occupation: currentUser.occupation ? currentUser.occupation : "",
 	      website: currentUser.website ? currentUser.website : "",
+	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : ""
       });
     });
     this.genresWriteRef.on('value', snapshot => {
-    	let genresWriteHash = snapshot.val()
-    	let selectedGenresWrite = []
-    	for (let genre in genresWriteHash) {
-    		if (genresWriteHash[genre]) {
+			let genresWriteHash = snapshot.val()
+			let selectedGenresWrite = []
+			for (let genre in genresWriteHash) {
+				if (genresWriteHash[genre]) {
     			selectedGenresWrite.push(genre)
     		}
     	}
     	this.setState({
-    		genresWrite: selectedGenresWrite
+    		genresWrite: selectedGenresWrite.join(',')
     	})
     })
     this.genresReadRef.on('value', snapshot => {
@@ -100,22 +154,10 @@ class EditProfileForm extends Component {
     		}
     	}
     	this.setState({
-    		genresRead: selectedGenresRead
+    		genresRead: selectedGenresRead.join(',')
     	})
     })
   }
-
-  handleGenreWriteSelectChange (value) {
-		this.setState({
-			genresWrite: value 
-		});
-	}
-
-	handleGenreReadSelectChange (value) {
-		this.setState({
-			genresRead: value
-		})
-	}
 
   componentWillUnmount() {
 		this.userRef.off();
@@ -158,6 +200,7 @@ class EditProfileForm extends Component {
 	    location: this.state.location,
 	    occupation: this.state.occupation,
 	    website: this.state.website,
+	    avatarURL: this.state.avatarURL
     });
     this.EditProfileForm.reset()
     this.setState({ redirect: true })
@@ -220,7 +263,25 @@ class EditProfileForm extends Component {
 									value={this.state.genresRead}
 								/>
 							</label>
-
+							<label className="pt-label">
+								Avatar
+								{this.state.isUploading &&
+			            <p>Progress: {this.state.progress}</p>
+			          }
+			          {this.state.avatarURL &&
+			            <img src={this.state.avatarURL} />
+			          }
+			          <FileUploader
+			            accept="image/*"
+			            name="avatar"
+			            randomizeFilename
+			            storageRef={firebaseDB.storage().ref('images')}
+			            onUploadStart={this.handleUploadStart}
+			            onUploadError={this.handleUploadError}
+			            onUploadSuccess={this.handleUploadSuccess}
+			            onProgress={this.handleProgress}
+			          />
+							</label>
 		          <input type="submit" className="pt-button pt-intent-primary" value="Save"></input>
 		        </form>
 		      </div>
