@@ -1,0 +1,88 @@
+.profile-page {
+	font-family: Lato-Light;
+}
+
+.profile-avatar {
+	padding: 0px 20px 20px;
+}
+
+.profile-avatar img {
+	display: block;
+	max-width: 80%;
+  margin: 0 auto;
+  text-align:center;
+  padding-bottom:5px;
+  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+  background-size:100% 5px; 
+}
+
+.user-info-col {
+	padding: 0 20px 20px;
+	border-bottom: 1px lightgray solid;
+}
+
+.user-info .user-name {
+	display: inline-block;
+	background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+}
+
+.user-info-details {
+	display: flex;
+	align-items: center;
+	margin: 10px 0;
+}
+
+.user-info-icons {
+	width: 20px;
+	align-self: center;
+	height: auto;
+}
+
+.user-info-detail {
+	font-family: Lato-Regular;
+	font-size: 14px;
+	margin-left: 5px;
+}
+
+.social-links {
+	display: flex;
+	align-items: center;
+}
+
+.social-icons {
+	width: 25px;
+	align-self: center;
+	margin-right: 15px;
+}
+
+.user-info .message-user-button, .edit-profile-button {
+	font-family: Lato-Regular;
+	display: flex;
+	text-align: center;
+	justify-content: space-evenly;
+	white-space: normal;
+	align-items: center;
+	border: 2px black solid;
+	padding: 10px 30px;
+	font-size: 15px;
+	text-transform: uppercase;
+	box-shadow: none;
+	-webkit-transition: all 2s; 
+  transition: all 2s;
+  background: white;
+  width: 200px;
+  margin: 10px 0;
+}
+
+.user-info .message-user-button:hover, .edit-profile-button:hover {
+	background: white;
+	border: 2px black solid;
+}
+
+.user-info .message-user-button, .edit-profile-button img {
+	width: 25px;
+}

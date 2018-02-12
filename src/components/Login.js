@@ -64,7 +64,7 @@ class Login extends Component {
     var user = firebaseDB.auth().currentUser;
     console.log(user.displayName)
     firebaseDB.database().ref(`Users/${user.uid}`).update({
-      displayName: user.displayName
+      displayName: user.displayName.split(" ")[0]
     });
   }
 

@@ -9,6 +9,8 @@ import { firebaseDB, base } from '../base'
 
 const GENRES = [
 	{ label: "Adventure", value: "adventure" },
+	{ label: "Chick Lit", value: "cl"},
+
 	{ label: "Contemporary, Mainstream, & Realistic Fiction", value: "cmrf" },
 	{ label: "Children's", value: "children" },
 	{ label: "Erotic Fiction", value: "erotic" },
@@ -29,7 +31,6 @@ const GENRES = [
 	{ label: "Romance", value: "romance" },
 	{ label: "Satire, Humor, & Parody", value: "shp" },
 	{ label: "Science Fiction", value: "sf" },
-	{ label: "Screenwriting", value: "screenwriting" },
 	{ label: "Women's Fiction", value: "wf" },
 	{ label: "Young Adult", value: "ya" },
 ];
@@ -47,8 +48,11 @@ class EditProfileForm extends Component {
       bio: "",
       location: "",
       occupation: "",
+      education: "",
       website: "",
+      email: "",
       genresWrite: "",
+      genresRead: "",
       avatar: "",
 	    avatarIsUploading: false,
 	    avatarUploadProgress: 0,
@@ -127,8 +131,10 @@ class EditProfileForm extends Component {
 	      ltr: currentUser.ltr ? currentUser.ltr : false,
 	      bio: currentUser.bio ? currentUser.bio : "",
 	      location: currentUser.location ? currentUser.location : "",
+	      education: currentUser.education ? currentUser.education: "",
 	      occupation: currentUser.occupation ? currentUser.occupation : "",
 	      website: currentUser.website ? currentUser.website : "",
+	      email: currentUser.email ? currentUser.email : "",
 	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : ""
       });
     });
@@ -198,8 +204,10 @@ class EditProfileForm extends Component {
 	    ltr: this.state.ltr,
 	    bio: this.state.bio,
 	    location: this.state.location,
+	    education: this.state.education,
 	    occupation: this.state.occupation,
 	    website: this.state.website,
+	    email: this.state.email,
 	    avatarURL: this.state.avatarURL
     });
     this.EditProfileForm.reset()
@@ -234,8 +242,16 @@ class EditProfileForm extends Component {
 		            <input className="pt-input" value={this.state.occupation} name="occupation" onChange={this.handleChange} type="text" ></input>
 		          </label>
 		          <label className="pt-label">
+		            Education
+		            <input className="pt-input" value={this.state.education} name="education" onChange={this.handleChange} type="text" ></input>
+		          </label>
+		          <label className="pt-label">
 		            Website
 		            <input className="pt-input" value={this.state.website} name="website" onChange={this.handleChange} type="url" ></input>
+		          </label>
+		           <label className="pt-label">
+		            Email
+		            <input className="pt-input" value={this.state.email} name="email" onChange={this.handleChange} type="email" ></input>
 		          </label>
 		          <label className="pt-label">
 		          	Genres I Write
