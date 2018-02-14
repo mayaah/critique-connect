@@ -18,7 +18,10 @@
 
 .user-info-col {
 	padding: 0 20px 20px;
+}
+.user-header {
 	border-bottom: 1px lightgray solid;
+	padding-bottom: 20px;
 }
 
 .user-info .user-name {
@@ -28,6 +31,7 @@
 	-webkit-text-fill-color: transparent;
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
+	font-size: 50px;
 }
 
 .user-info-details {
@@ -83,6 +87,86 @@
 	border: 2px black solid;
 }
 
-.user-info .message-user-button, .edit-profile-button img {
+.user-info .message-user-button img, .edit-profile-button img {
 	width: 25px;
+}
+
+.user-name-and-labels {
+	display: flex;
+	align-items: center;
+}
+
+.looking-labels {
+	font-family: Lato-Regular;
+	align-self: center;
+	margin: 0 10px 0 50px;
+	padding: 10px 20px;
+	text-transform: uppercase;
+	font-size: 10px;
+	letter-spacing: 0.2em;
+	border-radius: 10px;
+}
+
+span#lfr-label {
+	background: var(--red);
+}
+
+span#ltr-label {
+	background: var(--blue);
+}
+
+.section-divider {
+	font-family: Lato-Regular;
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  color: black;
+  text-align: left;
+  height: 1.5em;
+  font-size: 20px;
+}
+
+.small-section-divider {
+	font-size: 15px;
+}
+
+.section-divider:before {
+  content: '';
+  background:  -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+}
+
+.section-divider:after {
+  content: attr(data-content);
+  position: relative;
+  display: inline-block;
+  color: black;
+  padding-right: 0.9em;
+  line-height: 1.5em;
+  color: black;
+  background-color: white;
+}
+
+.bio-text {
+	font-family: Lato-Regular;
+	font-size: 15px;
+	white-space: pre-wrap;
+	line-height: 2em;
+	text-align: justify;
+}
+
+.about-me {
+	padding-bottom: 20px;
+	border-bottom: 1px lightgray solid;
+}
+
+.genre-text {
+	font-family: Lato-Regular;
+	font-size: 13px;
+	margin: 5px 0;
 }

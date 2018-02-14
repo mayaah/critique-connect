@@ -192,6 +192,9 @@ input::-webkit-input-placeholder {
 	color: #00aced;
 }
 
+.pt-label .bio {
+	white-space: pre-wrap;
+}
 
 
 

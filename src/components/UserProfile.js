@@ -2,10 +2,37 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import NewWIPForm from './NewWIPForm';
 import EditProfileForm from './EditProfileForm';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 
 
 import { firebaseDB, base } from '../base'
+
+const genresHash = {
+  adventure: "Adventure",
+  cl: "Chick Lit",
+  cmrf: "Contemporary, Mainstream, & Realistic Fiction",
+  children: "Children's",
+  erotic: "Erotic Fiction",
+  essays: "Essays",
+  fantasy: "Fantasy",
+  historical: "Historical Fiction",
+  hs: "Horror & Supernatural",
+  lgbt: "LGBT+",
+  literary: "Literary",
+  ma: "Memoir & Autobiography",
+  mg: "Middle Grade",
+  mts: "Mystery, Thriller, & Suspense",
+  na: "New Adult",
+  nonfiction: "Nonfiction",
+  plays: "Plays",
+  poetry: "Poetry",
+  rsna: "Religious, Spiritual, & New Age",
+  romance: "Romance",
+  shp: "Satire, Humor, & Parody",
+  sf: "Science Fiction",
+  wf: "Women's Fiction",
+  ya: "Young Adult"
+}
 
 class UserProfile extends Component {
   constructor(props){
@@ -23,8 +50,10 @@ class UserProfile extends Component {
       education: "",
       website: "",
       email: "",
-      genresWrite: "",
-      genresRead: "",
+      fbProfile: "",
+      twitterProfile: "",
+      genresWrite: [],
+      genresRead: [],
       WIPs: []
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
@@ -42,6 +71,22 @@ class UserProfile extends Component {
   componentDidMount() {
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
+      console.log(user)
+      console.log(Object.keys(user.genresRead))
+      let returnedGenresRead = []
+      let returnedGenresWrite = []
+      if (user.genresRead)
+        var genres = Object.keys(user.genresRead)
+        var filteredRead = genres.filter(function(genre) {
+          return user.genresRead[genre]
+        })
+        returnedGenresRead = filteredRead
+      if (user.genresWrite)
+        var genres = Object.keys(user.genresWrite)
+        var filteredWrite = genres.filter(function(genre) {
+          return user.genresWrite[genre]
+        })
+        returnedGenresWrite = filteredWrite
       this.setState({
         displayName: user.displayName,
         lfr: user.lfr ? user.lfr : false,
@@ -51,6 +96,10 @@ class UserProfile extends Component {
         occupation: user.occupation ? user.occupation : "",
         education: user.education ? user.education : "",
         website: user.website ? user.website : "",
+        fbProfile: user.fbProfile ? user.fbProfile : "",
+        twitterProfile: user.twitterProfile ? user.twitterProfile : "",
+        genresWrite: returnedGenresWrite,
+        genresRead: returnedGenresRead,
         email: user.email ? user.email : "",
         avatarURL: user.avatarURL ? user.avatarURL : ""
       });
@@ -105,78 +154,152 @@ class UserProfile extends Component {
       </Tooltip>
     );
 
+    const fbTooltip = (
+      <Tooltip id="tooltip">
+        Facebook Profile
+      </Tooltip>
+    );
+
+    const twitterTooltip = (
+      <Tooltip id="tooltip">
+        Twitter Profile
+      </Tooltip>
+    );
+
     return (
         <Grid className="profile-page" style={{marginTop: "100px"}}>
           <Row className="profile-header">
             <Col sm={3} className="profile-avatar">
-              <img src={this.state.avatarURL} responsive/>
+              <Row>
+                <Col sm={12}>
+                  <Image src={this.state.avatarURL} responsive/>
+                </Col>
+              </Row>
+              <Row>
+                <Col sm={12}>
+                   <hr className="section-divider small-section-divider" data-content="GENRES I READ"></hr>
+                   <div className="display-genres-read">
+                    <div className="wrapper">
+                        {this.state.genresRead.map((genre) => {
+                          return (
+                            <div className="genre-text">{genresHash[genre]}</div>
+                          )
+                        })}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col sm={12}>
+                   <hr className="section-divider small-section-divider" data-content="GENRES I WRITE"></hr>
+                   <div className="display-genres-write">
+                    <div className="wrapper">
+                        {this.state.genresWrite.map((genre) => {
+                          return (
+                            <div className="genre-text">{genresHash[genre]}</div>
+                          )
+                        })}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </Col>
             <Col sm={9} className="user-info-col">
-              <div className="user-info">
-                <h1 className="user-name">{this.state.displayName}</h1>
-                <div className="user-info-details">
-                  <Image className="user-info-icons" src={require('../images/location-gradient.png')} responsive/>
-                  <span className="user-info-detail">{this.state.location}</span>
-                </div>
-                <div className="user-info-details">
-                  <Image className="user-info-icons" src={require('../images/work-gradient.png')} responsive/>
-                  <span className="user-info-detail">{this.state.occupation}</span>
-                </div>
-                <div className="user-info-details">
-                  <Image className="user-info-icons" src={require('../images/education-gradient.png')} responsive/>
-                  <span className="user-info-detail">{this.state.education}</span>
-                </div>
-                <div className="social-links">
-                  <OverlayTrigger placement="left" overlay={websiteTooltip}>
-                    <a href={this.state.website} target="_blank">
-                      <Image className="social-icons" src={require('../images/website-gradient.png')} responsive/>
-                    </a>
-                  </OverlayTrigger>
-                  <OverlayTrigger placement="left" overlay={emailTooltip}>
-                    <a href={`mailto:${this.state.email}`} target="_top">
-                      <Image className="social-icons" src={require('../images/email-gradient.png')} responsive/>
-                    </a>
-                  </OverlayTrigger>
-                  <Image className="social-icons" src={require('../images/fb-icon.png')} responsive/>
-                  <Image className="social-icons" src={require('../images/twitter-icon.png')} responsive/>
-                </div>
-                {this.state.userId == this.state.currentUserId
-                  ?
-                  (
-                  <Link to={"/edit_profile"} >
-                    <Button className="edit-profile-button" block>
-                      <img src={require('../images/pencil-black.png')} responsive />
-                      <span className="edit-profile-text">Edit Profile</span>
-                    </Button>
-                  </Link>
-                  ) : (
-                  <Button className="message-user-button" block>
-                    <img src={require('../images/message-black.png')} responsive />
-                    <span className="message-user-text">Send Message</span>
-                  </Button>
-                  )
-                }
-              </div>
+              <Row className="user-header">
+                <Col sm={12}>
+                  <div className="user-info">
+                    <div className="user-name-and-labels">
+                      <span className="user-name">{this.state.displayName}</span>
+                      {this.state.lfr ? 
+                       (<Label className="looking-labels" id="lfr-label">Is Looking for a Reader</Label>) :
+                       ( null )
+                      }
+                      {this.state.ltr ? 
+                        (<Label className="looking-labels" id="ltr-label">Is Looking to Read</Label>) :
+                        ( null )
+                      }
+                    </div>
+                    <div className="user-info-details">
+                      <Image className="user-info-icons" src={require('../images/location-gradient.png')} responsive/>
+                      <span className="user-info-detail">{this.state.location}</span>
+                    </div>
+                    <div className="user-info-details">
+                      <Image className="user-info-icons" src={require('../images/work-gradient.png')} responsive/>
+                      <span className="user-info-detail">{this.state.occupation}</span>
+                    </div>
+                    <div className="user-info-details">
+                      <Image className="user-info-icons" src={require('../images/education-gradient.png')} responsive/>
+                      <span className="user-info-detail">{this.state.education}</span>
+                    </div>
+                    <div className="social-links">
+                      <OverlayTrigger placement="left" overlay={websiteTooltip}>
+                        <a href={this.state.website} target="_blank">
+                          <Image className="social-icons" src={require('../images/website-gradient.png')} responsive/>
+                        </a>
+                      </OverlayTrigger>
+                      <OverlayTrigger placement="left" overlay={emailTooltip}>
+                        <a href={`mailto:${this.state.email}`} target="_top">
+                          <Image className="social-icons" src={require('../images/email-gradient.png')} responsive/>
+                        </a>
+                      </OverlayTrigger>
+                      <OverlayTrigger placement="left" overlay={fbTooltip}>
+                        <a href={this.state.fbProfile} target="_blank">
+                          <Image className="social-icons" src={require('../images/fb-icon.png')} responsive/>
+                        </a>
+                      </OverlayTrigger>
+                      <OverlayTrigger placement="left" overlay={twitterTooltip}>
+                        <a href={this.state.twitterProfile} target="_blank">
+                          <Image className="social-icons" src={require('../images/twitter-icon.png')} responsive/>
+                        </a>
+                      </OverlayTrigger>
+                    </div>
+                    {this.state.userId == this.state.currentUserId
+                      ?
+                      (
+                      <Link to={"/edit_profile"} >
+                        <Button className="edit-profile-button" block>
+                          <Image src={require('../images/pencil-black.png')} responsive />
+                          <span className="edit-profile-text">Edit Profile</span>
+                        </Button>
+                      </Link>
+                      ) : (
+                      <Button className="message-user-button" block>
+                        <Image src={require('../images/message-black.png')} responsive />
+                        <span className="message-user-text">Send Message</span>
+                      </Button>
+                      )
+                    }
+                  </div>
+                </Col>
+              </Row>
+              <Row className="about-me">
+                <Col sm={12}>
+                  <hr className="section-divider" data-content="ABOUT ME"></hr>
+                  <div className="bio-text">{this.state.bio}</div>
+                </Col>
+              </Row>
+              <Row className="user-wips">
+                <Col sm={12}>
+                  <hr className="section-divider" data-content="MY WORKS IN PROGRESS"></hr>
+                  <Link className="pt-button" to={"/submit_wip/"+this.state.userId} >Submit a Work in Progress</Link>
+                  <div className="display-WIPs">
+                    <div className="wrapper">
+                      <ul>
+                        {this.state.WIPs.map((WIP) => {
+                          return (
+                            <li key={WIP.id}>
+                              <h3>{WIP.title}</h3>
+                              <button className="pt-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</button>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </Col>
           </Row>
-            <div>
-              <Link className="pt-button" aria-label="Log Out" to={"/submit_wip/"+this.state.userId} >Submit a Work in Progress</Link>
-              <section className='display-WIPs'>
-                  <div className="wrapper">
-                    <ul>
-                      {this.state.WIPs.map((WIP) => {
-                        return (
-                          <li key={WIP.id}>
-                            <h3>{WIP.title}</h3>
-                            <button className="pt-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</button>
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  </div>
-              </section>
-            </div>
-
         </Grid>
       );
   }

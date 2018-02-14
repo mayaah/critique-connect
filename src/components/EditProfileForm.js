@@ -51,6 +51,8 @@ class EditProfileForm extends Component {
       education: "",
       website: "",
       email: "",
+      fbProfile: "",
+      twitterProfile: "",
       genresWrite: "",
       genresRead: "",
       avatar: "",
@@ -134,6 +136,8 @@ class EditProfileForm extends Component {
 	      education: currentUser.education ? currentUser.education: "",
 	      occupation: currentUser.occupation ? currentUser.occupation : "",
 	      website: currentUser.website ? currentUser.website : "",
+	      fbProfile: currentUser.fbProfile ? currentUser.fbProfile : "",
+	      twitterProfile: currentUser.twitterProfile ? currentUser.twitterProfile : "",
 	      email: currentUser.email ? currentUser.email : "",
 	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : ""
       });
@@ -207,6 +211,8 @@ class EditProfileForm extends Component {
 	    education: this.state.education,
 	    occupation: this.state.occupation,
 	    website: this.state.website,
+	    fbProfile: this.state.fbProfile,
+	    twitterProfile: this.state.twitterProfile,
 	    email: this.state.email,
 	    avatarURL: this.state.avatarURL
     });
@@ -229,7 +235,7 @@ class EditProfileForm extends Component {
 		          </label>
 	            <Checkbox checked={this.state.lfr} value={this.state.lfr} name="lfr" onChange={this.handleChange} label="Is Looking For Reader" />
 	            <Checkbox checked={this.state.ltr} value={this.state.ltr} name="ltr" onChange={this.handleChange} label="Is Looking To Read" />
-	            <label className="pt-label"> 
+	            <label className="pt-label bio"> 
 	            	Bio 
 		            <TextArea large={true} value={this.state.bio} name="bio" onChange={this.handleChange} label="Bio" />
 							</label>
@@ -252,6 +258,14 @@ class EditProfileForm extends Component {
 		           <label className="pt-label">
 		            Email
 		            <input className="pt-input" value={this.state.email} name="email" onChange={this.handleChange} type="email" ></input>
+		          </label>
+		          <label className="pt-label">
+		            Facebook Profile Link
+		            <input className="pt-input" value={this.state.fbProfile} name="fbProfile" onChange={this.handleChange} type="url" ></input>
+		          </label>
+		          <label className="pt-label">
+		            Twitter Profile Link
+		            <input className="pt-input" value={this.state.twitterProfile} name="twitterProfile" onChange={this.handleChange} type="url" ></input>
 		          </label>
 		          <label className="pt-label">
 		          	Genres I Write
