@@ -14,6 +14,7 @@ import '@blueprintjs/core/dist/blueprint.css';
 
 import './index.css';
 import './styles/user-profile.css';
+import './styles/wip.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

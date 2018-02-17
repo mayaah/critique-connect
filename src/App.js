@@ -8,7 +8,9 @@ import Logout from './components/Logout';
 import HomePage from './HomePage';
 import UserProfile from './components/UserProfile';
 import NewWIPForm from './components/NewWIPForm';
-import EditProfileForm from './components/EditProfileForm'
+import EditProfileForm from './components/EditProfileForm';
+import EditWIPForm from './components/EditWIPForm';
+import WIP from './components/WIP';
 
 import { firebaseDB, base } from './base'
 
@@ -116,11 +118,15 @@ class App extends Component {
               }} />
             <Route exact path="/logout" component={Logout}/>
             <Route path="/user/:id" component={UserProfile} currentUserId={this.state.currentUserId}/>
+            <Route path="/wip/:wipId" component={WIP} currentUserId={this.state.currentUserId}/>
             <Route exact path="/submit_wip/:userId" render={(props) => {
               return <NewWIPForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />
             }} />
             <Route exact path="/edit_profile" render={(props) => {
               return <EditProfileForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />
+            }} />
+            <Route path="/edit_wip/:wipId" render={(props) => {
+              return <EditWIPForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />
             }} />
             {this.state.authenticated ? null :  (<Redirect to="/login" />)}
           </div>

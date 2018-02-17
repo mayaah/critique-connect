@@ -102,19 +102,19 @@ class Login extends Component {
             <Row className="login-styles">
               <Col xs={4} sm={4} lg={4}>
                 <Button className="login-auth g-auth" onClick={() => this.authWithGoogle()} block>
-                  <img src={require('../images/google-icon.png')} responsive />
+                  <Image src={require('../images/google-icon.png')} responsive />
                   <span className="login-button-text">Continue with Google</span>
                 </Button>
               </Col>
               <Col xs={4} sm={4} lg={4}>
                 <Button className="login-auth fb-auth" onClick={() => this.authWithFacebook()} block>
-                  <img src={require('../images/fb-icon.png')} responsive />
+                  <Image src={require('../images/fb-icon.png')} responsive />
                   <span className="login-button-text">Continue with Facebook</span>
                 </Button>
               </Col>
               <Col xs={4} sm={4} lg={4}>
                 <Button className="login-auth t-auth" onClick={() => this.authWithTwitter()} block>
-                  <img src={require('../images/twitter-icon.png')} responsive />
+                  <Image src={require('../images/twitter-icon.png')} responsive />
                   <span className="login-button-text">Continue with Twitter</span>
                 </Button>
               </Col>

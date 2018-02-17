@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import NewWIPForm from './NewWIPForm';
 import EditProfileForm from './EditProfileForm';
+import EditWIPForm from './EditWIPForm';
+import WIP from './WIP.js';
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 
 
@@ -71,8 +73,6 @@ class UserProfile extends Component {
   componentDidMount() {
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
-      console.log(user)
-      console.log(Object.keys(user.genresRead))
       let returnedGenresRead = []
       let returnedGenresWrite = []
       if (user.genresRead)
@@ -115,9 +115,20 @@ class UserProfile extends Component {
       Promise.all(promises).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           var WIP = snapshot.val()
+          let returnedGenres = []
+          console.log(WIP.genres)
+          if (WIP.genres)
+            var genres = Object.keys(genresHash)
+            console.log(genres)
+            var filteredGenres = genres.filter(function(genre) {
+              return WIP.genres[genre]
+            })
+            returnedGenres = filteredGenres
           newState.push({
             id: snapshot.key,
-            title: WIP.title
+            title: WIP.title,
+            wc: WIP.wc,
+            genres: returnedGenres
           });
         });
         this.setState({
@@ -281,15 +292,28 @@ class UserProfile extends Component {
               <Row className="user-wips">
                 <Col sm={12}>
                   <hr className="section-divider" data-content="MY WORKS IN PROGRESS"></hr>
-                  <Link className="pt-button" to={"/submit_wip/"+this.state.userId} >Submit a Work in Progress</Link>
+                  <Link className="pt-button" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
                   <div className="display-WIPs">
                     <div className="wrapper">
                       <ul>
                         {this.state.WIPs.map((WIP) => {
                           return (
                             <li key={WIP.id}>
-                              <h3>{WIP.title}</h3>
+                              <Link to={"/wip/" + WIP.id}>
+                                <h3>{WIP.title}</h3>
+                              </Link>
+                              <h5>{WIP.wc}</h5>
+                              {WIP.genres.map((genre) => {
+                                return (
+                                  <div className="wip-genre-text">{genresHash[genre]}</div>
+                                )
+                              })}
                               <button className="pt-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</button>
+                              <Link to={"/edit_wip/" + WIP.id} >
+                                <Button className="edit-wip-button" block>
+                                  <span className="edit-wip-text">Edit WIP</span>
+                                </Button>
+                              </Link>
                             </li>
                           )
                         })}

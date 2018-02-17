@@ -1,0 +1,39 @@
+.wip-page {
+	font-family: Lato-Light;
+}
+
+.wip-header {
+	padding-bottom: 40px;
+	border-bottom: 1px lightgrey solid;
+}
+
+.wip-title {
+	display: inline-block;
+	background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 50px;
+	margin-bottom: 20px;
+}
+
+.wip-logline {
+	font-family: Lato-Regular;
+	font-size: 15px;
+}
+
+.wip-left-col {
+	margin: 40px 0;
+	padding: 20px 10px 10px 0;
+	border-right: 1px lightgray solid;
+}
+
+.wip-field {
+	font-family: Lato-Regular;
+	font-size: 15px;
+}
+
+.wip-field-name {
+	font-family: Lato-Bold;
+}

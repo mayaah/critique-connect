@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
 
 import { firebaseDB, base } from '../base'
@@ -36,36 +37,63 @@ const TYPES = [
 	{ label: "Short Story", value: "ss"},
 	{ label: "Screenplay", value: "sp"},
 	{ label: "Anthology", value: "anthology"}
-];
+]
 
-
-class NewWIPForm extends Component {
-  constructor(props) {
+class EditWIPForm extends Component {
+	constructor(props) {
     super(props)
     this.state = {
       redirect: false,
-      userId: this.props.match.params.userId,
+      currentUser: firebaseDB.auth().currentUser,
+      WIPId: this.props.match.params.wipId,
       title: "",
       wordCount: "",
       genres: "",
       logline: "",
+      types: ""
     }
-    this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
-    this.WIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
+    this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.WIPId}`);
+    this.genresRef = firebaseDB.database().ref(`/WIPs/${this.state.WIPId}/genres`);
+    this.typesRef = firebaseDB.database().ref(`/WIPs/${this.state.WIPId}/types`);
     this.handleChange = this.handleChange.bind(this);
     this.handleGenreSelectChange = this.handleGenreSelectChange.bind(this);
     this.handleTypeSelectChange = this.handleTypeSelectChange.bind(this);
-    this.createWIP = this.createWIP.bind(this);
+    
   }
 
-  componentWillMount() {
-  	this.createWIP = this.createWIP.bind(this)
-    this.addWIPToUser = this.addWIPToUser.bind(this)
-  }
-
-  componentWillUnmount() {
-  	this.userRef.off();
-  	this.WIPsRef.off();
+  componentDidMount() {
+    this.WIPRef.on('value', snapshot => {
+    	let WIP = snapshot.val()
+      this.setState({
+        title: WIP.title ? WIP.title : "",
+        wordCount: WIP.wc ? WIP.wc : "",
+        logline: WIP.logline ? WIP.logline : "",
+      });
+    });
+    this.genresRef.on('value', snapshot => {
+			let genresHash = snapshot.val()
+			let selectedGenres = []
+			for (let genre in genresHash) {
+				if (genresHash[genre]) {
+    			selectedGenres.push(genre)
+    		}
+    	}
+    	this.setState({
+    		genres: selectedGenres.join(',')
+    	})
+    })
+    this.typesRef.on('value', snapshot => {
+    	let typesHash = snapshot.val()
+    	let selectedTypes = []
+    	for (let WIPType in typesHash) {
+    		if (typesHash[WIPType]) {
+    			selectedTypes.push(WIPType)
+    		}
+    	}
+    	this.setState({
+    		types: selectedTypes.join(',')
+    	})
+    })
   }
 
   handleChange(event) {
@@ -88,81 +116,73 @@ class NewWIPForm extends Component {
 		})
 	}
 
-  createWIP(event) {
-    event.preventDefault()
-		const WIPsRef = firebaseDB.database().ref('WIPs');
-	  const WIP = {
-	    title: this.state.title,
-	    writer: this.state.userId,
-	    wc: this.state.wordCount,
-	    logline: this.state.logline,
-	  }
-	  var newWIPRef = WIPsRef.push(WIP);
-	  var WIPId = newWIPRef.key;
-	  this.WIPGenresRef = firebaseDB.database().ref(`/WIPs/${WIPId}/genres`)
-	  for (let genreKey in GENRES) {
+  updateWIP(event) {
+		event.preventDefault()
+		this.WIPRef.update({
+			title: this.state.title,
+			wc: this.state.wordCount,
+			logline: this.state.logline
+		})
+		this.EditWIPForm.reset()
+    this.setState({ redirect: true })
+    for (let genreKey in GENRES) {
     	let genre = GENRES[genreKey].value
     	let genresString = this.state.genres
     	if (genresString.length > 0 && genresString.split(',').includes(genre)) {
-				this.WIPGenresRef.update({
+				this.genresRef.update({
 					[genre] : true
 				})
 			}
 			else {
-				this.WIPGenresRef.update({
+				this.genresRef.update({
 					[genre] : false
 				})
     	}
     }
-    this.WIPTypesRef = firebaseDB.database().ref(`/WIPs/${WIPId}/types`)
-    for (let WIPTypeKey in TYPES) {
-    	let WIPType = TYPES[WIPType].value
+    for (let typeKey in TYPES) {
+    	let WIPType = TYPES[typeKey].value
     	let typesString = this.state.types
     	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
-    		this.WIPTypesRef.update({
+    		this.typesRef.update({
     			[WIPType] : true
+    		})
+    	} else {
+    		this.typesRef.update({
+    			[WIPType] : false
     		})
     	}
     }
-    this.addWIPToUser(WIPId)
-    this.WIPForm.reset()
-    this.setState({ redirect: true })
   }
 
-  addWIPToUser(WIPId) {
-    // this.userRef.on('value', snapshot => {
-    //   this.setState({
-    //     displayName: snapshot.val().displayName
-    //   });
-    // });
-    this.WIPsRef.update({
-      [WIPId]: true
-    });
+  componentWillUnmount() {
+		this.WIPRef.off();
+		this.genresRef.off();
+		this.typesRef.off();
   }
 
   render() {
   	if (this.state.redirect === true) {
-      return <Redirect to= {{pathname: '/user/' + this.state.userId}} />
+      return <Redirect to= {{pathname: '/user/' + this.state.currentUser.uid}} />
     }
     return (
     	<div>
 	    	<BrowserRouter>
 		      <div style={{marginTop: "100px"}}>
-		        <form onSubmit={(event) => this.createWIP(event)} ref={(form) => this.WIPForm = form}>
+		        <form onSubmit={(event) => this.updateWIP(event)} ref={(form) => this.EditWIPForm = form}>
 		          <label className="pt-label">
-		            WIP Title
-		            <input className="pt-input" value={this.state.title} name="title" type="text" onChange={this.handleChange}  placeholder="Staying Alive"></input>
-		          </label>
-		          <label className="pt-label">
-		            Word Count
-		            <input className="pt-input" value={this.state.wordCount} name="wordCount" type="number" onChange={this.handleChange} ></input>
+		            Title
+		            <input className="pt-input" value={this.state.title} name="title" onChange={this.handleChange} type="text" placeholder={this.state.title} ></input>
 		          </label>
 		          <label className="pt-label">
 		            Logline
 		            <input className="pt-input" value={this.state.logline} name="logline" type="text" onChange={this.handleChange} ></input>
 		          </label>
 		          <label className="pt-label">
-		          	Genre(s)
+		            Word Count
+		            <input className="pt-input" value={this.state.wordCount} name="wordCount" onChange={this.handleChange} type="number" placeholder={this.state.wordCount} ></input>
+		          </label>
+		          <label className="pt-label">
+		          	Genres
 			          <Select
 									closeOnSelect={false}
 									disabled={false}
@@ -175,7 +195,7 @@ class NewWIPForm extends Component {
 								/>
 							</label>
 							<label className="pt-label">
-		          	Type(s)
+		          	Types
 			          <Select
 									closeOnSelect={false}
 									disabled={false}
@@ -187,7 +207,7 @@ class NewWIPForm extends Component {
 									value={this.state.types}
 								/>
 							</label>
-		          <input type="submit" className="pt-button pt-intent-primary" value="Submit Work In Progress"></input>
+		          <input type="submit" className="pt-button pt-intent-primary" value="Save"></input>
 		        </form>
 		      </div>
 	      </BrowserRouter>
@@ -196,4 +216,4 @@ class NewWIPForm extends Component {
   }
 }
 
-export default NewWIPForm
+export default EditWIPForm

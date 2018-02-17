@@ -10,13 +10,11 @@ import { firebaseDB, base } from '../base'
 const GENRES = [
 	{ label: "Adventure", value: "adventure" },
 	{ label: "Chick Lit", value: "cl"},
-
-	{ label: "Contemporary, Mainstream, & Realistic Fiction", value: "cmrf" },
+	{ label: "Contemporary, Mainstream, & Realistic", value: "cmrf" },
 	{ label: "Children's", value: "children" },
-	{ label: "Erotic Fiction", value: "erotic" },
-	{ label: "Essays", value: "essays"},
+	{ label: "Erotic", value: "erotic" },
 	{ label: "Fantasy", value: "fantasy" },
-	{ label: "Historical Fiction", value: "historical" },
+	{ label: "Historical", value: "historical" },
 	{ label: "Horror & Supernatural", value: "hs" },
 	{ label: "LGBT+", value: "lgbt" },
 	{ label: "Literary", value: "literary" },
@@ -25,13 +23,11 @@ const GENRES = [
 	{ label: "Mystery, Thriller, & Suspense", value: "mts" },
 	{ label: "New Adult", value: "na" },
 	{ label: "Other Nonfiction", value: "nonfiction"},
-	{ label: "Plays", value: "plays" },
-	{ label: "Poetry", value: "poetry"},
 	{ label: "Religious, Spiritual, & New Age", value: "rsna" },
 	{ label: "Romance", value: "romance" },
 	{ label: "Satire, Humor, & Parody", value: "shp" },
 	{ label: "Science Fiction", value: "sf" },
-	{ label: "Women's Fiction", value: "wf" },
+	{ label: "Women's", value: "wf" },
 	{ label: "Young Adult", value: "ya" },
 ];
 
