@@ -38,6 +38,22 @@ const TYPES = [
 	{ label: "Anthology", value: "anthology"}
 ];
 
+const LANGUAGES = [
+	{ label: "English", value: "english" },
+	{ label: "Chinese", value: "chinese"},
+	{ label: "German", value: "german" },
+	{ label: "Spanish", value: "spanish" },
+	{ label: "Japanese", value: "japanese" },
+	{ label: "Russian", value: "russian" },
+	{ label: "French", value: "french" },
+	{ label: "Korean", value: "korean" },
+	{ label: "Italian", value: "italian" },
+	{ label: "Dutch", value: "dutch" },
+	{ label: "Portuguese", value: "portuguese" },
+	{ label: "Hindi", value: "hindi"}
+
+]
+
 
 class NewWIPForm extends Component {
   constructor(props) {
@@ -49,12 +65,14 @@ class NewWIPForm extends Component {
       wordCount: "",
       genres: "",
       logline: "",
+      language: ""
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
     this.WIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
     this.handleChange = this.handleChange.bind(this);
     this.handleGenreSelectChange = this.handleGenreSelectChange.bind(this);
     this.handleTypeSelectChange = this.handleTypeSelectChange.bind(this);
+    this.handleLanguageChange = this.handleLanguageChange.bind(this);
     this.createWIP = this.createWIP.bind(this);
   }
 
@@ -88,6 +106,12 @@ class NewWIPForm extends Component {
 		})
 	}
 
+	handleLanguageChange(value) {
+		this.setState({
+			language: value,
+		});
+	}
+
   createWIP(event) {
     event.preventDefault()
 		const WIPsRef = firebaseDB.database().ref('WIPs');
@@ -96,6 +120,7 @@ class NewWIPForm extends Component {
 	    writer: this.state.userId,
 	    wc: this.state.wordCount,
 	    logline: this.state.logline,
+	    language: this.state.language
 	  }
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;
@@ -162,6 +187,18 @@ class NewWIPForm extends Component {
 		            <input className="pt-input" value={this.state.logline} name="logline" type="text" onChange={this.handleChange} ></input>
 		          </label>
 		          <label className="pt-label">
+		          	Language
+			          <Select
+									closeOnSelect={false}
+									disabled={false}
+									onChange={this.handleLanguageChange}
+									options={LANGUAGES}
+									placeholder="Select the language"
+									simpleValue
+									value={this.state.language}
+								/>
+							</label>
+		          <label className="pt-label">
 		          	Genre(s)
 			          <Select
 									closeOnSelect={false}
@@ -177,7 +214,7 @@ class NewWIPForm extends Component {
 							<label className="pt-label">
 		          	Type(s)
 			          <Select
-									closeOnSelect={false}
+			          	closeOnSelect={false}
 									disabled={false}
 									multi
 									onChange={this.handleTypeSelectChange}
