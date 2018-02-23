@@ -19,10 +19,6 @@
 .user-info-col {
 	padding: 0 20px 20px;
 }
-.user-header {
-	border-bottom: 1px lightgray solid;
-	padding-bottom: 20px;
-}
 
 .user-info .user-name {
 	display: inline-block;
@@ -115,7 +111,7 @@ span#ltr-label {
 	background: var(--blue);
 }
 
-.section-divider {
+/*.section-divider {
 	font-family: Lato-Regular;
   line-height: 1em;
   position: relative;
@@ -126,14 +122,48 @@ span#ltr-label {
   height: 1.5em;
   font-size: 20px;
 }
-
+*/
 .small-section-divider {
+	font-size: 15px;
+
+}
+
+.section-divider {
+	margin: 20px 0;
+	display: flex;
+	align-items: center;
+}
+
+.section-divider-title {
+	font-family: Lato-Regular;
+	font-size: 20px;
+	text-transform: uppercase;
+	white-space: nowrap;
+	margin-right: 15px;
+	color: black;
+	background-color: white;
+  padding-bottom: 2px;
+  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue)) 
+  	left 
+    bottom
+    white    
+    no-repeat;; 
+  background-size:100% 2px;
+}
+
+.small-section-divider-title {
 	font-size: 15px;
 }
 
-.section-divider:before {
+.section-divider-hr {
+	background: lightgrey;
+	height: 1px;
+	width: 100%;
+}
+
+/*.section-divider:before {
   content: '';
-  background:  -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+  background: lightgrey;
   position: absolute;
   left: 0;
   top: 50%;
@@ -150,7 +180,13 @@ span#ltr-label {
   line-height: 1.5em;
   color: black;
   background-color: white;
-}
+  padding-bottom: 2px;
+  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue)) left 
+    bottom
+    white    
+    no-repeat;; 
+  background-size:100% 2px;
+}*/
 
 .bio-text {
 	font-family: Lato-Regular;
@@ -158,11 +194,6 @@ span#ltr-label {
 	white-space: pre-wrap;
 	line-height: 2em;
 	text-align: justify;
-}
-
-.about-me {
-	padding-bottom: 20px;
-	border-bottom: 1px lightgray solid;
 }
 
 .genre-text {

@@ -24,16 +24,24 @@
 }
 
 .wip-left-col {
-	margin: 40px 0;
+	margin: 20px 0;
 	padding: 20px 10px 10px 0;
-	border-right: 1px lightgray solid;
-}
+/*	border-right: 1px lightgray solid;
+*/}
 
 .wip-field {
 	font-family: Lato-Regular;
-	font-size: 15px;
+	font-size: 13px;
+	margin-bottom: 10px;
 }
 
 .wip-field-name {
 	font-family: Lato-Bold;
+	font-size: 16px;
+	padding-bottom: 2px;
+  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue)) left 
+    bottom
+    white    
+    no-repeat;; 
+  background-size:100% 2px;
 }

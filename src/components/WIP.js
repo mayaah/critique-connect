@@ -31,6 +31,22 @@ const genresHash = {
   ya: "Young Adult"
 }
 
+const languagesHash = {
+  english : "English",
+  chinese: "Chinese",
+  german: "German",
+  spanish: "Spanish",
+  japanese: "Japanese",
+  russian: "Russian",
+  french: "French",
+  korean: "Korean",
+  italian: "Italian",
+  dutch: "Dutch",
+  portuguese: "Portuguese",
+  hindi: "Hindi",
+  other: "Other"
+}
+
 class WIP extends Component {
 	constructor(props){
     super(props)
@@ -42,6 +58,7 @@ class WIP extends Component {
       genres: "",
       logline: "",
       types: "",
+      language: "",
     }
     this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.wipId}`);
   }
@@ -53,7 +70,8 @@ class WIP extends Component {
         title: WIP.title ? WIP.title : "",
         wordCount: WIP.wc ? WIP.wc : "",
         logline: WIP.logline ? WIP.logline : "",
-        types: WIP.type ? WIP.type : ""
+        types: WIP.type ? WIP.type : "",
+        language: WIP.language ? WIP.language : ""
       });
   	})
   }
@@ -74,7 +92,10 @@ class WIP extends Component {
         <Row>
           <Col className="wip-left-col" sm={4}>
             <div className="wip-field">
-              <span className="wip-field-name">WORDCOUNT: </span>{this.state.wordCount} words
+              <span className="wip-field-name">WORDCOUNT</span>&nbsp;{this.state.wordCount} words
+            </div>
+            <div className="wip-field">
+              <span className="wip-field-name">LANGUAGE</span>&nbsp;{languagesHash[this.state.language]}
             </div>
           </Col>
           <Col sm={8}>

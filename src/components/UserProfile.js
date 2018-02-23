@@ -12,12 +12,11 @@ import { firebaseDB, base } from '../base'
 const genresHash = {
   adventure: "Adventure",
   cl: "Chick Lit",
-  cmrf: "Contemporary, Mainstream, & Realistic Fiction",
+  cmrf: "Contemporary, Mainstream, & Realistic",
   children: "Children's",
-  erotic: "Erotic Fiction",
-  essays: "Essays",
+  erotic: "Erotic",
   fantasy: "Fantasy",
-  historical: "Historical Fiction",
+  historical: "Historical",
   hs: "Horror & Supernatural",
   lgbt: "LGBT+",
   literary: "Literary",
@@ -25,14 +24,12 @@ const genresHash = {
   mg: "Middle Grade",
   mts: "Mystery, Thriller, & Suspense",
   na: "New Adult",
-  nonfiction: "Nonfiction",
-  plays: "Plays",
-  poetry: "Poetry",
+  nonfiction: "Other Nonfiction",
   rsna: "Religious, Spiritual, & New Age",
   romance: "Romance",
   shp: "Satire, Humor, & Parody",
   sf: "Science Fiction",
-  wf: "Women's Fiction",
+  wf: "Women's",
   ya: "Young Adult"
 }
 
@@ -188,7 +185,12 @@ class UserProfile extends Component {
               </Row>
               <Row>
                 <Col sm={12}>
-                   <hr className="section-divider small-section-divider" data-content="GENRES I READ"></hr>
+                   <div className="section-divider">
+                    <span className="section-divider-title small-section-divider-title">
+                      Genres I Read
+                    </span>
+                    <div className="section-divider-hr"></div>
+                  </div>
                    <div className="display-genres-read">
                     <div className="wrapper">
                         {this.state.genresRead.map((genre) => {
@@ -202,7 +204,12 @@ class UserProfile extends Component {
               </Row>
               <Row>
                 <Col sm={12}>
-                   <hr className="section-divider small-section-divider" data-content="GENRES I WRITE"></hr>
+                   <div className="section-divider">
+                    <span className="section-divider-title small-section-divider-title">
+                      Genres I Write
+                    </span>
+                    <div className="section-divider-hr"></div>
+                  </div>
                    <div className="display-genres-write">
                     <div className="wrapper">
                         {this.state.genresWrite.map((genre) => {
@@ -285,13 +292,23 @@ class UserProfile extends Component {
               </Row>
               <Row className="about-me">
                 <Col sm={12}>
-                  <hr className="section-divider" data-content="ABOUT ME"></hr>
+                  <div className="section-divider">
+                    <span className="section-divider-title">
+                      About Me
+                    </span>
+                    <div className="section-divider-hr"></div>
+                  </div>
                   <div className="bio-text">{this.state.bio}</div>
                 </Col>
               </Row>
               <Row className="user-wips">
                 <Col sm={12}>
-                  <hr className="section-divider" data-content="MY WORKS IN PROGRESS"></hr>
+                  <div className="section-divider">
+                    <span className="section-divider-title">
+                      My Works In Progress
+                    </span>
+                    <div className="section-divider-hr"></div>
+                  </div>
                   <Link className="pt-button" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
                   <div className="display-WIPs">
                     <div className="wrapper">

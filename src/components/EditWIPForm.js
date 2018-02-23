@@ -39,6 +39,23 @@ const TYPES = [
 	{ label: "Anthology", value: "anthology"}
 ]
 
+const LANGUAGES = [
+	{ label: "English", value: "english" },
+	{ label: "Chinese", value: "chinese"},
+	{ label: "German", value: "german" },
+	{ label: "Spanish", value: "spanish" },
+	{ label: "Japanese", value: "japanese" },
+	{ label: "Russian", value: "russian" },
+	{ label: "French", value: "french" },
+	{ label: "Korean", value: "korean" },
+	{ label: "Italian", value: "italian" },
+	{ label: "Dutch", value: "dutch" },
+	{ label: "Portuguese", value: "portuguese" },
+	{ label: "Hindi", value: "hindi"},
+	{ label: "Other", value: "other"}
+]
+
+
 class EditWIPForm extends Component {
 	constructor(props) {
     super(props)
@@ -50,7 +67,8 @@ class EditWIPForm extends Component {
       wordCount: "",
       genres: "",
       logline: "",
-      types: ""
+      types: "",
+      language: "",
     }
     this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.WIPId}`);
     this.genresRef = firebaseDB.database().ref(`/WIPs/${this.state.WIPId}/genres`);
@@ -58,7 +76,7 @@ class EditWIPForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleGenreSelectChange = this.handleGenreSelectChange.bind(this);
     this.handleTypeSelectChange = this.handleTypeSelectChange.bind(this);
-    
+    this.handleLanguageChange = this.handleLanguageChange.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +86,7 @@ class EditWIPForm extends Component {
         title: WIP.title ? WIP.title : "",
         wordCount: WIP.wc ? WIP.wc : "",
         logline: WIP.logline ? WIP.logline : "",
+        language: WIP.language ? WIP.language : ""
       });
     });
     this.genresRef.on('value', snapshot => {
@@ -116,12 +135,20 @@ class EditWIPForm extends Component {
 		})
 	}
 
+	handleLanguageChange(value) {
+		this.setState({
+			language: value,
+		});
+	}
+
+
   updateWIP(event) {
 		event.preventDefault()
 		this.WIPRef.update({
 			title: this.state.title,
 			wc: this.state.wordCount,
-			logline: this.state.logline
+			logline: this.state.logline,
+			language: this.state.language
 		})
 		this.EditWIPForm.reset()
     this.setState({ redirect: true })
@@ -181,6 +208,18 @@ class EditWIPForm extends Component {
 		            Word Count
 		            <input className="pt-input" value={this.state.wordCount} name="wordCount" onChange={this.handleChange} type="number" placeholder={this.state.wordCount} ></input>
 		          </label>
+		          <label className="pt-label">
+		          	Language
+			          <Select
+									closeOnSelect={false}
+									disabled={false}
+									onChange={this.handleLanguageChange}
+									options={LANGUAGES}
+									placeholder="Select the language"
+									simpleValue
+									value={this.state.language}
+								/>
+							</label>
 		          <label className="pt-label">
 		          	Genres
 			          <Select

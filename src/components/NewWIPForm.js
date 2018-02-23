@@ -50,8 +50,8 @@ const LANGUAGES = [
 	{ label: "Italian", value: "italian" },
 	{ label: "Dutch", value: "dutch" },
 	{ label: "Portuguese", value: "portuguese" },
-	{ label: "Hindi", value: "hindi"}
-
+	{ label: "Hindi", value: "hindi"},
+	{ label: "Other", value: "other"}
 ]
 
 
