@@ -195,7 +195,7 @@ class UserProfile extends Component {
                     <div className="wrapper">
                         {this.state.genresRead.map((genre) => {
                           return (
-                            <div className="genre-text">{genresHash[genre]}</div>
+                            <div className="small-field-text">{genresHash[genre]}</div>
                           )
                         })}
                     </div>
@@ -214,7 +214,7 @@ class UserProfile extends Component {
                     <div className="wrapper">
                         {this.state.genresWrite.map((genre) => {
                           return (
-                            <div className="genre-text">{genresHash[genre]}</div>
+                            <div className="small-field-text">{genresHash[genre]}</div>
                           )
                         })}
                     </div>
@@ -274,14 +274,14 @@ class UserProfile extends Component {
                     {this.state.userId == this.state.currentUserId
                       ?
                       (
-                      <Link to={"/edit_profile"} >
-                        <Button className="edit-profile-button" block>
+                      <Button className="black-bordered-button" block>
+                        <Link className="flex" to={"/edit_profile"} >
                           <Image src={require('../images/pencil-black.png')} responsive />
                           <span className="edit-profile-text">Edit Profile</span>
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                       ) : (
-                      <Button className="message-user-button" block>
+                      <Button className="black-bordered-button" block>
                         <Image src={require('../images/message-black.png')} responsive />
                         <span className="message-user-text">Send Message</span>
                       </Button>
@@ -298,7 +298,7 @@ class UserProfile extends Component {
                     </span>
                     <div className="section-divider-hr"></div>
                   </div>
-                  <div className="bio-text">{this.state.bio}</div>
+                  <div className="section-long-text">{this.state.bio}</div>
                 </Col>
               </Row>
               <Row className="user-wips">
@@ -309,7 +309,9 @@ class UserProfile extends Component {
                     </span>
                     <div className="section-divider-hr"></div>
                   </div>
-                  <Link className="pt-button" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
+                  <Button className="black-bordered-button">
+                    <Link className="flex" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
+                  </Button>
                   <div className="display-WIPs">
                     <div className="wrapper">
                       <ul>
@@ -325,12 +327,6 @@ class UserProfile extends Component {
                                   <div className="wip-genre-text">{genresHash[genre]}</div>
                                 )
                               })}
-                              <button className="pt-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</button>
-                              <Link to={"/edit_wip/" + WIP.id} >
-                                <Button className="edit-wip-button" block>
-                                  <span className="edit-wip-text">Edit WIP</span>
-                                </Button>
-                              </Link>
                             </li>
                           )
                         })}

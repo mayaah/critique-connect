@@ -28,6 +28,10 @@ body {
   --navy: #001fc1;
 }
 
+.flex {
+	display: flex;
+}
+
 
 .splash-page {
 	position: absolute;

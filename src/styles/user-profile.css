@@ -59,6 +59,41 @@
 	margin-right: 15px;
 }
 
+button.black-bordered-button {
+	font-family: Lato-Regular;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	white-space: normal;
+	align-items: center;
+	border: 2px black solid;
+	padding: 10px 30px;
+	font-size: 15px;
+	text-transform: uppercase;
+	box-shadow: none;
+	-webkit-transition: all 2s; 
+  transition: all 2s;
+  background: white;
+  width: 200px;
+  margin: 10px 10px 10px 0;
+}
+
+button.black-bordered-button:hover {
+	background: white;
+	border: 2px black solid;
+}
+
+button.black-bordered-button img {
+	width: 20px;
+	margin-right: 10px;
+	align-self: center;
+}
+
+button.black-bordered-button a {
+	text-decoration: none;
+	color: black;
+}
+
 .user-info .message-user-button, .edit-profile-button {
 	font-family: Lato-Regular;
 	display: flex;
@@ -123,10 +158,6 @@ span#ltr-label {
   font-size: 20px;
 }
 */
-.small-section-divider {
-	font-size: 15px;
-
-}
 
 .section-divider {
 	margin: 20px 0;
@@ -149,6 +180,10 @@ span#ltr-label {
     white    
     no-repeat;; 
   background-size:100% 2px;
+}
+
+.small-section-divider {
+	margin: 15px 0;
 }
 
 .small-section-divider-title {
@@ -188,7 +223,7 @@ span#ltr-label {
   background-size:100% 2px;
 }*/
 
-.bio-text {
+.section-long-text {
 	font-family: Lato-Regular;
 	font-size: 15px;
 	white-space: pre-wrap;
@@ -196,7 +231,7 @@ span#ltr-label {
 	text-align: justify;
 }
 
-.genre-text {
+.small-field-text {
 	font-family: Lato-Regular;
 	font-size: 13px;
 	margin: 5px 0;

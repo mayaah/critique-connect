@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
 
 import { firebaseDB, base } from '../base'
@@ -64,8 +65,14 @@ class NewWIPForm extends Component {
       title: "",
       wordCount: "",
       genres: "",
+      types: "",
       logline: "",
-      language: ""
+      language: "",
+      draft: "",
+      disclaimers: "",
+      improvementAreas: "",
+      blurb: "",
+      additionalNotes: ""
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
     this.WIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
@@ -120,7 +127,12 @@ class NewWIPForm extends Component {
 	    writer: this.state.userId,
 	    wc: this.state.wordCount,
 	    logline: this.state.logline,
-	    language: this.state.language
+	    draft: this.state.draft,
+	    language: this.state.language,
+	    disclaimers: this.state.disclaimers,
+	    improvementAreas: this.state.improvementAreas,
+	    blurb: this.state.blurb,
+	    additionalNotes: this.state.additionalNotes
 	  }
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;
@@ -141,7 +153,7 @@ class NewWIPForm extends Component {
     }
     this.WIPTypesRef = firebaseDB.database().ref(`/WIPs/${WIPId}/types`)
     for (let WIPTypeKey in TYPES) {
-    	let WIPType = TYPES[WIPType].value
+    	let WIPType = TYPES[WIPTypeKey].value
     	let typesString = this.state.types
     	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
     		this.WIPTypesRef.update({
@@ -186,6 +198,26 @@ class NewWIPForm extends Component {
 		            Logline
 		            <input className="pt-input" value={this.state.logline} name="logline" type="text" onChange={this.handleChange} ></input>
 		          </label>
+		          <label className="pt-label">
+		            Draft
+		            <input className="pt-input" value={this.state.draft} name="draft" type="text" onChange={this.handleChange} ></input>
+		          </label>
+		          <label className="pt-label bio"> 
+	            	Disclaimers 
+		            <TextArea large={true} value={this.state.disclaimers} name="disclaimers" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label bio"> 
+	            	Improvement Areas
+		            <TextArea large={true} value={this.state.improvementAreas} name="improvementAreas" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label bio"> 
+	            	Blurb 
+		            <TextArea large={true} value={this.state.blurb} name="blurb" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label bio"> 
+	            	Additional Notes 
+		            <TextArea large={true} value={this.state.additionalNotes} name="additionalNotes" onChange={this.handleChange} label="Bio" />
+							</label>
 		          <label className="pt-label">
 		          	Language
 			          <Select

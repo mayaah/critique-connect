@@ -28,7 +28,7 @@ const GENRES = [
 	{ label: "Satire, Humor, & Parody", value: "shp" },
 	{ label: "Science Fiction", value: "sf" },
 	{ label: "Women's", value: "wf" },
-	{ label: "Young Adult", value: "ya" },
+	{ label: "Young Adult", value: "ya" }
 ];
 
 class EditProfileForm extends Component {

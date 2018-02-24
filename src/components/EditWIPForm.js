@@ -67,8 +67,14 @@ class EditWIPForm extends Component {
       wordCount: "",
       genres: "",
       logline: "",
+      draft: "",
       types: "",
       language: "",
+      disclaimers: "",
+      improvementAreas: "",
+      blurb: "",
+      additionalNotes: ""
+
     }
     this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.WIPId}`);
     this.genresRef = firebaseDB.database().ref(`/WIPs/${this.state.WIPId}/genres`);
@@ -86,7 +92,12 @@ class EditWIPForm extends Component {
         title: WIP.title ? WIP.title : "",
         wordCount: WIP.wc ? WIP.wc : "",
         logline: WIP.logline ? WIP.logline : "",
-        language: WIP.language ? WIP.language : ""
+        draft: WIP.draft ? WIP.draft : "",
+        language: WIP.language ? WIP.language : "",
+        disclaimers: WIP.disclaimers ? WIP.disclaimers : "",
+        improvementAreas: WIP.improvementAreas ? WIP.improvementAreas : "",
+        blurb: WIP.blurb ? WIP.blurb : "",
+        additionalNotes: WIP.additionalNotes ? WIP.additionalNotes : ""
       });
     });
     this.genresRef.on('value', snapshot => {
@@ -148,7 +159,13 @@ class EditWIPForm extends Component {
 			title: this.state.title,
 			wc: this.state.wordCount,
 			logline: this.state.logline,
-			language: this.state.language
+			draft: this.state.draft,
+			language: this.state.language,
+			disclaimers: this.state.disclaimers,
+			improvementAreas: this.state.improvementAreas,
+			blurb: this.state.blurb,
+			additionalNotes: this.state.additionalNotes
+
 		})
 		this.EditWIPForm.reset()
     this.setState({ redirect: true })
@@ -189,7 +206,7 @@ class EditWIPForm extends Component {
 
   render() {
   	if (this.state.redirect === true) {
-      return <Redirect to= {{pathname: '/user/' + this.state.currentUser.uid}} />
+      return <Redirect to= {{pathname: '/wip/' + this.state.WIPId}} />
     }
     return (
     	<div>
@@ -205,9 +222,29 @@ class EditWIPForm extends Component {
 		            <input className="pt-input" value={this.state.logline} name="logline" type="text" onChange={this.handleChange} ></input>
 		          </label>
 		          <label className="pt-label">
+		            Draft
+		            <input className="pt-input" value={this.state.draft} name="draft" type="text" onChange={this.handleChange} ></input>
+		          </label>
+		          <label className="pt-label">
 		            Word Count
 		            <input className="pt-input" value={this.state.wordCount} name="wordCount" onChange={this.handleChange} type="number" placeholder={this.state.wordCount} ></input>
 		          </label>
+		          <label className="pt-label bio"> 
+	            	Disclaimers 
+		            <TextArea large={true} value={this.state.disclaimers} name="disclaimers" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label bio"> 
+	            	Improvement Areas
+		            <TextArea large={true} value={this.state.improvementAreas} name="improvementAreas" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label bio"> 
+	            	Blurb 
+		            <TextArea large={true} value={this.state.blurb} name="blurb" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label bio"> 
+	            	Additional Notes 
+		            <TextArea large={true} value={this.state.additionalNotes} name="additionalNotes" onChange={this.handleChange} label="Bio" />
+							</label>
 		          <label className="pt-label">
 		          	Language
 			          <Select
