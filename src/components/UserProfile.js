@@ -314,23 +314,23 @@ class UserProfile extends Component {
                   </Button>
                   <div className="display-WIPs">
                     <div className="wrapper">
-                      <ul>
+                      <div>
                         {this.state.WIPs.map((WIP) => {
                           return (
-                            <li key={WIP.id}>
+                            <div className="wip-summary" key={WIP.id}>
                               <Link to={"/wip/" + WIP.id}>
                                 <h3>{WIP.title}</h3>
                               </Link>
-                              <h5>{WIP.wc}</h5>
+                              <h5>{WIP.wc} words</h5>
                               {WIP.genres.map((genre) => {
                                 return (
                                   <div className="wip-genre-text">{genresHash[genre]}</div>
                                 )
                               })}
-                            </li>
+                            </div>
                           )
                         })}
-                      </ul>
+                      </div>
                     </div>
                   </div>
                 </Col>

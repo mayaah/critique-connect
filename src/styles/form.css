@@ -1,0 +1,33 @@
+.label-field {
+	font-family: Lato-Regular;
+	font-size: 15px;
+}
+
+.input-field {
+	width: 500px;
+	box-shadow: none;
+	border-bottom: 1px solid black;
+	padding: 0;
+	border-radius: 0;
+}
+
+.center-form {
+	width: 500px;
+	margin: 0 auto;
+}
+
+.multiselect-field {
+	width: 500px;
+}
+
+.textarea-field {
+	width: 500px;
+	box-shadow: none;
+	
+	padding: 0;
+	border-radius: 0;
+	border: none;
+	border-bottom:1px solid black;
+	font-size: 14px;
+	
+}

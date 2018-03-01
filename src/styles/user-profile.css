@@ -236,3 +236,8 @@ span#ltr-label {
 	font-size: 13px;
 	margin: 5px 0;
 }
+
+.wip-summary {
+	padding: 20px 0;
+	border-bottom: 1px lightgray solid;
+}

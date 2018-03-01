@@ -3,6 +3,10 @@ import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
 import FileUploader from 'react-firebase-file-uploader';
+import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import TextareaAutosize from 'react-autosize-textarea';
+
 
 
 import { firebaseDB, base } from '../base'
@@ -223,49 +227,50 @@ class EditProfileForm extends Component {
     return (
     	<div>
 	    	<BrowserRouter>
-		      <div style={{marginTop: "100px"}}>
-		        <form onSubmit={(event) => this.updateUserProfile(event)} ref={(form) => this.EditProfileForm = form}>
+		      <Grid style={{marginTop: "100px"}}>
+		        <form className="center-form" onSubmit={(event) => this.updateUserProfile(event)} ref={(form) => this.EditProfileForm = form}>
 		          <label className="pt-label">
-		            Name
-		            <input className="pt-input" value={this.state.displayName} name="displayName" onChange={this.handleChange} type="text" placeholder={this.state.displayName} ></input>
+		            <span className="label-field">Name</span>
+		            <input className="pt-input input-field" value={this.state.displayName} name="displayName" onChange={this.handleChange} type="text" placeholder={this.state.displayName} ></input>
 		          </label>
 	            <Checkbox checked={this.state.lfr} value={this.state.lfr} name="lfr" onChange={this.handleChange} label="Is Looking For Reader" />
 	            <Checkbox checked={this.state.ltr} value={this.state.ltr} name="ltr" onChange={this.handleChange} label="Is Looking To Read" />
-	            <label className="pt-label bio"> 
-	            	Bio 
-		            <TextArea large={true} value={this.state.bio} name="bio" onChange={this.handleChange} label="Bio" />
+	            <label className="pt-label"> 
+	            	<span className="label-field">Bio</span>
+		            <TextareaAutosize className="textarea-field" large={true} value={this.state.bio} name="bio" onChange={this.handleChange} label="Bio" onResize={(e) => {}} />
 							</label>
 							<label className="pt-label">
-		            Location
-		            <input className="pt-input" value={this.state.location} name="location" onChange={this.handleChange} type="text" ></input>
+		            <span className="label-field">Location</span>
+		            <input className="pt-input input-field" value={this.state.location} name="location" onChange={this.handleChange} type="text" ></input>
 		          </label>
 		          <label className="pt-label">
-		            Occupation
-		            <input className="pt-input" value={this.state.occupation} name="occupation" onChange={this.handleChange} type="text" ></input>
+		            <span className="label-field">Occupation</span>
+		            <input className="pt-input input-field" value={this.state.occupation} name="occupation" onChange={this.handleChange} type="text" ></input>
 		          </label>
 		          <label className="pt-label">
-		            Education
-		            <input className="pt-input" value={this.state.education} name="education" onChange={this.handleChange} type="text" ></input>
+		            <span className="label-field">Education</span>
+		            <input className="pt-input input-field" value={this.state.education} name="education" onChange={this.handleChange} type="text" ></input>
 		          </label>
 		          <label className="pt-label">
-		            Website
-		            <input className="pt-input" value={this.state.website} name="website" onChange={this.handleChange} type="url" ></input>
+		            <span className="label-field">Website</span>
+		            <input className="pt-input input-field" value={this.state.website} name="website" onChange={this.handleChange} type="url" ></input>
 		          </label>
 		           <label className="pt-label">
-		            Email
-		            <input className="pt-input" value={this.state.email} name="email" onChange={this.handleChange} type="email" ></input>
+		            <span className="label-field">Email</span>
+		            <input className="pt-input input-field" value={this.state.email} name="email" onChange={this.handleChange} type="email" ></input>
 		          </label>
 		          <label className="pt-label">
-		            Facebook Profile Link
-		            <input className="pt-input" value={this.state.fbProfile} name="fbProfile" onChange={this.handleChange} type="url" ></input>
+		            <span className="label-field">Facebook Profile Link</span>
+		            <input className="pt-input input-field" value={this.state.fbProfile} name="fbProfile" onChange={this.handleChange} type="url" ></input>
 		          </label>
 		          <label className="pt-label">
-		            Twitter Profile Link
-		            <input className="pt-input" value={this.state.twitterProfile} name="twitterProfile" onChange={this.handleChange} type="url" ></input>
+		            <span className="label-field">Twitter Profile Link</span>
+		            <input className="pt-input input-field" value={this.state.twitterProfile} name="twitterProfile" onChange={this.handleChange} type="url" ></input>
 		          </label>
 		          <label className="pt-label">
-		          	Genres I Write
+		          	<span className="label-field">Genres I Write</span>
 			          <Select
+			          	className="multiselect-field"
 									closeOnSelect={false}
 									disabled={false}
 									multi
@@ -277,8 +282,9 @@ class EditProfileForm extends Component {
 								/>
 							</label>
 							<label className="pt-label">
-		          	Genres I Read
+		          	<span className="label-field">Genres I Read</span>
 			          <Select
+			          	className="multiselect-field"
 									closeOnSelect={false}
 									disabled={false}
 									multi
@@ -290,7 +296,7 @@ class EditProfileForm extends Component {
 								/>
 							</label>
 							<label className="pt-label">
-								Avatar
+								<span className="label-field">Avatar</span>
 								{this.state.isUploading &&
 			            <p>Progress: {this.state.progress}</p>
 			          }
@@ -310,7 +316,7 @@ class EditProfileForm extends Component {
 							</label>
 		          <input type="submit" className="pt-button pt-intent-primary" value="Save"></input>
 		        </form>
-		      </div>
+		      </Grid>
 	      </BrowserRouter>
       </div>
     )
