@@ -1,6 +1,34 @@
-.label-field {
+.form-name {
+	display: inline-block;
+	background: var(--mainGradient);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 50px;
+}
+
+.form-field-box {
+	margin: 30px 0;
+}
+
+label.pt-label {
+	margin: 0 0 30px;
+}
+
+.label-field-name {
 	font-family: Lato-Regular;
 	font-size: 15px;
+	text-transform: uppercase;
+	background-color: white;
+	padding-bottom: 2px;
+  background: var(--mainGradient) 
+	left 
+  bottom
+  white    
+  no-repeat;; 
+  background-size:100% 2px;
+  margin-bottom: 10px;
 }
 
 .input-field {
@@ -13,21 +41,94 @@
 
 .center-form {
 	width: 500px;
-	margin: 0 auto;
+	margin: 25px auto;
 }
 
 .multiselect-field {
 	width: 500px;
+	margin-top: 10px;
 }
 
 .textarea-field {
 	width: 500px;
 	box-shadow: none;
-	
 	padding: 0;
 	border-radius: 0;
 	border: none;
 	border-bottom:1px solid black;
 	font-size: 14px;
-	
+	margin-top: 5px;
+	line-height: 2em;
 }
+
+.input-checkbox {
+	font-size: 12px;
+	text-transform: uppercase;
+	font-family: Lato-Regular;
+
+}
+
+.pt-control:hover input:checked ~ .pt-control-indicator, .pt-control:hover .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox .pt-control:hover input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox:hover input:indeterminate ~ .pt-control-indicator {
+	background-color: var(--cherry1);
+}
+
+
+.pt-control input:checked ~ .pt-control-indicator, .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator {
+	box-shadow: none;
+	background-color: var(--cherry1);
+}
+
+.field-avatar {
+	display: block;
+	width: 200px;
+	margin-top: 10px;
+}
+
+.avatar-upload-button {
+	font-size: 12px;
+	font-family: Lato-Regular;
+	margin: 10px 0;
+}
+
+input.black-bordered-button {
+	font-family: Lato-Regular;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	white-space: normal;
+	align-items: center;
+	border: 2px black solid;
+	padding: 10px 30px;
+	font-size: 15px;
+	text-transform: uppercase;
+	box-shadow: none;
+	-webkit-transition: all 2s; 
+	transition: all 2s;
+	background: white;
+	width: 200px;
+	margin: 10px 10px 10px 0;
+}
+
+input.black-bordered-button:hover {
+	background: white;
+	border: 2px black solid;
+}
+
+input.black-bordered-button img {
+	width: 20px;
+	margin-right: 10px;
+	align-self: center;
+}
+
+input.black-bordered-button a {
+	text-decoration: none;
+	color: black;
+}
+
+.Select--multi .Select-value {
+	background-color: var(--cherry2);
+	color: white;
+	font-size: 12px;
+}
+
+

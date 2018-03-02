@@ -228,47 +228,68 @@ class EditProfileForm extends Component {
     	<div>
 	    	<BrowserRouter>
 		      <Grid style={{marginTop: "100px"}}>
+		      	<div className="form-name">Edit Profile</div>
 		        <form className="center-form" onSubmit={(event) => this.updateUserProfile(event)} ref={(form) => this.EditProfileForm = form}>
-		          <label className="pt-label">
-		            <span className="label-field">Name</span>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Name</span>
 		            <input className="pt-input input-field" value={this.state.displayName} name="displayName" onChange={this.handleChange} type="text" placeholder={this.state.displayName} ></input>
 		          </label>
-	            <Checkbox checked={this.state.lfr} value={this.state.lfr} name="lfr" onChange={this.handleChange} label="Is Looking For Reader" />
-	            <Checkbox checked={this.state.ltr} value={this.state.ltr} name="ltr" onChange={this.handleChange} label="Is Looking To Read" />
-	            <label className="pt-label"> 
-	            	<span className="label-field">Bio</span>
+		          <label className="pt-label form-field-box">
+								<span className="label-field-name">Avatar</span>
+								{this.state.isUploading &&
+			            <p>Progress: {this.state.progress}</p>
+			          }
+			          {this.state.avatarURL &&
+			            <img className="field-avatar" src={this.state.avatarURL} />
+			          }
+			          <FileUploader
+			          	className="avatar-upload-button"
+			            accept="image/*"
+			            name="avatar"
+			            randomizeFilename
+			            storageRef={firebaseDB.storage().ref('images')}
+			            onUploadStart={this.handleUploadStart}
+			            onUploadError={this.handleUploadError}
+			            onUploadSuccess={this.handleUploadSuccess}
+			            onProgress={this.handleProgress}
+			          />
+							</label>
+	            <Checkbox className="input-checkbox form-field-box" checked={this.state.lfr} value={this.state.lfr} name="lfr" onChange={this.handleChange} label="Is Looking For Reader" />
+	            <Checkbox className="input-checkbox form-field-box" checked={this.state.ltr} value={this.state.ltr} name="ltr" onChange={this.handleChange} label="Is Looking To Read" />
+	            <label className="pt-label form-field-box"> 
+	            	<span className="label-field-name">Bio</span>
 		            <TextareaAutosize className="textarea-field" large={true} value={this.state.bio} name="bio" onChange={this.handleChange} label="Bio" onResize={(e) => {}} />
 							</label>
-							<label className="pt-label">
-		            <span className="label-field">Location</span>
+							<label className="pt-label form-field-box">
+		            <span className="label-field-name">Location</span>
 		            <input className="pt-input input-field" value={this.state.location} name="location" onChange={this.handleChange} type="text" ></input>
 		          </label>
-		          <label className="pt-label">
-		            <span className="label-field">Occupation</span>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Occupation</span>
 		            <input className="pt-input input-field" value={this.state.occupation} name="occupation" onChange={this.handleChange} type="text" ></input>
 		          </label>
-		          <label className="pt-label">
-		            <span className="label-field">Education</span>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Education</span>
 		            <input className="pt-input input-field" value={this.state.education} name="education" onChange={this.handleChange} type="text" ></input>
 		          </label>
-		          <label className="pt-label">
-		            <span className="label-field">Website</span>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Website</span>
 		            <input className="pt-input input-field" value={this.state.website} name="website" onChange={this.handleChange} type="url" ></input>
 		          </label>
-		           <label className="pt-label">
-		            <span className="label-field">Email</span>
+		           <label className="pt-label form-field-box">
+		            <span className="label-field-name">Email</span>
 		            <input className="pt-input input-field" value={this.state.email} name="email" onChange={this.handleChange} type="email" ></input>
 		          </label>
-		          <label className="pt-label">
-		            <span className="label-field">Facebook Profile Link</span>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Facebook Profile Link</span>
 		            <input className="pt-input input-field" value={this.state.fbProfile} name="fbProfile" onChange={this.handleChange} type="url" ></input>
 		          </label>
-		          <label className="pt-label">
-		            <span className="label-field">Twitter Profile Link</span>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Twitter Profile Link</span>
 		            <input className="pt-input input-field" value={this.state.twitterProfile} name="twitterProfile" onChange={this.handleChange} type="url" ></input>
 		          </label>
-		          <label className="pt-label">
-		          	<span className="label-field">Genres I Write</span>
+		          <label className="pt-label form-field-box">
+		          	<span className="label-field-name">Genres I Write</span>
 			          <Select
 			          	className="multiselect-field"
 									closeOnSelect={false}
@@ -281,8 +302,8 @@ class EditProfileForm extends Component {
 									value={this.state.genresWrite}
 								/>
 							</label>
-							<label className="pt-label">
-		          	<span className="label-field">Genres I Read</span>
+							<label className="pt-label form-field-box">
+		          	<span className="label-field-name">Genres I Read</span>
 			          <Select
 			          	className="multiselect-field"
 									closeOnSelect={false}
@@ -295,26 +316,8 @@ class EditProfileForm extends Component {
 									value={this.state.genresRead}
 								/>
 							</label>
-							<label className="pt-label">
-								<span className="label-field">Avatar</span>
-								{this.state.isUploading &&
-			            <p>Progress: {this.state.progress}</p>
-			          }
-			          {this.state.avatarURL &&
-			            <img src={this.state.avatarURL} />
-			          }
-			          <FileUploader
-			            accept="image/*"
-			            name="avatar"
-			            randomizeFilename
-			            storageRef={firebaseDB.storage().ref('images')}
-			            onUploadStart={this.handleUploadStart}
-			            onUploadError={this.handleUploadError}
-			            onUploadSuccess={this.handleUploadSuccess}
-			            onProgress={this.handleProgress}
-			          />
-							</label>
-		          <input type="submit" className="pt-button pt-intent-primary" value="Save"></input>
+							
+		          <input type="submit" className="black-bordered-button" value="Save"></input>
 		        </form>
 		      </Grid>
 	      </BrowserRouter>

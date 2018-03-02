@@ -12,7 +12,7 @@
   margin: 0 auto;
   text-align:center;
   padding-bottom:5px;
-  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+  background: var(--mainGradient);
   background-size:100% 5px; 
 }
 
@@ -22,7 +22,7 @@
 
 .user-info .user-name {
 	display: inline-block;
-	background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+	background: var(--mainGradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	text-transform: uppercase;
@@ -139,11 +139,11 @@ button.black-bordered-button a {
 }
 
 span#lfr-label {
-	background: var(--red);
+	background: var(--cherry1);
 }
 
 span#ltr-label {
-	background: var(--blue);
+	background: var(--cherry2);
 }
 
 /*.section-divider {
@@ -174,7 +174,7 @@ span#ltr-label {
 	color: black;
 	background-color: white;
   padding-bottom: 2px;
-  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue)) 
+  background: var(--mainGradient) 
   	left 
     bottom
     white    

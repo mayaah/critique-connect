@@ -26,6 +26,13 @@ body {
   --blue: #17a3ef;
   --yellow: #ffc500;
   --navy: #001fc1;
+  --cherry1: #eb3349;
+  --cherry2: #f45c43;
+  --g1: #F09819 ;
+  --g2: #EDDE5D;
+  --g3: #29ffc6;
+  --redGreenBlueGradient: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+  --mainGradient: -webkit-linear-gradient(0deg, var(--cherry1), var(--cherry2));
 }
 
 .flex {
@@ -79,12 +86,12 @@ body {
 
 
 nav.pt-navbar {
-	box-shadow: none;
-	-webkit-box-shadow: none;
+	box-shadow: 0 7px 40px #888888;
 	border-bottom:2px solid #c4268c;
 	height: 60px;
 	font-family: 'Lato-Regular';
 	text-transform: uppercase;
+	background: var(--mainGradient);
 }
 
 nav.pt-navbar:before {
@@ -92,14 +99,18 @@ nav.pt-navbar:before {
   position:absolute;
   width:100%;
   height:3px;
-  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+  background: var(--mainGradient);
   bottom:-3px;
   left:0;
 }
 
+.pt-button.pt-minimal {
+	color: white;
+}
+
 .pt-navbar-heading {
 	font-family: 'Lato-Light';
-	color: black; /*non-webkit fallback*/
+	color: white; /*non-webkit fallback*/
 	text-transform: uppercase;
 	font-size: 30px !important;
 }

@@ -238,26 +238,26 @@ class UserProfile extends Component {
                       }
                     </div>
                     <div className="user-info-details">
-                      <Image className="user-info-icons" src={require('../images/location-gradient.png')} responsive/>
+                      <Image className="user-info-icons" src={require('../images/location-black.png')} responsive/>
                       <span className="user-info-detail">{this.state.location}</span>
                     </div>
                     <div className="user-info-details">
-                      <Image className="user-info-icons" src={require('../images/work-gradient.png')} responsive/>
+                      <Image className="user-info-icons" src={require('../images/work-black.png')} responsive/>
                       <span className="user-info-detail">{this.state.occupation}</span>
                     </div>
                     <div className="user-info-details">
-                      <Image className="user-info-icons" src={require('../images/education-gradient.png')} responsive/>
+                      <Image className="user-info-icons" src={require('../images/education-black.png')} responsive/>
                       <span className="user-info-detail">{this.state.education}</span>
                     </div>
                     <div className="social-links">
                       <OverlayTrigger placement="left" overlay={websiteTooltip}>
                         <a href={this.state.website} target="_blank">
-                          <Image className="social-icons" src={require('../images/website-gradient.png')} responsive/>
+                          <Image className="social-icons" src={require('../images/website-black.png')} responsive/>
                         </a>
                       </OverlayTrigger>
                       <OverlayTrigger placement="left" overlay={emailTooltip}>
                         <a href={`mailto:${this.state.email}`} target="_top">
-                          <Image className="social-icons" src={require('../images/email-gradient.png')} responsive/>
+                          <Image className="social-icons" src={require('../images/email-black.png')} responsive/>
                         </a>
                       </OverlayTrigger>
                       <OverlayTrigger placement="left" overlay={fbTooltip}>

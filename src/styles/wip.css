@@ -9,7 +9,7 @@
 
 .wip-title {
 	display: inline-block;
-	background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
+	background: var(--mainGradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	text-transform: uppercase;
@@ -41,7 +41,7 @@
 	font-family: Lato-Bold;
 	font-size: 16px;
 	padding-bottom: 2px;
-  background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue)) left 
+  background: var(--mainGradient) left 
     bottom
     white    
     no-repeat;; 
