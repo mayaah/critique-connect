@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
+import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+import TextareaAutosize from 'react-autosize-textarea';
 
 import { firebaseDB, base } from '../base'
 
@@ -211,43 +213,29 @@ class EditWIPForm extends Component {
     return (
     	<div>
 	    	<BrowserRouter>
-		      <div style={{marginTop: "100px"}}>
-		        <form onSubmit={(event) => this.updateWIP(event)} ref={(form) => this.EditWIPForm = form}>
-		          <label className="pt-label">
-		            Title
-		            <input className="pt-input" value={this.state.title} name="title" onChange={this.handleChange} type="text" placeholder={this.state.title} ></input>
+		      <Grid style={{marginTop: "100px"}}>
+		      	<div className="form-name">Edit Work in Progress</div>
+		        <form className="center-form" onSubmit={(event) => this.updateWIP(event)} ref={(form) => this.EditWIPForm = form}>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Title</span>
+		            <input className="pt-input input-field" value={this.state.title} name="title" onChange={this.handleChange} type="text" placeholder={this.state.title} ></input>
 		          </label>
-		          <label className="pt-label">
-		            Logline
-		            <input className="pt-input" value={this.state.logline} name="logline" type="text" onChange={this.handleChange} ></input>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Logline</span>
+		            <input className="pt-input input-field" value={this.state.logline} name="logline" type="text" onChange={this.handleChange} ></input>
 		          </label>
-		          <label className="pt-label">
-		            Draft
-		            <input className="pt-input" value={this.state.draft} name="draft" type="text" onChange={this.handleChange} ></input>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Word Count</span>
+		            <input className="pt-input input-field" value={this.state.wordCount} name="wordCount" onChange={this.handleChange} type="number" placeholder={this.state.wordCount} ></input>
 		          </label>
-		          <label className="pt-label">
-		            Word Count
-		            <input className="pt-input" value={this.state.wordCount} name="wordCount" onChange={this.handleChange} type="number" placeholder={this.state.wordCount} ></input>
+		          <label className="pt-label form-field-box">
+		            <span className="label-field-name">Draft</span>
+		            <input className="pt-input input-field" value={this.state.draft} name="draft" type="text" onChange={this.handleChange} ></input>
 		          </label>
-		          <label className="pt-label bio"> 
-	            	Disclaimers 
-		            <TextArea large={true} value={this.state.disclaimers} name="disclaimers" onChange={this.handleChange} label="Bio" />
-							</label>
-							<label className="pt-label bio"> 
-	            	Improvement Areas
-		            <TextArea large={true} value={this.state.improvementAreas} name="improvementAreas" onChange={this.handleChange} label="Bio" />
-							</label>
-							<label className="pt-label bio"> 
-	            	Blurb 
-		            <TextArea large={true} value={this.state.blurb} name="blurb" onChange={this.handleChange} label="Bio" />
-							</label>
-							<label className="pt-label bio"> 
-	            	Additional Notes 
-		            <TextArea large={true} value={this.state.additionalNotes} name="additionalNotes" onChange={this.handleChange} label="Bio" />
-							</label>
-		          <label className="pt-label">
-		          	Language
+		          <label className="pt-label form-field-box">
+		          	<span className="label-field-name">Language</span>
 			          <Select
+			          	className="select-field"
 									closeOnSelect={false}
 									disabled={false}
 									onChange={this.handleLanguageChange}
@@ -257,22 +245,10 @@ class EditWIPForm extends Component {
 									value={this.state.language}
 								/>
 							</label>
-		          <label className="pt-label">
-		          	Genres
+							<label className="pt-label form-field-box">
+		          	<span className="label-field-name">Types</span>
 			          <Select
-									closeOnSelect={false}
-									disabled={false}
-									multi
-									onChange={this.handleGenreSelectChange}
-									options={GENRES}
-									placeholder="Select your favorite(s)"
-									simpleValue
-									value={this.state.genres}
-								/>
-							</label>
-							<label className="pt-label">
-		          	Types
-			          <Select
+			          	className="multiselect-field"
 									closeOnSelect={false}
 									disabled={false}
 									multi
@@ -283,9 +259,39 @@ class EditWIPForm extends Component {
 									value={this.state.types}
 								/>
 							</label>
-		          <input type="submit" className="pt-button pt-intent-primary" value="Save"></input>
+							<label className="pt-label form-field-box">
+		          	<span className="label-field-name">Genres</span>
+			          <Select
+			          	className="multiselect-field"
+									closeOnSelect={false}
+									disabled={false}
+									multi
+									onChange={this.handleGenreSelectChange}
+									options={GENRES}
+									placeholder="Select your favorite(s)"
+									simpleValue
+									value={this.state.genres}
+								/>
+							</label>
+		          <label className="pt-label form-field-box"> 
+	            	<span className="label-field-name">Disclaimers</span>
+		            <TextareaAutosize className="textarea-field" large={true} value={this.state.disclaimers} name="disclaimers" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label form-field-box"> 
+	            	<span className="label-field-name">Blurb</span>
+		            <TextareaAutosize className="textarea-field" large={true} value={this.state.blurb} name="blurb" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label form-field-box"> 
+	            	<span className="label-field-name">Improvement Areas</span>
+		            <TextareaAutosize className="textarea-field" large={true} value={this.state.improvementAreas} name="improvementAreas" onChange={this.handleChange} label="Bio" />
+							</label>
+							<label className="pt-label form-field-box"> 
+	            	<span className="label-field-name">Additional Notes</span>
+		            <TextareaAutosize className="textarea-field" large={true} value={this.state.additionalNotes} name="additionalNotes" onChange={this.handleChange} label="Bio" />
+							</label>
+		          <input type="submit" className="black-bordered-button" value="Save"></input>
 		        </form>
-		      </div>
+		      </Grid>
 	      </BrowserRouter>
       </div>
     )

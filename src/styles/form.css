@@ -49,8 +49,15 @@ label.pt-label {
 	margin-top: 10px;
 }
 
+.select-field {
+	width: 500px;
+	margin-top: 10px;
+}
+
 .textarea-field {
 	width: 500px;
+	max-width: 500px;
+	min-width: 500px;
 	box-shadow: none;
 	padding: 0;
 	border-radius: 0;
@@ -69,13 +76,13 @@ label.pt-label {
 }
 
 .pt-control:hover input:checked ~ .pt-control-indicator, .pt-control:hover .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox .pt-control:hover input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox:hover input:indeterminate ~ .pt-control-indicator {
-	background-color: var(--cherry1);
+	background-color: var(--cherry2);
 }
 
 
 .pt-control input:checked ~ .pt-control-indicator, .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator {
 	box-shadow: none;
-	background-color: var(--cherry1);
+	background-color: var(--cherry2);
 }
 
 .field-avatar {
@@ -111,7 +118,8 @@ input.black-bordered-button {
 
 input.black-bordered-button:hover {
 	background: white;
-	border: 2px black solid;
+	border: 2px var(--cherry2) solid;
+	color: var(--cherry2);;
 }
 
 input.black-bordered-button img {
@@ -122,13 +130,21 @@ input.black-bordered-button img {
 
 input.black-bordered-button a {
 	text-decoration: none;
-	color: black;
+}
+
+.Select, .Select div, .Select input, .Select span {
+	font-size: 12px;
 }
 
 .Select--multi .Select-value {
-	background-color: var(--cherry2);
+	background-color: var(--cherry1);
 	color: white;
 	font-size: 12px;
+	letter-spacing: 0.1em;
+}
+
+.Select--multi .Select-value-icon {
+	border-right: 1px solid rgba(255, 255, 255, 0.24);
 }
 
 

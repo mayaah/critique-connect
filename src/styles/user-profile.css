@@ -80,7 +80,8 @@ button.black-bordered-button {
 
 button.black-bordered-button:hover {
 	background: white;
-	border: 2px black solid;
+	border: 2px var(--cherry2) solid;
+	color: var(--cherry2);;
 }
 
 button.black-bordered-button img {
@@ -238,6 +239,45 @@ span#ltr-label {
 }
 
 .wip-summary {
+	font-family: Lato-Regular;
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
+}
+
+.wip-name-text {
+	margin: 10px 0;
+	font-size: 25px;
+	font-family: Lato-Regular;
+	text-transform: uppercase;
+	background: var(--mainGradient);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	letter-spacing: 0.1em;
+}
+
+.wip-wc-text {
+	display: inline-block;
+	margin: 5px 0;
+	font-family: Lato-Regular;
+	font-size: 16px;
+	color: black;
+}
+
+.wip-genre-text {
+	margin: 5px 0;
+	font-size: 12px;
+	color: black;
+}
+
+.wip-types-text {
+	display: inline-block;
+	font-size: 16px;
+	color: black;
+}
+
+.wip-logline-text {
+	font-family: Lato-Regular;
+	font-size: 14px;
+	color: black;
+	line-height: 2em;
 }

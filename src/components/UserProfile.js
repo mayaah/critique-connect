@@ -33,6 +33,16 @@ const genresHash = {
   ya: "Young Adult"
 }
 
+const typesHash = {
+  fiction: "Fiction",
+  nonfiction: "Nonfiction",
+  novella: "Novella",
+  poetry: "Poetry",
+  ss: "Short Story",
+  sp: "Screenplay",
+  anthology: "Anthology"
+}
+
 class UserProfile extends Component {
   constructor(props){
     super(props)
@@ -72,18 +82,20 @@ class UserProfile extends Component {
       let user = snapshot.val()
       let returnedGenresRead = []
       let returnedGenresWrite = []
-      if (user.genresRead)
+      if (user.genresRead != null) {
         var genres = Object.keys(user.genresRead)
         var filteredRead = genres.filter(function(genre) {
           return user.genresRead[genre]
         })
         returnedGenresRead = filteredRead
-      if (user.genresWrite)
+      }
+      if (user.genresWrite != null) {
         var genres = Object.keys(user.genresWrite)
         var filteredWrite = genres.filter(function(genre) {
           return user.genresWrite[genre]
         })
         returnedGenresWrite = filteredWrite
+      }
       this.setState({
         displayName: user.displayName,
         lfr: user.lfr ? user.lfr : false,
@@ -113,19 +125,28 @@ class UserProfile extends Component {
         snapshots.forEach((snapshot) => {
           var WIP = snapshot.val()
           let returnedGenres = []
-          console.log(WIP.genres)
-          if (WIP.genres)
+          if (WIP.genres != null) {
             var genres = Object.keys(genresHash)
-            console.log(genres)
             var filteredGenres = genres.filter(function(genre) {
               return WIP.genres[genre]
             })
             returnedGenres = filteredGenres
+          }
+          let returnedTypes= []
+          if (WIP.types != null) {
+            var types = Object.keys(typesHash)
+            var filteredTypes = types.filter(function(type) {
+              return WIP.types[type]
+            })
+            returnedTypes = filteredTypes
+          }
           newState.push({
             id: snapshot.key,
             title: WIP.title,
             wc: WIP.wc,
-            genres: returnedGenres
+            genres: returnedGenres,
+            logline: WIP.logline,
+            types: returnedTypes
           });
         });
         this.setState({
@@ -317,17 +338,18 @@ class UserProfile extends Component {
                       <div>
                         {this.state.WIPs.map((WIP) => {
                           return (
+                            <Link to={"/wip/" + WIP.id}>
                             <div className="wip-summary" key={WIP.id}>
-                              <Link to={"/wip/" + WIP.id}>
-                                <h3>{WIP.title}</h3>
-                              </Link>
-                              <h5>{WIP.wc} words</h5>
+                              <div className="wip-name-text">{WIP.title}</div>
+                              <div className="wip-types-text">{WIP.types.map((type) => typesHash[type]).join(', ')} |&nbsp;</div><div className="wip-wc-text">{WIP.wc} words</div>
                               {WIP.genres.map((genre) => {
                                 return (
                                   <div className="wip-genre-text">{genresHash[genre]}</div>
                                 )
                               })}
+                              <div className="wip-logline-text">{WIP.logline}</div>
                             </div>
+                            </Link>
                           )
                         })}
                       </div>

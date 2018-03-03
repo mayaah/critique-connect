@@ -89,23 +89,25 @@ class WIP extends Component {
     this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.wipId}`);
   }
 
-  componentWillMount() {
+  componentDidMount() {
   	this.WIPRef.on('value', snapshot => {
   		let WIP = snapshot.val()
       let returnedTypes = []
-      if (WIP.types)
-        var types = Object.keys(WIP.types)
+      if (WIP.types != null) {
+        var types = Object.keys(WIP.types) || []
         var filteredTypes = types.filter(function(type) {
           return WIP.types[type]
         })
         returnedTypes = filteredTypes
+      }
       let returnedGenres = []
-      if (WIP.genres)
-        var genres = Object.keys(WIP.genres)
+      if (WIP.genres != null) {
+        var genres = Object.keys(WIP.genres) || []
         var filteredGenres = genres.filter(function(genre) {
           return WIP.genres[genre]
         })
         returnedGenres = filteredGenres
+      }
   		this.setState({
         title: WIP.title ? WIP.title : "",
         wordCount: WIP.wc ? WIP.wc : "",
