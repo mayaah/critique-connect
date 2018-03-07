@@ -17,6 +17,9 @@
 .env.test.local
 .env.production.local
 
+# algolia
+algolia.js
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

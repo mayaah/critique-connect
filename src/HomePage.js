@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Header from './components/Header';
 import Logout from './components/Logout';
+import UserSearchItem from './components/UserSearchItem';
 import './HomePage.css';
+import {InstantSearch, Hits, SearchBox, RefinementList} from 'react-instantsearch/dom';
+
 
 class HomePage extends Component {
   constructor() {
@@ -17,7 +20,14 @@ class HomePage extends Component {
     	<div>
         	<BrowserRouter>
     			<div style={{marginTop: "100px"}}>
-    			 <input className="pt-input" placeholder="Search..." type="text" />
+           <InstantSearch
+              appId={process.env.REACT_APP_ALGOLIA_APP_ID}
+              apiKey={process.env.REACT_APP_ALGOLIA_API_KEY}
+              indexName={process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME}
+            >
+            <SearchBox />
+            <Hits hitComponent={UserSearchItem}/>
+            </InstantSearch>
     			</div>
     		</BrowserRouter>
     	</div>

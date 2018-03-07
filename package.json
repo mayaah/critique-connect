@@ -5,6 +5,7 @@
   "dependencies": {
     "@blueprintjs/core": "^1.35.4",
     "@blueprintjs/select": "^2.0.0-rc.1",
+    "algoliasearch": "^3.24.12",
     "blueprint": "^2.1.5",
     "bootstrap": "^3.3.7",
     "dotenv": "^4.0.0",
@@ -15,6 +16,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-firebase-file-uploader": "^2.4.1",
+    "react-instantsearch": "^5.0.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "react-select": "^1.2.1",
