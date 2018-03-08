@@ -26,6 +26,7 @@ class HomePage extends Component {
               indexName={process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME}
             >
             <SearchBox />
+            <RefinementList attribute="genres" operator="and" withSearchBox/>
             <Hits hitComponent={UserSearchItem}/>
             </InstantSearch>
     			</div>
