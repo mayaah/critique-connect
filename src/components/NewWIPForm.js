@@ -134,35 +134,37 @@ class NewWIPForm extends Component {
 	    disclaimers: this.state.disclaimers,
 	    improvementAreas: this.state.improvementAreas,
 	    blurb: this.state.blurb,
-	    additionalNotes: this.state.additionalNotes
+	    additionalNotes: this.state.additionalNotes,
+	    genres: this.state.genres.split(","),
+	    types: this.state.genres.split(",")
 	  }
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;
-	  this.WIPGenresRef = firebaseDB.database().ref(`/WIPs/${WIPId}/genres`)
-	  for (let genreKey in GENRES) {
-    	let genre = GENRES[genreKey].value
-    	let genresString = this.state.genres
-    	if (genresString.length > 0 && genresString.split(',').includes(genre)) {
-				this.WIPGenresRef.update({
-					[genre] : true
-				})
-			}
-			else {
-				this.WIPGenresRef.update({
-					[genre] : false
-				})
-    	}
-    }
-    this.WIPTypesRef = firebaseDB.database().ref(`/WIPs/${WIPId}/types`)
-    for (let WIPTypeKey in TYPES) {
-    	let WIPType = TYPES[WIPTypeKey].value
-    	let typesString = this.state.types
-    	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
-    		this.WIPTypesRef.update({
-    			[WIPType] : true
-    		})
-    	}
-    }
+	  // this.WIPGenresRef = firebaseDB.database().ref(`/WIPs/${WIPId}/genres`)
+	  // for (let genreKey in GENRES) {
+   //  	let genre = GENRES[genreKey].value
+   //  	let genresString = this.state.genres
+   //  	if (genresString.length > 0 && genresString.split(',').includes(genre)) {
+			// 	this.WIPGenresRef.update({
+			// 		[genre] : true
+			// 	})
+			// }
+			// else {
+			// 	this.WIPGenresRef.update({
+			// 		[genre] : false
+			// 	})
+   //  	}
+   //  }
+   //  this.WIPTypesRef = firebaseDB.database().ref(`/WIPs/${WIPId}/types`)
+   //  for (let WIPTypeKey in TYPES) {
+   //  	let WIPType = TYPES[WIPTypeKey].value
+   //  	let typesString = this.state.types
+   //  	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
+   //  		this.WIPTypesRef.update({
+   //  			[WIPType] : true
+   //  		})
+   //  	}
+   //  }
     this.addWIPToUser(WIPId)
     this.WIPForm.reset()
     this.setState({ redirect: true })

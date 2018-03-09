@@ -7,8 +7,9 @@ class UserSearchItem extends Component {
 
 
     return (
+
       <div style={{marginTop: '10px'}}>
-      	{this.props.hit.displayName}
+      	<Highlight attribute="displayName" hit={this.props.hit} />
       </div>
     );
 

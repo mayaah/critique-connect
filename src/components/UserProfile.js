@@ -80,22 +80,22 @@ class UserProfile extends Component {
   componentDidMount() {
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
-      let returnedGenresRead = []
-      let returnedGenresWrite = []
-      if (user.genresRead != null) {
-        var genres = Object.keys(user.genresRead)
-        var filteredRead = genres.filter(function(genre) {
-          return user.genresRead[genre]
-        })
-        returnedGenresRead = filteredRead
-      }
-      if (user.genresWrite != null) {
-        var genres = Object.keys(user.genresWrite)
-        var filteredWrite = genres.filter(function(genre) {
-          return user.genresWrite[genre]
-        })
-        returnedGenresWrite = filteredWrite
-      }
+      // let returnedGenresRead = []
+      // let returnedGenresWrite = []
+      // if (user.genresRead != null) {
+      //   var genres = Object.keys(user.genresRead)
+      //   var filteredRead = genres.filter(function(genre) {
+      //     return user.genresRead[genre]
+      //   })
+      //   returnedGenresRead = filteredRead
+      // }
+      // if (user.genresWrite != null) {
+      //   var genres = Object.keys(user.genresWrite)
+      //   var filteredWrite = genres.filter(function(genre) {
+      //     return user.genresWrite[genre]
+      //   })
+      //   returnedGenresWrite = filteredWrite
+      // }
       this.setState({
         displayName: user.displayName,
         lfr: user.lfr ? user.lfr : false,
@@ -107,10 +107,10 @@ class UserProfile extends Component {
         website: user.website ? user.website : "",
         fbProfile: user.fbProfile ? user.fbProfile : "",
         twitterProfile: user.twitterProfile ? user.twitterProfile : "",
-        genresWrite: returnedGenresWrite,
-        genresRead: returnedGenresRead,
         email: user.email ? user.email : "",
-        avatarURL: user.avatarURL ? user.avatarURL : ""
+        avatarURL: user.avatarURL ? user.avatarURL : "",
+        genresRead: user.genresRead ? user.genresRead : [],
+        genresWrite: user.genresWrite ? user.genresWrite : []
       });
     });
     this.usersWIPsRef.on('value', snapshot => {
@@ -124,29 +124,29 @@ class UserProfile extends Component {
       Promise.all(promises).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           var WIP = snapshot.val()
-          let returnedGenres = []
-          if (WIP.genres != null) {
-            var genres = Object.keys(genresHash)
-            var filteredGenres = genres.filter(function(genre) {
-              return WIP.genres[genre]
-            })
-            returnedGenres = filteredGenres
-          }
-          let returnedTypes= []
-          if (WIP.types != null) {
-            var types = Object.keys(typesHash)
-            var filteredTypes = types.filter(function(type) {
-              return WIP.types[type]
-            })
-            returnedTypes = filteredTypes
-          }
+          // let returnedGenres = []
+          // if (WIP.genres != null) {
+          //   var genres = Object.keys(genresHash)
+          //   var filteredGenres = genres.filter(function(genre) {
+          //     return WIP.genres[genre]
+          //   })
+          //   returnedGenres = filteredGenres
+          // }
+          // let returnedTypes= []
+          // if (WIP.types != null) {
+          //   var types = Object.keys(typesHash)
+          //   var filteredTypes = types.filter(function(type) {
+          //     return WIP.types[type]
+          //   })
+          //   returnedTypes = filteredTypes
+          // }
           newState.push({
             id: snapshot.key,
             title: WIP.title,
             wc: WIP.wc,
-            genres: returnedGenres,
+            genres: WIP.genres,
             logline: WIP.logline,
-            types: returnedTypes
+            types: WIP.types,
           });
         });
         this.setState({

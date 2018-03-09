@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Logout from './components/Logout';
 import UserSearchItem from './components/UserSearchItem';
 import './HomePage.css';
-import {InstantSearch, Hits, SearchBox, RefinementList} from 'react-instantsearch/dom';
+import {InstantSearch, Hits, Highlight,SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement} from 'react-instantsearch/dom';
 
 
 class HomePage extends Component {
@@ -25,8 +25,39 @@ class HomePage extends Component {
               apiKey={process.env.REACT_APP_ALGOLIA_API_KEY}
               indexName={process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME}
             >
-            <SearchBox />
-            <RefinementList attribute="genres" operator="and" withSearchBox/>
+            <SearchBox 
+              translations={{
+                placeholder: 'Search users',
+              }}
+            />
+            <CurrentRefinements />
+            <RefinementList 
+              attribute="genresRead" 
+              operator="or" 
+              withSearchBox
+            />
+            <RefinementList 
+              attribute="genresWrite" 
+              operator="or" 
+              withSearchBox
+            />
+            <ToggleRefinement
+              attribute="lfr"
+              label="Looking for Reader"
+              value="true"
+            />
+            <ToggleRefinement
+              attribute="ltr"
+              label="Looking to Read"
+              value="true"
+            />
+            <ClearRefinements
+              clearsQuery
+              translations={{
+                reset: 'Clear Search'
+              }}
+            />
+
             <Hits hitComponent={UserSearchItem}/>
             </InstantSearch>
     			</div>

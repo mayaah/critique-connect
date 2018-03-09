@@ -99,33 +99,35 @@ class EditWIPForm extends Component {
         disclaimers: WIP.disclaimers ? WIP.disclaimers : "",
         improvementAreas: WIP.improvementAreas ? WIP.improvementAreas : "",
         blurb: WIP.blurb ? WIP.blurb : "",
-        additionalNotes: WIP.additionalNotes ? WIP.additionalNotes : ""
+        additionalNotes: WIP.additionalNotes ? WIP.additionalNotes : "",
+        genres: WIP.genres ? WIP.genres.join(",") : "",
+        typs: WIP.types ? WIP.types.join(",") : ""
       });
     });
-    this.genresRef.on('value', snapshot => {
-			let genresHash = snapshot.val()
-			let selectedGenres = []
-			for (let genre in genresHash) {
-				if (genresHash[genre]) {
-    			selectedGenres.push(genre)
-    		}
-    	}
-    	this.setState({
-    		genres: selectedGenres.join(',')
-    	})
-    })
-    this.typesRef.on('value', snapshot => {
-    	let typesHash = snapshot.val()
-    	let selectedTypes = []
-    	for (let WIPType in typesHash) {
-    		if (typesHash[WIPType]) {
-    			selectedTypes.push(WIPType)
-    		}
-    	}
-    	this.setState({
-    		types: selectedTypes.join(',')
-    	})
-    })
+   //  this.genresRef.on('value', snapshot => {
+			// let genresHash = snapshot.val()
+			// let selectedGenres = []
+			// for (let genre in genresHash) {
+			// 	if (genresHash[genre]) {
+   //  			selectedGenres.push(genre)
+   //  		}
+   //  	}
+   //  	this.setState({
+   //  		genres: selectedGenres.join(',')
+   //  	})
+   //  })
+   //  this.typesRef.on('value', snapshot => {
+   //  	let typesHash = snapshot.val()
+   //  	let selectedTypes = []
+   //  	for (let WIPType in typesHash) {
+   //  		if (typesHash[WIPType]) {
+   //  			selectedTypes.push(WIPType)
+   //  		}
+   //  	}
+   //  	this.setState({
+   //  		types: selectedTypes.join(',')
+   //  	})
+   //  })
   }
 
   handleChange(event) {
@@ -166,38 +168,40 @@ class EditWIPForm extends Component {
 			disclaimers: this.state.disclaimers,
 			improvementAreas: this.state.improvementAreas,
 			blurb: this.state.blurb,
-			additionalNotes: this.state.additionalNotes
+			additionalNotes: this.state.additionalNotes,
+			genres : this.state.genres.split(","),
+			types: this.state.types.split(",")
 
 		})
 		this.EditWIPForm.reset()
     this.setState({ redirect: true })
-    for (let genreKey in GENRES) {
-    	let genre = GENRES[genreKey].value
-    	let genresString = this.state.genres
-    	if (genresString.length > 0 && genresString.split(',').includes(genre)) {
-				this.genresRef.update({
-					[genre] : true
-				})
-			}
-			else {
-				this.genresRef.update({
-					[genre] : false
-				})
-    	}
-    }
-    for (let typeKey in TYPES) {
-    	let WIPType = TYPES[typeKey].value
-    	let typesString = this.state.types
-    	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
-    		this.typesRef.update({
-    			[WIPType] : true
-    		})
-    	} else {
-    		this.typesRef.update({
-    			[WIPType] : false
-    		})
-    	}
-    }
+   //  for (let genreKey in GENRES) {
+   //  	let genre = GENRES[genreKey].value
+   //  	let genresString = this.state.genres
+   //  	if (genresString.length > 0 && genresString.split(',').includes(genre)) {
+			// 	this.genresRef.update({
+			// 		[genre] : true
+			// 	})
+			// }
+			// else {
+			// 	this.genresRef.update({
+			// 		[genre] : false
+			// 	})
+   //  	}
+   //  }
+   //  for (let typeKey in TYPES) {
+   //  	let WIPType = TYPES[typeKey].value
+   //  	let typesString = this.state.types
+   //  	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
+   //  		this.typesRef.update({
+   //  			[WIPType] : true
+   //  		})
+   //  	} else {
+   //  		this.typesRef.update({
+   //  			[WIPType] : false
+   //  		})
+   //  	}
+   //  }
   }
 
   componentWillUnmount() {

@@ -93,9 +93,7 @@ class Login extends Component {
             <Row>
               <Col xs={12} sm={12} lg={12}>
                 <div className="cc-title">
-                  Critique&nbsp;&nbsp;
-                    <Image src={require('../images/sharpener-gradient.png')} responsive/>
-                  &nbsp;&nbsp;Connect
+                  Critique Connect
                 </div>
               </Col>
             </Row>

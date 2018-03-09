@@ -69,8 +69,8 @@ class EditProfileForm extends Component {
     this.handleUploadError = this.handleUploadError.bind(this);
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}`);
-    this.genresWriteRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresWrite`);
-    this.genresReadRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresRead`);
+    // this.genresWriteRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresWrite`);
+    // this.genresReadRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresRead`);
   }
 
   handleChange(event) {
@@ -139,69 +139,71 @@ class EditProfileForm extends Component {
 	      fbProfile: currentUser.fbProfile ? currentUser.fbProfile : "",
 	      twitterProfile: currentUser.twitterProfile ? currentUser.twitterProfile : "",
 	      email: currentUser.email ? currentUser.email : "",
-	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : ""
+	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : "",
+	      genresWrite: currentUser.genresWrite ? currentUser.genresWrite.join(",") : "",
+	      genresRead: currentUser.genresRead ? currentUser.genresRead.join(",") : ""
       });
     });
-    this.genresWriteRef.on('value', snapshot => {
-			let genresWriteHash = snapshot.val()
-			let selectedGenresWrite = []
-			for (let genre in genresWriteHash) {
-				if (genresWriteHash[genre]) {
-    			selectedGenresWrite.push(genre)
-    		}
-    	}
-    	this.setState({
-    		genresWrite: selectedGenresWrite.join(',')
-    	})
-    })
-    this.genresReadRef.on('value', snapshot => {
-    	console.log(snapshot.val())
-    	let genresReadHash = snapshot.val()
-    	let selectedGenresRead = []
-    	for (let genre in genresReadHash) {
-    		if (genresReadHash[genre]) {
-    			selectedGenresRead.push(genre)
-    		}
-    	}
-    	this.setState({
-    		genresRead: selectedGenresRead.join(',')
-    	})
-    })
+   //  this.genresWriteRef.on('value', snapshot => {
+			// let genresWriteHash = snapshot.val()
+			// let selectedGenresWrite = []
+			// for (let genre in genresWriteHash) {
+			// 	if (genresWriteHash[genre]) {
+   //  			selectedGenresWrite.push(genre)
+   //  		}
+   //  	}
+   //  	this.setState({
+   //  		genresWrite: selectedGenresWrite.join(',')
+   //  	})
+   //  })
+   //  this.genresReadRef.on('value', snapshot => {
+   //  	console.log(snapshot.val())
+   //  	let genresReadHash = snapshot.val()
+   //  	let selectedGenresRead = []
+   //  	for (let genre in genresReadHash) {
+   //  		if (genresReadHash[genre]) {
+   //  			selectedGenresRead.push(genre)
+   //  		}
+   //  	}
+   //  	this.setState({
+   //  		genresRead: selectedGenresRead.join(',')
+   //  	})
+   //  })
   }
 
   componentWillUnmount() {
 		this.userRef.off();
-		this.genresWriteRef.off();
-		this.genresReadRef.off();
+		// this.genresWriteRef.off();
+		// this.genresReadRef.off();
   }
 
   updateUserProfile(event) {
     event.preventDefault()
-    for (let genreKey in GENRES) {
-    	let genre = GENRES[genreKey].value
-    	let genresWriteString = this.state.genresWrite
-    	if (genresWriteString.length > 0 && genresWriteString.split(',').includes(genre)) {
-				this.genresWriteRef.update({
-					[genre] : true
-				})
-			}
-			else {
-				this.genresWriteRef.update({
-					[genre] : false
-				})
-    	}
-    	let genresReadString = this.state.genresRead
-    	if (genresReadString.length > 0 && genresReadString.split(',').includes(genre)) {
-				this.genresReadRef.update({
-					[genre] : true
-				})
-			}
-			else {
-				this.genresReadRef.update({
-					[genre] : false
-				})
-			}	
-    }
+   //  for (let genreKey in GENRES) {
+   //  	let genre = GENRES[genreKey].value
+   //  	let genresWriteString = this.state.genresWrite
+   //  	if (genresWriteString.length > 0 && genresWriteString.split(',').includes(genre)) {
+			// 	this.genresWriteRef.update({
+			// 		[genre] : true
+			// 	})
+			// }
+			// else {
+			// 	this.genresWriteRef.update({
+			// 		[genre] : false
+			// 	})
+   //  	}
+   //  	let genresReadString = this.state.genresRead
+   //  	if (genresReadString.length > 0 && genresReadString.split(',').includes(genre)) {
+			// 	this.genresReadRef.update({
+			// 		[genre] : true
+			// 	})
+			// }
+			// else {
+			// 	this.genresReadRef.update({
+			// 		[genre] : false
+			// 	})
+			// }	
+   //  }
 	  this.userRef.update({
       displayName: this.state.displayName,
 	    lfr: this.state.lfr,
@@ -214,7 +216,9 @@ class EditProfileForm extends Component {
 	    fbProfile: this.state.fbProfile,
 	    twitterProfile: this.state.twitterProfile,
 	    email: this.state.email,
-	    avatarURL: this.state.avatarURL
+	    avatarURL: this.state.avatarURL,
+	    genresWrite: this.state.genresWrite.split(","),
+	    genresRead: this.state.genresRead.split(",")
     });
     this.EditProfileForm.reset()
     this.setState({ redirect: true })

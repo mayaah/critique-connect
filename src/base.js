@@ -17,13 +17,13 @@ const facebookProvider = new firebase.auth.FacebookAuthProvider()
 const googleProvider = new firebase.auth.GoogleAuthProvider()
 const twitterProvider = new firebase.auth.TwitterAuthProvider()
 
-// const algolia = algoliasearch(
-// 	process.env.REACT_APP_ALGOLIA_APP_ID,
-// 	process.env.REACT_APP_ALGOLIA_API_KEY,
-// 	{protocol: 'https:'}
-// )
-// const usersIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME)
-// const wipsIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME)
+const algolia = algoliasearch(
+	process.env.REACT_APP_ALGOLIA_APP_ID,
+	process.env.REACT_APP_ALGOLIA_API_KEY,
+	{protocol: 'https:'}
+)
+const usersIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME)
+const wipsIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME)
 
 // const usersRef = firebaseDB.database().ref('/Users');
 // const wipsRef = firebaseDB.database().ref('/WIPs');
