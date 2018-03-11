@@ -11,6 +11,7 @@ import NewWIPForm from './components/NewWIPForm';
 import EditProfileForm from './components/EditProfileForm';
 import EditWIPForm from './components/EditWIPForm';
 import WIP from './components/WIP';
+import Search from './components/Search';
 
 import { firebaseDB, base } from './base'
 
@@ -117,6 +118,7 @@ class App extends Component {
                 return <Login setCurrentUser={this.setCurrentUser} setCurrentUserId = {this.setCurrentUserId} authenticated={this.state.authenticated} {...props} />
               }} />
             <Route exact path="/logout" component={Logout}/>
+            <Route exact path="/search" component={Search}/>
             <Route path="/user/:id" component={UserProfile} currentUserId={this.state.currentUserId}/>
             <Route path="/wip/:wipId" component={WIP} currentUserId={this.state.currentUserId}/>
             <Route exact path="/submit_wip/:userId" render={(props) => {

@@ -23,6 +23,8 @@ class Header extends Component {
             <Link style={headerStyle} className="pt-navbar-heading" to="/homepage">Critique Connect</Link>
           </div>
           <div className="pt-navbar-group pt-align-right">
+          <span className="pt-navbar-divider"></span>
+            <Link className="pt-button pt-minimal profile-link" to={"/search"}>Search</Link>
             <span className="pt-navbar-divider"></span>
             <Link className="pt-button pt-minimal profile-link" to={"/user/"+this.props.currentUserId}>My Profile</Link>
             <span className="pt-navbar-divider"></span>

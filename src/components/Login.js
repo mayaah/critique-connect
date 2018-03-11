@@ -63,9 +63,21 @@ class Login extends Component {
   createNewUser() {
     var user = firebaseDB.auth().currentUser;
     console.log(user.displayName)
+    console.log(this.simplifyDate(user.metadata.creationTime))
+    console.log(this.simplifyDate(user.metadata.lastSignInTime))
     firebaseDB.database().ref(`Users/${user.uid}`).update({
-      displayName: user.displayName.split(" ")[0]
+      displayName: user.displayName.split(" ")[0],
+      creationDate: this.simplifyDate(user.metadata.creationTime),
+      lastLogin: this.simplifyDate(user.metadata.lastSignInTime)
     });
+  }
+
+  // Expects Firebase formated date such as: "Sun, 21 Jan 2018 23:19:31 GMT"
+  // Returns "21 Jan 2018"
+  simplifyDate(date) {
+    let dateArray = date.split(" ")
+    let dateOnly = dateArray.slice(1, 4)
+    return dateOnly.join(" ")
   }
 
   render() {

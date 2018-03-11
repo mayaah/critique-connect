@@ -32,29 +32,29 @@ const GENRES = [
 ];
 
 const TYPES = [
-	{ label: "Fiction", value: "fiction" },
-	{ label: "Nonfiction", value: "nonfiction"},
-	{ label: "Novella", value: "novella"},
-	{ label: "Poetry", value: "poetry"},
-	{ label: "Short Story", value: "ss"},
-	{ label: "Screenplay", value: "sp"},
-	{ label: "Anthology", value: "anthology"}
-]
+	{ label: "Fiction", value: "Fiction" },
+	{ label: "Nonfiction", value: "Nonfiction"},
+	{ label: "Novella", value: "Novella"},
+	{ label: "Poetry", value: "Poetry"},
+	{ label: "Short Story", value: "Short Story"},
+	{ label: "Screenplay", value: "Screenplay"},
+	{ label: "Anthology", value: "Anthology"}
+];
 
 const LANGUAGES = [
-	{ label: "English", value: "english" },
-	{ label: "Chinese", value: "chinese"},
-	{ label: "German", value: "german" },
-	{ label: "Spanish", value: "spanish" },
-	{ label: "Japanese", value: "japanese" },
-	{ label: "Russian", value: "russian" },
-	{ label: "French", value: "french" },
-	{ label: "Korean", value: "korean" },
-	{ label: "Italian", value: "italian" },
-	{ label: "Dutch", value: "dutch" },
-	{ label: "Portuguese", value: "portuguese" },
-	{ label: "Hindi", value: "hindi"},
-	{ label: "Other", value: "other"}
+	{ label: "English", value: "English" },
+	{ label: "Chinese", value: "Chinese"},
+	{ label: "German", value: "Ferman" },
+	{ label: "Spanish", value: "Spanish" },
+	{ label: "Japanese", value: "Japanese" },
+	{ label: "Russian", value: "Russian" },
+	{ label: "French", value: "French" },
+	{ label: "Korean", value: "Korean" },
+	{ label: "Italian", value: "Italian" },
+	{ label: "Dutch", value: "Dutch" },
+	{ label: "Portuguese", value: "Portuguese" },
+	{ label: "Hindi", value: "Hindi"},
+	{ label: "Other", value: "Other"}
 ]
 
 
