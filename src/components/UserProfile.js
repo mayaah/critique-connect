@@ -63,7 +63,14 @@ class UserProfile extends Component {
       twitterProfile: "",
       genresWrite: [],
       genresRead: [],
-      WIPs: []
+      WIPs: [],
+      joinDate: "",
+      lastActive: "",
+      critiqueTolerance: "",
+      critiqueStyle: "",
+      goals: "",
+      compensation: "",
+      rates: ""
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
     this.usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
@@ -110,7 +117,14 @@ class UserProfile extends Component {
         email: user.email ? user.email : "",
         avatarURL: user.avatarURL ? user.avatarURL : "",
         genresRead: user.genresRead ? user.genresRead : [],
-        genresWrite: user.genresWrite ? user.genresWrite : []
+        genresWrite: user.genresWrite ? user.genresWrite : [],
+        joinDate: user.creationDate ? user.creationDate : "",
+        lastActive: user.lastLogin ? user.lastLogin : "",
+        critiqueTolerance: user.critiqueTolerance ? user.critiqueTolerance : "",
+        critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
+        goals: user.goals ? user.goals : "",
+        compensation: user.compensation ? user.compensation : "",
+        rates: user.rates ? user.rates : ""
       });
     });
     this.usersWIPsRef.on('value', snapshot => {
@@ -195,6 +209,25 @@ class UserProfile extends Component {
       </Tooltip>
     );
 
+    const locationTooltip = (
+      <Tooltip id="tooltip">
+        Location
+      </Tooltip>
+    );
+
+    const occupationTooltip = (
+      <Tooltip id="tooltip">
+        Occupation
+      </Tooltip>
+    );
+
+    const educationTooltip = (
+      <Tooltip id="tooltip">
+        Education
+      </Tooltip>
+    );
+
+
     return (
         <Grid className="profile-page" style={{marginTop: "100px"}}>
           <Row className="profile-header">
@@ -206,7 +239,7 @@ class UserProfile extends Component {
               </Row>
               <Row>
                 <Col sm={12}>
-                   <div className="section-divider">
+                  <div className="section-divider">
                     <span className="section-divider-title small-section-divider-title">
                       Genres I Read
                     </span>
@@ -242,6 +275,101 @@ class UserProfile extends Component {
                   </div>
                 </Col>
               </Row>
+              {this.state.ltr ? 
+                (
+                  <Row>
+                    <Col sm={12}>
+                       <div className="section-divider">
+                        <span className="section-divider-title small-section-divider-title">
+                          Critique Compensation
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                       <div className="display-genres-write">
+                        <div className="wrapper">
+                          <div className="small-field-text">{this.state.compensation}</div>
+                          {this.state.compensation == "Paid Services" ? 
+                            (
+                              <div className="small-field-text">{this.state.rates}</div>
+                            )
+                            :
+                            (
+                              null
+                            )
+                          }
+                          
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                )
+                :
+                (
+                  null
+                )
+
+              }
+              {this.state.ltr ?
+                (
+                  <Row>
+                    <Col sm={12}>
+                       <div className="section-divider">
+                        <span className="section-divider-title small-section-divider-title">
+                          Critique Style
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                       <div className="display-genres-write">
+                        <div className="wrapper">
+                          <div className="small-field-text">{this.state.critiqueStyle}</div>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row> 
+                )
+                :
+                (
+                  null
+                )
+              }
+              {this.state.lfr ?
+                (
+                  <Row>
+                    <Col sm={12}>
+                       <div className="section-divider">
+                        <span className="section-divider-title small-section-divider-title">
+                          Critique Tolerance
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                       <div className="display-genres-write">
+                        <div className="wrapper">
+                          <div className="small-field-text">{this.state.critiqueTolerance}</div>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row> 
+                )
+                :
+                (
+                  null
+                )
+              }
+              <Row>
+                <Col sm={12}>
+                   <div className="section-divider">
+                    <span className="section-divider-title small-section-divider-title">
+                      Goals
+                    </span>
+                    <div className="section-divider-hr"></div>
+                  </div>
+                   <div className="display-genres-write">
+                    <div className="wrapper">
+                      <div className="small-field-text">{this.state.goals}</div>
+                    </div>
+                  </div>
+                </Col>
+              </Row> 
             </Col>
             <Col sm={9} className="user-info-col">
               <Row className="user-header">
@@ -258,18 +386,40 @@ class UserProfile extends Component {
                         ( null )
                       }
                     </div>
-                    <div className="user-info-details">
-                      <Image className="user-info-icons" src={require('../images/location-black.png')} responsive/>
-                      <span className="user-info-detail">{this.state.location}</span>
-                    </div>
-                    <div className="user-info-details">
-                      <Image className="user-info-icons" src={require('../images/work-black.png')} responsive/>
-                      <span className="user-info-detail">{this.state.occupation}</span>
-                    </div>
-                    <div className="user-info-details">
-                      <Image className="user-info-icons" src={require('../images/education-black.png')} responsive/>
-                      <span className="user-info-detail">{this.state.education}</span>
-                    </div>
+                    <Row>
+                      <Col sm={4}>
+                        <div className="user-info-details">
+                          <OverlayTrigger placement="left" overlay={locationTooltip}>
+                            <Image className="user-info-icons" src={require('../images/location-black.png')} responsive/>
+                          </OverlayTrigger>
+                          <span className="user-info-detail">{this.state.location}</span>
+                        </div>
+                        <div className="user-info-details">
+                          <OverlayTrigger placement="left" overlay={occupationTooltip}>
+                            <Image className="user-info-icons" src={require('../images/work-black.png')} responsive/>
+                          </OverlayTrigger>
+                          <span className="user-info-detail">{this.state.occupation}</span>
+                        </div>
+                        <div className="user-info-details">
+                          <OverlayTrigger placement="left" overlay={educationTooltip}>
+                            <Image className="user-info-icons" src={require('../images/education-black.png')} responsive/>
+                          </OverlayTrigger>
+                          <span className="user-info-detail">{this.state.education}</span>
+                        </div>
+                      </Col>
+                      <Col sm={4}>
+                        <div className="user-info-details">
+                          <span className="user-info-detail-label">Joined: </span>
+                          <span className="user-info-detail">{this.state.joinDate}</span>
+                        </div>
+                        <div className="user-info-details">
+                          <span className="user-info-detail-label">Last Active: </span>
+                          <span className="user-info-detail">{this.state.lastActive}</span>
+                        </div>
+                      </Col>
+                      <Col sm={4}>
+                      </Col>
+                    </Row>
                     <div className="social-links">
                       <OverlayTrigger placement="left" overlay={websiteTooltip}>
                         <a href={this.state.website} target="_blank">
@@ -341,7 +491,7 @@ class UserProfile extends Component {
                             <Link to={"/wip/" + WIP.id}>
                             <div className="wip-summary" key={WIP.id}>
                               <div className="wip-name-text">{WIP.title}</div>
-                              <div className="wip-types-text">{WIP.types.map((type) => typesHash[type]).join(', ')} |&nbsp;</div><div className="wip-wc-text">{WIP.wc} words</div>
+                              <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div><div className="wip-wc-text">{WIP.wc} words</div>
                               {WIP.genres.map((genre) => {
                                 return (
                                   <div className="wip-genre-text">{genresHash[genre]}</div>

@@ -35,6 +35,12 @@ const GENRES = [
 	{ label: "Young Adult", value: "ya" }
 ];
 
+const COMPENSATION_TYPES = [
+	{ label: "Volunteer", value: "Volunteer" },
+	{ label: "Paid Services", value: "Paid Services"},
+	{ label: "Critique Exchange", value: "Critique Exchange" },
+]
+
 class EditProfileForm extends Component {
 	constructor(props) {
     super(props)
@@ -58,12 +64,18 @@ class EditProfileForm extends Component {
       avatar: "",
 	    avatarIsUploading: false,
 	    avatarUploadProgress: 0,
-	    avatarURL: ""
+	    avatarURL: "",
+	    critiqueTolerance: "",
+	    critiqueStyle: "",
+	    goals: "",
+	    compensation: "",
+	    rates: ""
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleGenreWriteSelectChange = this.handleGenreWriteSelectChange.bind(this);
     this.handleGenreReadSelectChange = this.handleGenreReadSelectChange.bind(this);
+    this.handleCompensationChange = this.handleCompensationChange.bind(this);
     this.handleUploadStart = this.handleUploadStart.bind(this);
     this.handleProgress = this.handleProgress.bind(this);
     this.handleUploadError = this.handleUploadError.bind(this);
@@ -91,6 +103,12 @@ class EditProfileForm extends Component {
 		this.setState({
 			genresRead: value
 		})
+	}
+
+	handleCompensationChange(value) {
+		this.setState({
+			compensation: value,
+		});
 	}
 
 	handleUploadStart() {
@@ -141,7 +159,12 @@ class EditProfileForm extends Component {
 	      email: currentUser.email ? currentUser.email : "",
 	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : "",
 	      genresWrite: currentUser.genresWrite ? currentUser.genresWrite.join(",") : "",
-	      genresRead: currentUser.genresRead ? currentUser.genresRead.join(",") : ""
+	      genresRead: currentUser.genresRead ? currentUser.genresRead.join(",") : "",
+	      critiqueTolerance: currentUser.critiqueTolerance ? currentUser.critiqueTolerance : "",
+	      critiqueStyle: currentUser.critiqueStyle ? currentUser.critiqueStyle : "",
+	      goals: currentUser.goals ? currentUser.goals : "",
+	      compensation: currentUser.compensation ? currentUser.compensation : "",
+	      rates: currentUser.rates ? currentUser.rates : ""
       });
     });
    //  this.genresWriteRef.on('value', snapshot => {
@@ -218,7 +241,12 @@ class EditProfileForm extends Component {
 	    email: this.state.email,
 	    avatarURL: this.state.avatarURL,
 	    genresWrite: this.state.genresWrite.split(","),
-	    genresRead: this.state.genresRead.split(",")
+	    genresRead: this.state.genresRead.split(","),
+	    critiqueStyle: this.state.critiqueStyle,
+	    critiqueTolerance: this.state.critiqueTolerance,
+	    goals: this.state.goals,
+	    compensation: this.state.compensation,
+	    rates: this.state.rates
     });
     this.EditProfileForm.reset()
     this.setState({ redirect: true })
@@ -320,7 +348,62 @@ class EditProfileForm extends Component {
 									value={this.state.genresRead}
 								/>
 							</label>
-							
+							<label className="pt-label form-field-box"> 
+	            	<span className="label-field-name">Goals</span>
+		            <TextareaAutosize className="textarea-field" large={true} value={this.state.goals} name="goals" onChange={this.handleChange} label="Goals" />
+							</label>
+							{this.state.lfr ?
+								(
+									<div >
+										<label className="pt-label form-field-box"> 
+				            	<span className="label-field-name">Critique Tolerance</span>
+					            <TextareaAutosize className="textarea-field" large={true} value={this.state.critiqueTolerance} name="critiqueTolerance" onChange={this.handleChange} label="critiqueTolerance" />
+										</label>
+									</div>
+								) :
+								(
+									null
+								)
+							}
+							{this.state.ltr ?
+								(
+									<div>
+										<label className="pt-label form-field-box"> 
+				            	<span className="label-field-name">Critique Style</span>
+					            <TextareaAutosize className="textarea-field" large={true} value={this.state.critiqueStyle} name="critiqueStyle" onChange={this.handleChange} label="critiqueStyle" />
+										</label>
+										<label className="pt-label form-field-box">
+					          	<span className="label-field-name">Critique Compensation Type</span>
+						          <Select
+						          	className="select-field"
+												closeOnSelect={false}
+												disabled={false}
+												onChange={this.handleCompensationChange}
+												options={COMPENSATION_TYPES}
+												placeholder="Select compensation type"
+												simpleValue
+												value={this.state.compensation}
+											/>
+										</label>
+									</div>
+								)
+								:
+								(
+									null
+								)
+							}
+							{this.state.compensation == "Paid Services" ? 
+								(
+									<label className="pt-label form-field-box"> 
+			            	<span className="label-field-name">Paid Services Rates</span>
+				            <TextareaAutosize className="textarea-field" large={true} value={this.state.rates} name="rates" onChange={this.handleChange} label="rates" />
+									</label>
+								)
+								:
+								(
+									null
+								)
+							}
 		          <input type="submit" className="black-bordered-button" value="Save"></input>
 		        </form>
 		      </Grid>

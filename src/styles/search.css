@@ -95,6 +95,26 @@ input.ais-RefinementList-checkbox {
 	text-transform: uppercase;
 }
 
+.ais-Hits-list {
+	list-style-type: none;
+}
+
+.user-search-name {
+	margin: 10px 0;
+	font-size: 25px;
+	font-family: Lato-Regular;
+	text-transform: uppercase;
+	background: var(--mainGradient);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	letter-spacing: 0.1em;
+}
+
+.user-search-summary {
+	font-family: Lato-Regular;
+	padding: 20px 0;
+	border-bottom: 1px lightgray solid;
+}
 
 
 

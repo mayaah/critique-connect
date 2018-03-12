@@ -34,6 +34,7 @@ const GENRES = [
 const TYPES = [
 	{ label: "Fiction", value: "Fiction" },
 	{ label: "Nonfiction", value: "Nonfiction"},
+	{ label: "Novel", value: "Novel"},
 	{ label: "Novella", value: "Novella"},
 	{ label: "Poetry", value: "Poetry"},
 	{ label: "Short Story", value: "Short Story"},
@@ -44,7 +45,7 @@ const TYPES = [
 const LANGUAGES = [
 	{ label: "English", value: "English" },
 	{ label: "Chinese", value: "Chinese"},
-	{ label: "German", value: "Ferman" },
+	{ label: "German", value: "German" },
 	{ label: "Spanish", value: "Spanish" },
 	{ label: "Japanese", value: "Japanese" },
 	{ label: "Russian", value: "Russian" },
@@ -96,8 +97,6 @@ class NewWIPForm extends Component {
   }
 
   handleChange(event) {
-  	console.log(event.target.name)
-    console.log(event.target.value)
     this.setState({ 
     	[event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
     });

@@ -42,6 +42,13 @@
 	height: auto;
 }
 
+.user-info-detail-label {
+	font-family: Lato-Regular;
+	font-size: 14px;
+	font-style: italic;
+
+}
+
 .user-info-detail {
 	font-family: Lato-Regular;
 	font-size: 14px;

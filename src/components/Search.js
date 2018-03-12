@@ -83,7 +83,7 @@ class UserSearch extends Component {
           <Col sm={11}>
             <SearchBox 
               translations={{
-                placeholder: 'Search users and WIPs',
+                placeholder: 'Search users or WIPs',
               }}
               submit={<div>Search</div>}
             />

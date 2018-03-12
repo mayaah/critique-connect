@@ -32,14 +32,15 @@ const genresHash = {
 }
 
 const TYPES = [
-  { label: "Fiction", value: "fiction" },
-  { label: "Nonfiction", value: "nonfiction"},
-  { label: "Novella", value: "novella"},
-  { label: "Poetry", value: "poetry"},
-  { label: "Short Story", value: "ss"},
-  { label: "Screenplay", value: "sp"},
-  { label: "Anthology", value: "anthology"}
-]
+  { label: "Fiction", value: "Fiction" },
+  { label: "Nonfiction", value: "Nonfiction"},
+  { label: "Novel", value: "Novel"},
+  { label: "Novella", value: "Novella"},
+  { label: "Poetry", value: "Poetry"},
+  { label: "Short Story", value: "Short Story"},
+  { label: "Screenplay", value: "Screenplay"},
+  { label: "Anthology", value: "Anthology"}
+];
 
 const typesHash = {
   fiction: "Fiction",
