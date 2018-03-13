@@ -68,6 +68,18 @@ label.pt-label {
 	line-height: 2em;
 }
 
+.review-textarea {
+	width: 100%;
+	min-height: 200px;
+	box-shadow: none;
+	padding: 0;
+	border-radius: 0;
+	border: 1px solid black;
+	font-size: 14px;
+	margin-top: 5px;
+	line-height: 2em;
+}
+
 .input-checkbox {
 	font-size: 12px;
 	text-transform: uppercase;
@@ -114,6 +126,7 @@ input.black-bordered-button {
 	background: white;
 	width: 200px;
 	margin: 10px 10px 10px 0;
+	border-radius: none;
 }
 
 input.black-bordered-button:hover {

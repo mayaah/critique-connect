@@ -250,6 +250,9 @@ span#ltr-label {
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
 }
+.display-WIPs :last-of-type a{
+	border-bottom: none;
+}
 
 .wip-name-text {
 	margin: 10px 0;

@@ -173,7 +173,7 @@ class WIP extends Component {
               </span>
               <div className="section-divider-hr"></div>
             </div>
-            <div className="small-field-text">{languagesHash[this.state.language]}</div>
+            <div className="small-field-text">{this.state.language}</div>
             <div className="section-divider small-section-divider">
               <span className="section-divider-title small-section-divider-title">
                 Type(s)
@@ -184,7 +184,7 @@ class WIP extends Component {
               <div className="wrapper">
                   {this.state.types.map((type) => {
                     return (
-                      <div className="small-field-text">{typesHash[type]}</div>
+                      <div className="small-field-text">{type}</div>
                     )
                   })}
               </div>

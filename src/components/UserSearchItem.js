@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Highlight} from 'react-instantsearch/dom';
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 
 
@@ -33,12 +34,14 @@ class UserSearchItem extends Component {
     this.state = {
       redirect: false,
       hit: this.props.hit,
+      objectId: this.props.hit.objectID,
       lfr: this.props.hit.lfr,
       ltr: this.props.hit.ltr,
       genresWrite: this.props.hit.genresWrite || [],
       genresRead: this.props.hit.genresRead || [],
       lastLogin: this.props.hit.lastLogin,
-      compensation: this.props.hit.compensation
+      compensation: this.props.hit.compensation,
+      avatarURL: this.props.hit.avatarURL || "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fwatercolour-2038253.jpg?alt=media&token=4a02554a-ca37-4b95-a7e4-a62bfdc1db6c"
     }
   }
 
@@ -48,27 +51,38 @@ class UserSearchItem extends Component {
     return (
 
       <div style={{marginTop: '10px'}}>
-
-	        <div className="user-search-summary">
-	          <Highlight className="user-search-name" attribute="displayName" hit={this.state.hit} />
-	          {this.state.lfr ? 
-            	(<Label className="looking-labels" id="lfr-label">Is Looking for a Reader</Label>) :
-            	( null )
-            }
-            {this.state.ltr ? 
-              (<Label className="looking-labels" id="ltr-label">Is Looking to Read</Label>) :
-              ( null )
-            }
-            <div className="user-last-active">{this.state.lastLogin}</div> 
-            <div className="user-compensation">{this.state.compensation}</div>
-            <div className="user-search-genres">
-            	<span>Genres Write: </span><span className="wip-genre-text">{this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}</span>
-            </div>
-            <div className="user-search-genres">
-            	<span>Genres Read: </span><span className="wip-genre-text">{this.state.genresRead.map(genre => genresHash[genre]).join(', ')}</span>
-            </div>
-	          
-	        </div>
+      		<Link to={"/user/" + this.state.objectId}>
+      			<Row className="user-search-summary flex">
+      				<Col sm={2} className="flex">
+      					<Image className="user-search-img" src={this.state.avatarURL} responsive />
+      				</Col>
+      				<Col sm={10}>
+			        	<div className="user-name-and-labels">
+				          <Highlight className="search-name" attribute="displayName" hit={this.state.hit} />
+				          {this.state.lfr ? 
+			            	(<Label className="looking-labels-small" id="lfr-label">Is Looking for a Reader</Label>) :
+			            	( null )
+			            }
+			            {this.state.ltr ? 
+			              (<Label className="looking-labels-small" id="ltr-label">Is Looking to Read</Label>) :
+			              ( null )
+			            }
+		          	</div>
+		          	<div className="user-search-result">
+		            	<span className="user-search-result-field">Last active: </span><span className="user-search-result-value">{this.state.lastLogin}</span> 
+		            </div>
+		            <div className="user-search-result">
+		            	<span className="user-search-result-field">Critique compensation type: </span><span className="user-search-result-value">{this.state.compensation}</span>
+		            </div>
+		            <div className="user-search-result">
+		            	<span className="user-search-result-field">Genres Write: </span><span className="wip-genre-text">{this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}</span>
+		            </div>
+		            <div className="user-search-result">
+		            	<span className="user-search-result-field">Genres Read: </span><span className="wip-genre-text">{this.state.genresRead.map(genre => genresHash[genre]).join(', ')}</span>
+		            </div>
+				      </Col>
+			      </Row>
+		      </Link>
       </div>
     );
 

@@ -3,7 +3,8 @@ import UserSearchItem from './UserSearchItem';
 import WIPSearchItem from './WIPSearchItem';
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 import { Checkbox, TextArea, RadioGroup, Radio } from "@blueprintjs/core";
-import {Index, InstantSearch, Hits, Highlight, SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement} from 'react-instantsearch/dom';
+import {Index, InstantSearch, Hits, Highlight, SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement, PoweredBy} from 'react-instantsearch/dom';
+import { connectToggleRefinement } from 'react-instantsearch/connectors';
 
 const genresHash = {
 	  adventure: "Adventure",
@@ -35,10 +36,11 @@ class UserSearch extends Component {
     super()
       this.state = {
       redirect: false,
-      searchType: "users"
+      searchType: "users",
     }
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }	
 
 	// Format of items
@@ -61,7 +63,17 @@ class UserSearch extends Component {
     });
   }
 
+  handleChange(event) {
+    this.setState({ 
+      [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
+    });
+  }
+
   render() {
+    // const Toggle = ({ refine, currentRefinement, label }) => (
+    //   <Checkbox checked={currentRefinement} className="input-checkbox form-field-box" label={label} onChange={refine} />
+    // );
+    // const ToggleRefinement = connectToggleRefinement(Toggle);
 
 	  return (
       <InstantSearch
@@ -97,12 +109,14 @@ class UserSearch extends Component {
                 <ToggleRefinement
                   attribute="lfr"
                   label="Looking for Reader"
-                  value="true"
+                  value={true}
+                  defaultRefinement={false}
                 />
                 <ToggleRefinement
                   attribute="ltr"
                   label="Looking to Read"
-                  value="true"
+                  value={true}
+                  defaultRefinement={false}
                 /> 
                 <div className="section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -171,6 +185,7 @@ class UserSearch extends Component {
               reset: 'Clear Search'
             }}
           />
+          <PoweredBy />
           </Col>
           <Col className="search-results" sm={9}>
             {this.state.searchType == "users" ?

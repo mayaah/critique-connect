@@ -99,7 +99,7 @@ input.ais-RefinementList-checkbox {
 	list-style-type: none;
 }
 
-.user-search-name {
+.search-name {
 	margin: 10px 0;
 	font-size: 25px;
 	font-family: Lato-Regular;
@@ -114,8 +114,53 @@ input.ais-RefinementList-checkbox {
 	font-family: Lato-Regular;
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
+	color: black;
 }
 
+.looking-labels-small {
+	font-family: Lato-Regular;
+	align-self: center;
+	margin: 0 10px 0 50px;
+	padding: 5px 10px;
+	text-transform: uppercase;
+	font-size: 10px;
+	letter-spacing: 0.1em;
+	border-radius: 8px;
+}
+
+.user-search-result {
+	margin: 5px 0;
+}
+
+.user-search-result-field {
+	font-family: Lato-Bold;
+	font-size: 13px;
+}
+
+.user-search-result-value {
+	font-size: 13px;
+}
+
+.flex {
+	display: flex;
+}
+
+.user-search-img {
+	align-self: center;
+}
+
+.ais-PoweredBy {
+	display: flex;
+}
+
+.ais-PoweredBy-text {
+	align-self: center;
+}
+
+.ais-PoweredBy-logo {
+	margin-left: 5px;
+	max-width: 50px;
+}
 
 
 

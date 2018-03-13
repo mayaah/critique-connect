@@ -41,6 +41,7 @@ const COMPENSATION_TYPES = [
 	{ label: "Critique Exchange", value: "Critique Exchange" },
 ]
 
+
 class EditProfileForm extends Component {
 	constructor(props) {
     super(props)

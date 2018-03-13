@@ -4,7 +4,10 @@ import NewWIPForm from './NewWIPForm';
 import EditProfileForm from './EditProfileForm';
 import EditWIPForm from './EditWIPForm';
 import WIP from './WIP.js';
+import NewReviewForm from './NewReviewForm'
+import { Checkbox, TextArea } from "@blueprintjs/core";
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+
 
 
 import { firebaseDB, base } from '../base'
@@ -64,6 +67,7 @@ class UserProfile extends Component {
       genresWrite: [],
       genresRead: [],
       WIPs: [],
+      reviews: [],
       joinDate: "",
       lastActive: "",
       critiqueTolerance: "",
@@ -74,6 +78,8 @@ class UserProfile extends Component {
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
     this.usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
+    this.usersReviewsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Reviews`)
+    this.handleChange = this.handleChange.bind(this);
     // this.WIPsRef = firebaseDB.database().ref(`/WIPs`).on('value', snapshot => {
     //   return snapshot.val();
     // })
@@ -84,7 +90,7 @@ class UserProfile extends Component {
   }
 
 
-  componentDidMount() {
+  componentWillMount() {
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
       // let returnedGenresRead = []
@@ -115,7 +121,7 @@ class UserProfile extends Component {
         fbProfile: user.fbProfile ? user.fbProfile : "",
         twitterProfile: user.twitterProfile ? user.twitterProfile : "",
         email: user.email ? user.email : "",
-        avatarURL: user.avatarURL ? user.avatarURL : "",
+        avatarURL: user.avatarURL ? user.avatarURL : "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fwatercolour-2038253.jpg?alt=media&token=4a02554a-ca37-4b95-a7e4-a62bfdc1db6c",
         genresRead: user.genresRead ? user.genresRead : [],
         genresWrite: user.genresWrite ? user.genresWrite : [],
         joinDate: user.creationDate ? user.creationDate : "",
@@ -168,11 +174,37 @@ class UserProfile extends Component {
         });
       });
     });
+    this.usersReviewsRef.on('value', snapshot => {
+      let usersReviews = snapshot.val();
+      let newState = [];
+      let promises = [];
+      for (let userReview in usersReviews) {
+        var reviewRef = firebaseDB.database().ref(`/Reviews/${userReview}`)
+        promises.push(reviewRef.once('value')); 
+      }
+      Promise.all(promises).then((snapshots) => {
+        snapshots.forEach((snapshot) => {
+          var review = snapshot.val()
+          newState.push({
+            id: snapshot.key,
+            reviewMessage: review.reviewMessage,
+            reviewer: review.reviewer,
+            reviewDate: review.reviewDate,
+            reviewerAvatar: review.reviewerAvatar,
+            traits: review.traits
+          });
+        });
+        this.setState({
+          WIPs: newState
+        });
+      });
+    });
   }
 
   componentWillUnmount() {
     this.userRef.off();
     this.usersWIPsRef.off();
+    this.usersReviewsRef.off();
     // this.WIPsRef.off()
   }
 
@@ -181,6 +213,13 @@ class UserProfile extends Component {
     WIPRef.remove();
     const usersWIPRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs/${WIPId}`)
     usersWIPRef.remove();
+  }
+
+
+  handleChange(event) {
+    this.setState({ 
+      [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
+    });
   }
 
   render() {
@@ -484,27 +523,28 @@ class UserProfile extends Component {
                     <Link className="flex" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
                   </Button>
                   <div className="display-WIPs">
-                    <div className="wrapper">
-                      <div>
-                        {this.state.WIPs.map((WIP) => {
-                          return (
-                            <Link to={"/wip/" + WIP.id}>
-                            <div className="wip-summary" key={WIP.id}>
-                              <div className="wip-name-text">{WIP.title}</div>
-                              <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div><div className="wip-wc-text">{WIP.wc} words</div>
-                              {WIP.genres.map((genre) => {
-                                return (
-                                  <div className="wip-genre-text">{genresHash[genre]}</div>
-                                )
-                              })}
-                              <div className="wip-logline-text">{WIP.logline}</div>
-                            </div>
-                            </Link>
-                          )
-                        })}
-                      </div>
-                    </div>
+                    {this.state.WIPs.map((WIP) => {
+                      return (
+                        <Link to={"/wip/" + WIP.id}>
+                        <div className="wip-summary" key={WIP.id}>
+                          <div className="wip-name-text">{WIP.title}</div>
+                          <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div><div className="wip-wc-text">{WIP.wc} words</div>
+                          {WIP.genres.map((genre) => {
+                            return (
+                              <div className="wip-genre-text">{genresHash[genre]}</div>
+                            )
+                          })}
+                          <div className="wip-logline-text">{WIP.logline}</div>
+                        </div>
+                        </Link>
+                      )
+                    })}
                   </div>
+                </Col>
+              </Row>
+              <Row className="user-reviews">
+                <Col sm={12}>
+                  <NewReviewForm revieweeId={this.state.userId} revieweeName={this.state.displayName} />
                 </Col>
               </Row>
             </Col>
