@@ -26,27 +26,40 @@ class NewReviewForm extends Component {
     this.state = {
       redirect: false,
       reviewMessage: "",
-      reviewer: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
+      reviewerId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       revieweeId: this.props.revieweeId,
       revieweeName: this.props.revieweeName,
       reviewDate: "",
       reviewerAvatar: "",
       traits: ""
     }
-    this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
-    this.WIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
+    this.revieweeRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}`)
+    this.reviewerRef = firebaseDB.database().ref(`/Users/${this.state.reviewerId}`)
+    this.revieweeReviewsRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Reviews`)
     this.handleChange = this.handleChange.bind(this);
     this.handleTraitsSelectChange = this.handleTraitsSelectChange.bind(this);
-    this.createWIP = this.createWIP.bind(this);
+    this.submitReview = this.submitReview.bind(this);
   }
 
   componentWillMount() {
-
+		this.revieweeRef.on('value', snapshot => {
+			let reviewee = snapshot.val()
+			this.setState({
+				revieweeName: reviewee.displayName,
+			})
+		})
+		this.reviewerRef.on('value', snapshot => {
+			let reviewer = snapshot.val()
+			this.setState({
+				reviewerAvatar: reviewer.avatarURL
+			})
+		})
   }
 
   componentWillUnmount() {
-  	this.userRef.off();
-  	this.WIPsRef.off();
+  	this.revieweeRef.off();
+  	this.reviewerRef.off();
+  	this.revieweeReviewsRef.off();
   }
 
   handleChange(event) {
@@ -61,64 +74,34 @@ class NewReviewForm extends Component {
 		})
 	}
 
-  createWIP(event) {
-    event.preventDefault()
-		const WIPsRef = firebaseDB.database().ref('WIPs');
-	  const WIP = {
-	    title: this.state.title,
-	    writer: this.state.userId,
-	    wc: this.state.wordCount,
-	    logline: this.state.logline,
-	    draft: this.state.draft,
-	    language: this.state.language,
-	    disclaimers: this.state.disclaimers,
-	    improvementAreas: this.state.improvementAreas,
-	    blurb: this.state.blurb,
-	    additionalNotes: this.state.additionalNotes,
-	    genres: this.state.genres.split(","),
-	    types: this.state.genres.split(",")
-	  }
-	  var newWIPRef = WIPsRef.push(WIP);
-	  var WIPId = newWIPRef.key;
-	  // this.WIPGenresRef = firebaseDB.database().ref(`/WIPs/${WIPId}/genres`)
-	  // for (let genreKey in GENRES) {
-   //  	let genre = GENRES[genreKey].value
-   //  	let genresString = this.state.genres
-   //  	if (genresString.length > 0 && genresString.split(',').includes(genre)) {
-			// 	this.WIPGenresRef.update({
-			// 		[genre] : true
-			// 	})
-			// }
-			// else {
-			// 	this.WIPGenresRef.update({
-			// 		[genre] : false
-			// 	})
-   //  	}
-   //  }
-   //  this.WIPTypesRef = firebaseDB.database().ref(`/WIPs/${WIPId}/types`)
-   //  for (let WIPTypeKey in TYPES) {
-   //  	let WIPType = TYPES[WIPTypeKey].value
-   //  	let typesString = this.state.types
-   //  	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
-   //  		this.WIPTypesRef.update({
-   //  			[WIPType] : true
-   //  		})
-   //  	}
-   //  }
-    this.addWIPToUser(WIPId)
-    this.WIPForm.reset()
-    this.setState({ redirect: true })
+	simplifyDate(date) {
+    let dateArray = date.split(" ")
+    let dateOnly = dateArray.slice(1, 4)
+    return dateOnly.join(" ")
   }
 
-  addWIPToUser(WIPId) {
-    // this.userRef.on('value', snapshot => {
-    //   this.setState({
-    //     displayName: snapshot.val().displayName
-    //   });
-    // });
-    this.WIPsRef.update({
-      [WIPId]: true
-    });
+  submitReview(event) {
+  	event.preventDefault()
+  	const reviewsRef = firebaseDB.database().ref('Reviews');
+  	const review = {
+  		reviewMessage: this.state.reviewMessage,
+      reviewerId: this.state.reviewerId,
+      revieweeId: this.state.revieweeId,
+      revieweeName: this.state.revieweeName,
+      reviewDate: this.simplifyDate(new Date(Date.now()).toUTCString()),
+      reviewerAvatar: this.state.reviewerAvatar,
+      traits: this.state.traits.split(",")
+  	}
+  	var newReviewRef = reviewsRef.push(review);
+  	var reviewId = newReviewRef.key;
+  	this.addReviewToReviewee(reviewId)
+  	this.submitReviewForm.reset()
+  }
+
+  addReviewToReviewee(reviewId) {
+  	this.revieweeReviewsRef.update({
+  		[reviewId]: true
+  	})
   }
 
   render() {
@@ -131,7 +114,7 @@ class NewReviewForm extends Component {
 	        </span>
 	        <div className="section-divider-hr"></div>
 	      </div>
-	      <form onSubmit={(event) => this.submitReview(event)} ref={(form) => this.SubmitReviewForm = form}>
+	      <form onSubmit={(event) => this.submitReview(event)} ref={(form) => this.submitReviewForm = form}>
 	        <TextArea className="review-textarea" large={true} value={this.state.reviewMessage} name="reviewMessage" onChange={this.handleChange} label="reviewMessage" placeholder='Write a review for me'/>
 	        <Select
 	          className="multiselect-field"

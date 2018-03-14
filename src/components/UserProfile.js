@@ -195,7 +195,7 @@ class UserProfile extends Component {
           });
         });
         this.setState({
-          WIPs: newState
+          reviews: newState
         });
       });
     });

@@ -70,10 +70,10 @@ class UserSearch extends Component {
   }
 
   render() {
-    // const Toggle = ({ refine, currentRefinement, label }) => (
-    //   <Checkbox checked={currentRefinement} className="input-checkbox form-field-box" label={label} onChange={refine} />
-    // );
-    // const ToggleRefinement = connectToggleRefinement(Toggle);
+    const Toggle = ({ refine, currentRefinement, label }) => (
+      <Checkbox checked={currentRefinement} className="input-checkbox form-field-box" label={label} onChange={() => refine(!currentRefinement)} />
+    );
+    const ToggleRefinement = connectToggleRefinement(Toggle);
 
 	  return (
       <InstantSearch
