@@ -188,9 +188,10 @@ class UserProfile extends Component {
           newState.push({
             id: snapshot.key,
             reviewMessage: review.reviewMessage,
-            reviewer: review.reviewer,
+            reviewerId: review.reviewerId,
             reviewDate: review.reviewDate,
             reviewerAvatar: review.reviewerAvatar,
+            reviewerName: review.reviewerName,
             traits: review.traits
           });
         });
@@ -544,7 +545,26 @@ class UserProfile extends Component {
               </Row>
               <Row className="user-reviews">
                 <Col sm={12}>
+                  <div className="section-divider">
+                    <span className="section-divider-title">
+                      Reviews
+                    </span>
+                    <div className="section-divider-hr"></div>
+                  </div>
                   <NewReviewForm revieweeId={this.state.userId} revieweeName={this.state.displayName} />
+                  <div className="display-WIPs">
+                    {this.state.reviews.map((review) => {
+                      return (
+                        <div className="review-summary" key={review.id}>
+                          <div className="review-message">{review.reviewMessage}</div>
+                          <div className="review-traits">{review.traits.join(', ')}</div>
+                          <Link to={"/user/" + review.reviewerId}>
+                            <div className="review-reviewer">{review.reviewerName}</div>
+                          </Link>
+                        </div>
+                      )
+                    })}
+                  </div>
                 </Col>
               </Row>
             </Col>

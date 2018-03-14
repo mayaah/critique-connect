@@ -28,6 +28,7 @@ class NewReviewForm extends Component {
       reviewMessage: "",
       reviewerId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       revieweeId: this.props.revieweeId,
+      reviewerName: "",
       revieweeName: this.props.revieweeName,
       reviewDate: "",
       reviewerAvatar: "",
@@ -36,6 +37,7 @@ class NewReviewForm extends Component {
     this.revieweeRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}`)
     this.reviewerRef = firebaseDB.database().ref(`/Users/${this.state.reviewerId}`)
     this.revieweeReviewsRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Reviews`)
+    this.revieweeTraitsRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Traits`)
     this.handleChange = this.handleChange.bind(this);
     this.handleTraitsSelectChange = this.handleTraitsSelectChange.bind(this);
     this.submitReview = this.submitReview.bind(this);
@@ -51,7 +53,8 @@ class NewReviewForm extends Component {
 		this.reviewerRef.on('value', snapshot => {
 			let reviewer = snapshot.val()
 			this.setState({
-				reviewerAvatar: reviewer.avatarURL
+				reviewerAvatar: reviewer.avatarURL,
+				reviewerName: reviewer.displayName
 			})
 		})
   }
@@ -87,6 +90,7 @@ class NewReviewForm extends Component {
   		reviewMessage: this.state.reviewMessage,
       reviewerId: this.state.reviewerId,
       revieweeId: this.state.revieweeId,
+      reviewerName: this.state.reviewerName,
       revieweeName: this.state.revieweeName,
       reviewDate: this.simplifyDate(new Date(Date.now()).toUTCString()),
       reviewerAvatar: this.state.reviewerAvatar,
@@ -95,7 +99,12 @@ class NewReviewForm extends Component {
   	var newReviewRef = reviewsRef.push(review);
   	var reviewId = newReviewRef.key;
   	this.addReviewToReviewee(reviewId)
+  	this.updateRevieweeTraits()
   	this.submitReviewForm.reset()
+  	this.setState({
+  		reviewMessage: "",
+  		traits: ""
+  	})
   }
 
   addReviewToReviewee(reviewId) {
@@ -104,32 +113,41 @@ class NewReviewForm extends Component {
   	})
   }
 
+  updateRevieweeTraits() {
+  	let traitsArray = this.state.traits.split(",")
+  	for (let traitIndex in traitsArray) {
+  		let trait = traitsArray[traitIndex]
+  		let newTraitCount = 1
+  		firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Traits/${trait}`).once("value",snapshot => {
+    		const traitData = snapshot.val();
+    		if (traitData) {
+    			newTraitCount = snapshot.val() + 1
+    		}
+    	})
+  		this.revieweeTraitsRef.update({
+  			[trait]: newTraitCount
+  		})
+  	}
+  }
+
   render() {
 
     return (
-    	<div>
-	    	<div className="section-divider">
-	        <span className="section-divider-title">
-	          Reviews
-	        </span>
-	        <div className="section-divider-hr"></div>
-	      </div>
-	      <form onSubmit={(event) => this.submitReview(event)} ref={(form) => this.submitReviewForm = form}>
-	        <TextArea className="review-textarea" large={true} value={this.state.reviewMessage} name="reviewMessage" onChange={this.handleChange} label="reviewMessage" placeholder='Write a review for me'/>
-	        <Select
-	          className="multiselect-field"
-	          closeOnSelect={false}
-	          disabled={false}
-	          multi
-	          onChange={this.handleTraitsSelectChange}
-	          options={TRAITS}
-	          placeholder='I am ...'
-	          simpleValue
-	          value={this.state.traits}
-	        />
-	        <input type="submit" className="black-bordered-button" value="Submit Review"></input>
-	      </form>
-	    </div> 
+      <form onSubmit={(event) => this.submitReview(event)} ref={(form) => this.submitReviewForm = form}>
+        <TextArea className="review-textarea" large={true} value={this.state.reviewMessage} name="reviewMessage" onChange={this.handleChange} label="reviewMessage" placeholder='Write a review for me'/>
+        <Select
+          className="multiselect-field"
+          closeOnSelect={false}
+          disabled={false}
+          multi
+          onChange={this.handleTraitsSelectChange}
+          options={TRAITS}
+          placeholder='I am ...'
+          simpleValue
+          value={this.state.traits}
+        />
+        <input type="submit" className="black-bordered-button" value="Submit Review"></input>
+      </form>
     )
   }
 }
