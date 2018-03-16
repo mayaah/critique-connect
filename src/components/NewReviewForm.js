@@ -20,6 +20,18 @@ const TRAITS = [
 	{ label: "Timely", value: "Timely" }
 ];
 
+const TRAITS_LIST = [
+  "Constructive", 
+  "Detailed", 
+  "Encouraging", 
+  "Honest", 
+  "Insightful", 
+  "Kind", 
+  "Respectful", 
+  "Thorough", 
+  "Timely"
+  ]
+
 class NewReviewForm extends Component {
   constructor(props) {
     super(props)
@@ -114,20 +126,40 @@ class NewReviewForm extends Component {
   }
 
   updateRevieweeTraits() {
-  	let traitsArray = this.state.traits.split(",")
-  	for (let traitIndex in traitsArray) {
-  		let trait = traitsArray[traitIndex]
-  		let newTraitCount = 1
+  	let selectedTraitsArray = this.state.traits.split(",")
+  	for (let traitIndex in TRAITS_LIST) {
+  		let trait = TRAITS_LIST[traitIndex]
+  		let newTraitCount = 0
   		firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Traits/${trait}`).once("value",snapshot => {
     		const traitData = snapshot.val();
-    		if (traitData) {
+    		if (traitData && (selectedTraitsArray.includes(trait))) {
     			newTraitCount = snapshot.val() + 1
     		}
-    	})
+    		else if (traitData && !selectedTraitsArray.includes(trait)) {
+    			newTraitCount = snapshot.val()
+    		}
+    		else if (!traitData && (selectedTraitsArray.includes(trait))) {
+    			newTraitCount = 1
+    		}
+  		})
   		this.revieweeTraitsRef.update({
   			[trait]: newTraitCount
   		})
   	}
+  	// let traitsArray = this.state.traits.split(",")
+  	// for (let traitIndex in traitsArray) {
+  	// 	let trait = traitsArray[traitIndex]
+  	// 	let newTraitCount = 1
+  	// 	firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Traits/${trait}`).once("value",snapshot => {
+   //  		const traitData = snapshot.val();
+   //  		if (traitData) {
+   //  			newTraitCount = snapshot.val() + 1
+   //  		}
+   //  	})
+  	// 	this.revieweeTraitsRef.update({
+  	// 		[trait]: newTraitCount
+  	// 	})
+  	// }
   }
 
   render() {

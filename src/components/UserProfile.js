@@ -46,6 +46,18 @@ const typesHash = {
   anthology: "Anthology"
 }
 
+const TRAITS_LIST = [
+  "Constructive", 
+  "Detailed", 
+  "Encouraging", 
+  "Honest", 
+  "Insightful", 
+  "Kind", 
+  "Respectful", 
+  "Thorough", 
+  "Timely"]
+
+
 class UserProfile extends Component {
   constructor(props){
     super(props)
@@ -68,6 +80,7 @@ class UserProfile extends Component {
       genresRead: [],
       WIPs: [],
       reviews: [],
+      traits: {},
       joinDate: "",
       lastActive: "",
       critiqueTolerance: "",
@@ -124,6 +137,7 @@ class UserProfile extends Component {
         avatarURL: user.avatarURL ? user.avatarURL : "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fwatercolour-2038253.jpg?alt=media&token=4a02554a-ca37-4b95-a7e4-a62bfdc1db6c",
         genresRead: user.genresRead ? user.genresRead : [],
         genresWrite: user.genresWrite ? user.genresWrite : [],
+        traits: user.Traits ? user.Traits : {},
         joinDate: user.creationDate ? user.creationDate : "",
         lastActive: user.lastLogin ? user.lastLogin : "",
         critiqueTolerance: user.critiqueTolerance ? user.critiqueTolerance : "",
@@ -460,6 +474,13 @@ class UserProfile extends Component {
                       <Col sm={4}>
                       </Col>
                     </Row>
+                    <div className="user-traits">
+                      {TRAITS_LIST.map((trait) => {
+                        return (
+                          <span className="user-trait-count">{trait} ({this.state.traits[trait]})</span>
+                        )
+                    })}
+                    </div>
                     <div className="social-links">
                       <OverlayTrigger placement="left" overlay={websiteTooltip}>
                         <a href={this.state.website} target="_blank">

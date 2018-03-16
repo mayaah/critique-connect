@@ -291,3 +291,13 @@ span#ltr-label {
 	color: black;
 	line-height: 2em;
 }
+
+.user-traits {
+	margin: 5px 0 10px;
+}
+
+.user-trait-count {
+	font-family: Lato-Regular;
+	margin-right: 5px;
+	font-size: 12px;
+}
