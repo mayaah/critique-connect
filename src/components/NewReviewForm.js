@@ -166,7 +166,7 @@ class NewReviewForm extends Component {
 
     return (
       <form onSubmit={(event) => this.submitReview(event)} ref={(form) => this.submitReviewForm = form}>
-        <TextArea className="review-textarea" large={true} value={this.state.reviewMessage} name="reviewMessage" onChange={this.handleChange} label="reviewMessage" placeholder='Write a review for me'/>
+        <TextArea className="review-textarea" large={true} value={this.state.reviewMessage} name="reviewMessage" onChange={this.handleChange} label="reviewMessage" placeholder={'Write a review for ' + this.state.revieweeName}/>
         <Select
           className="multiselect-field"
           closeOnSelect={false}
@@ -174,7 +174,7 @@ class NewReviewForm extends Component {
           multi
           onChange={this.handleTraitsSelectChange}
           options={TRAITS}
-          placeholder='I am ...'
+          placeholder={this.state.revieweeName + ' is ...'}
           simpleValue
           value={this.state.traits}
         />

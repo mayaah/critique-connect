@@ -87,12 +87,15 @@ class UserProfile extends Component {
       critiqueStyle: "",
       goals: "",
       compensation: "",
-      rates: ""
+      rates: "",
+      reviewsToShow: 5,
+      doneExpanded: false
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
     this.usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
     this.usersReviewsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Reviews`)
     this.handleChange = this.handleChange.bind(this);
+    this.showMore = this.showMore.bind(this);
     // this.WIPsRef = firebaseDB.database().ref(`/WIPs`).on('value', snapshot => {
     //   return snapshot.val();
     // })
@@ -199,7 +202,7 @@ class UserProfile extends Component {
       Promise.all(promises).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           var review = snapshot.val()
-          newState.push({
+          newState.unshift({
             id: snapshot.key,
             reviewMessage: review.reviewMessage,
             reviewerId: review.reviewerId,
@@ -235,6 +238,14 @@ class UserProfile extends Component {
     this.setState({ 
       [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
     });
+  }
+
+  showMore() {
+    this.state.reviewsToShow === 5 ? (
+      this.setState({ reviewsToShow: this.state.reviews.length, expanded: true })
+    ) : (
+      this.setState({ reviewsToShow: 5, expanded: false })
+    )
   }
 
   render() {
@@ -280,6 +291,7 @@ class UserProfile extends Component {
         Education
       </Tooltip>
     );
+
 
 
     return (
@@ -574,18 +586,38 @@ class UserProfile extends Component {
                   </div>
                   <NewReviewForm revieweeId={this.state.userId} revieweeName={this.state.displayName} />
                   <div className="display-WIPs">
-                    {this.state.reviews.map((review) => {
+                    {this.state.reviews.slice(0, this.state.reviewsToShow).map((review) => {
                       return (
                         <div className="review-summary" key={review.id}>
-                          <div className="review-message">{review.reviewMessage}</div>
-                          <div className="review-traits">{review.traits.join(', ')}</div>
-                          <Link to={"/user/" + review.reviewerId}>
-                            <div className="review-reviewer">{review.reviewerName}</div>
-                          </Link>
+                          <div className="review-message">"{review.reviewMessage}"</div>
+                          {review.traits.map((trait) => {
+                            return (
+                              <span className="review-trait">{trait}(+1)</span>
+                              )
+                          })}
+                          <div className="review-metadata"> 
+                            <Link to={"/user/" + review.reviewerId}>
+                              <Image className="reviewer-avatar" src={review.reviewerAvatar} responsive />
+                              <div className="reviewer-name">{review.reviewerName}</div>
+                            </Link>
+                            <div className="review-date">{review.reviewDate}</div>
+                          </div>
                         </div>
                       )
                     })}
                   </div>
+                  {this.state.reviews.length > 5 &&
+                    (
+                    <Button className="black-bordered-button" onClick={this.showMore}>
+                      {this.state.expanded ? (
+                         <span>Show less</span>
+                       ) : (
+                         <span>Show more</span>
+                       )
+                      }
+                    </Button>
+                    )
+                  }
                 </Col>
               </Row>
             </Col>
