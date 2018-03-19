@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'Lato-Light';
-  src: local('Lato-Light'), url(./Lato-Light.ttf) format('ttf');
+  src: local('Lato-Light'), url(Lato-Light.ttf) format('ttf');
 }
 
 @font-face {
 	font-family: 'Lato-Regular';
-	src: local('Lato-Regular'), url(./Lato-Regular.ttf) format('ttf');
+	src: local('Lato-Regular'), url(Lato-Regular.ttf) format('ttf');
 }
 
 
