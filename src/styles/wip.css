@@ -1,5 +1,6 @@
 .wip-page {
-	font-family: Lato-Light;
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
 }
 
 .wip-header {
@@ -18,7 +19,8 @@
 }
 
 .wip-logline {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 15px;
 }
 
@@ -32,13 +34,15 @@
 }
 
 .wip-field {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 13px;
 	margin-bottom: 10px;
 }
 
 .wip-field-name {
-	font-family: Lato-Bold;
+	font-family: 'Lato', sans-serif;
+	font-weight: 700;
 	font-size: 16px;
 	padding-bottom: 2px;
   background: var(--mainGradient) left 

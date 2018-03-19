@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
 
-@font-face {
+/*@font-face {
   font-family: 'Lato-Light';
   src: local('Lato-Light'), url('Lato-Light.ttf') format('ttf');
 }
@@ -10,15 +10,16 @@
 	src: local('Lato-Regular'), url('Lato-Regular.ttf') format('ttf');
 }
 
-
+*/
 html {
 	height: 100%;
-	font-family: 'Lato';
+	font-family: 'Lato', sans-serif;
 }
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Lato-Light';
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
   min-height: 100%;
 }
 
@@ -69,7 +70,8 @@ body {
 	display: flex;
 	flex: 1 0 0;
 	align-items: center;
-	font-family: Lato-Light;
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
 	justify-content: center;
 	color: black; /*non-webkit fallback*/
 	text-transform: uppercase;
@@ -91,7 +93,8 @@ nav.pt-navbar {
 	box-shadow: 0 7px 40px #888888;
 	border-bottom:2px solid #c4268c;
 	height: 60px;
-	font-family: 'Lato-Regular';
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	text-transform: uppercase;
 	background: var(--mainGradient);
 }
@@ -111,7 +114,8 @@ nav.pt-navbar:before {
 }
 
 .pt-navbar-heading {
-	font-family: 'Lato-Light';
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
 	color: white; /*non-webkit fallback*/
 	text-transform: uppercase;
 	font-size: 30px !important;
@@ -122,7 +126,8 @@ nav.pt-navbar:before {
 */
 /*	display: flex;
 	justify-content: space-evenly;*/
-	font-family: 'Lato-Regular';
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 20px;
 /*	width: 400px;
 	margin: 0 auto;*/

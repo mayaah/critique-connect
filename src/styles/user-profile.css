@@ -1,5 +1,6 @@
 .profile-page {
-	font-family: Lato-Light;
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
 }
 
 .profile-avatar {
@@ -43,14 +44,16 @@
 }
 
 .user-info-detail-label {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 14px;
 	font-style: italic;
 
 }
 
 .user-info-detail {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 14px;
 	margin-left: 5px;
 }
@@ -67,7 +70,8 @@
 }
 
 button.black-bordered-button {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	display: flex;
 	text-align: center;
 	justify-content: center;
@@ -103,7 +107,8 @@ button.black-bordered-button a {
 }
 
 .user-info .message-user-button, .edit-profile-button {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	display: flex;
 	text-align: center;
 	justify-content: space-evenly;
@@ -136,7 +141,8 @@ button.black-bordered-button a {
 }
 
 .looking-labels {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	align-self: center;
 	margin: 0 10px 0 50px;
 	padding: 10px 20px;
@@ -174,7 +180,8 @@ span#ltr-label {
 }
 
 .section-divider-title {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 20px;
 	text-transform: uppercase;
 	white-space: nowrap;
@@ -232,7 +239,8 @@ span#ltr-label {
 }*/
 
 .section-long-text {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 15px;
 	white-space: pre-wrap;
 	line-height: 2em;
@@ -240,13 +248,15 @@ span#ltr-label {
 }
 
 .small-field-text {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 13px;
 	margin: 5px 0;
 }
 
 .wip-summary {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
 }
@@ -257,7 +267,8 @@ span#ltr-label {
 .wip-name-text {
 	margin: 10px 0;
 	font-size: 25px;
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	text-transform: uppercase;
 	background: var(--mainGradient);
 	-webkit-background-clip: text;
@@ -268,7 +279,8 @@ span#ltr-label {
 .wip-wc-text {
 	display: inline-block;
 	margin: 5px 0;
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 16px;
 	color: black;
 }
@@ -286,7 +298,8 @@ span#ltr-label {
 }
 
 .wip-logline-text {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 14px;
 	color: black;
 	line-height: 2em;
@@ -297,7 +310,8 @@ span#ltr-label {
 }
 
 .user-trait-count {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	margin-right: 5px;
 	font-size: 12px;
 }
@@ -309,7 +323,8 @@ span#ltr-label {
 }
 
 .review-message {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	font-size: 14px;
 	line-height: 2em;
 	margin: 0 0 10px 0;
@@ -343,7 +358,8 @@ span#ltr-label {
 	display: inline-block;
 	margin-left: 10px;
 	font-size: 14px;
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	color: black;
 	text-transform: uppercase;
 }

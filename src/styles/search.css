@@ -14,7 +14,8 @@
 	font-size: 13px;
 	margin-left: 25px;
 	text-transform: uppercase;
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 }
 
 .ais-SearchBox-reset {
@@ -51,7 +52,8 @@ input[type=checkbox]:checked {
 .ais-ToggleRefinement-labelText {
 	font-size: 12px;
 	text-transform: uppercase;
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 }
 
 .ais-RefinementList-list {
@@ -102,7 +104,8 @@ input.ais-RefinementList-checkbox {
 .search-name {
 	margin: 10px 0;
 	font-size: 25px;
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	text-transform: uppercase;
 	background: var(--mainGradient);
 	-webkit-background-clip: text;
@@ -111,14 +114,16 @@ input.ais-RefinementList-checkbox {
 }
 
 .user-search-summary {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
 	color: black;
 }
 
 .looking-labels-small {
-	font-family: Lato-Regular;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 	align-self: center;
 	margin: 0 10px 0 50px;
 	padding: 5px 10px;
@@ -133,7 +138,8 @@ input.ais-RefinementList-checkbox {
 }
 
 .user-search-result-field {
-	font-family: Lato-Bold;
+	font-family: 'Lato', sans-serif;
+	font-weight: 700;
 	font-size: 13px;
 }
 
