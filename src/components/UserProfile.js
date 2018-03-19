@@ -209,7 +209,7 @@ class UserProfile extends Component {
             reviewDate: review.reviewDate,
             reviewerAvatar: review.reviewerAvatar,
             reviewerName: review.reviewerName,
-            traits: review.traits
+            traits: review.traits || []
           });
         });
         this.setState({
