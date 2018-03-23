@@ -102,10 +102,8 @@ class NewReviewForm extends Component {
   		reviewMessage: this.state.reviewMessage,
       reviewerId: this.state.reviewerId,
       revieweeId: this.state.revieweeId,
-      reviewerName: this.state.reviewerName,
       revieweeName: this.state.revieweeName,
-      reviewDate: this.simplifyDate(new Date(Date.now()).toUTCString()),
-      reviewerAvatar: this.state.reviewerAvatar,
+      reviewDate: Date.now(),
       traits: this.state.traits ? this.state.traits.split(",") : []
   	}
   	var newReviewRef = reviewsRef.push(review);

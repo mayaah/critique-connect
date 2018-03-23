@@ -26,6 +26,8 @@ class Header extends Component {
           <span className="pt-navbar-divider"></span>
             <Link className="pt-button pt-minimal profile-link" to={"/search"}>Search</Link>
             <span className="pt-navbar-divider"></span>
+            <Link className="pt-button pt-minimal profile-link" to={"/forum"}>Forum</Link>
+            <span className="pt-navbar-divider"></span>
             <Link className="pt-button pt-minimal profile-link" to={"/user/"+this.props.currentUserId}>My Profile</Link>
             <span className="pt-navbar-divider"></span>
             <Link className="pt-button pt-minimal log-out-link" aria-label="Log Out" to="/logout">Logout</Link>

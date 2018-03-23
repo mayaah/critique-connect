@@ -1,4 +1,4 @@
-.form-name {
+.form-name, .page-name {
 	display: inline-block;
 	background: var(--mainGradient);
 	-webkit-background-clip: text;
@@ -69,7 +69,7 @@ label.pt-label {
 	line-height: 2em;
 }
 
-.review-textarea {
+.review-textarea, .thread-textarea {
 	width: 100%;
 	min-height: 200px;
 	box-shadow: none;

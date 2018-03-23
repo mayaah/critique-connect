@@ -12,6 +12,8 @@ import EditProfileForm from './components/EditProfileForm';
 import EditWIPForm from './components/EditWIPForm';
 import WIP from './components/WIP';
 import Search from './components/Search';
+import Forum from './components/Forum';
+import NewThreadForm from './components/NewThreadForm';
 
 import { firebaseDB, base } from './base'
 
@@ -119,6 +121,7 @@ class App extends Component {
               }} />
             <Route exact path="/logout" component={Logout}/>
             <Route exact path="/search" component={Search}/>
+            <Route exact path="/forum" component={Forum}/>
             <Route path="/user/:id" component={UserProfile} currentUserId={this.state.currentUserId}/>
             <Route path="/wip/:wipId" component={WIP} currentUserId={this.state.currentUserId}/>
             <Route exact path="/submit_wip/:userId" render={(props) => {
@@ -129,6 +132,9 @@ class App extends Component {
             }} />
             <Route path="/edit_wip/:wipId" render={(props) => {
               return <EditWIPForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />
+            }} />
+            <Route exact path="/submit_thread" render={(props) => {
+              return <NewThreadForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />
             }} />
             {this.state.authenticated ? null :  (<Redirect to="/login" />)}
           </div>

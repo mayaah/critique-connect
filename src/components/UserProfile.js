@@ -96,6 +96,7 @@ class UserProfile extends Component {
     this.usersReviewsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Reviews`)
     this.handleChange = this.handleChange.bind(this);
     this.showMore = this.showMore.bind(this);
+    this.simplifyDate = this.simplifyDate.bind(this);
     // this.WIPsRef = firebaseDB.database().ref(`/WIPs`).on('value', snapshot => {
     //   return snapshot.val();
     // })
@@ -107,6 +108,7 @@ class UserProfile extends Component {
 
 
   componentWillMount() {
+    console.log("WILLMOUNT")
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
       // let returnedGenresRead = []
@@ -202,22 +204,55 @@ class UserProfile extends Component {
       Promise.all(promises).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           var review = snapshot.val()
-          newState.unshift({
-            id: snapshot.key,
-            reviewMessage: review.reviewMessage,
-            reviewerId: review.reviewerId,
-            reviewDate: review.reviewDate,
-            reviewerAvatar: review.reviewerAvatar,
-            reviewerName: review.reviewerName,
-            traits: review.traits || []
-          });
-        });
-        this.setState({
-          reviews: newState
+          let reviewerName = ""
+          let reviewerAvatar = ""
+          var reviewerRef = firebaseDB.database().ref(`/Users/${review.reviewerId}`)
+          reviewerRef.once('value', snapshot => {
+            let reviewer = snapshot.val();
+            reviewerName = reviewer.displayName,
+            reviewerAvatar = reviewer.avatarURL
+            newState.push({
+              id: snapshot.key,
+              reviewMessage: review.reviewMessage,
+              reviewerId: review.reviewerId,
+              reviewDate: review.reviewDate,
+              reviewerAvatar: reviewerAvatar,
+              reviewerName: reviewerName,
+              traits: review.traits || []
+            });
+            var sortedArr = newState.sort(function(a, b){
+              var keyA = new Date(a.reviewDate),
+                  keyB = new Date(b.reviewDate);
+              // Compare the 2 dates
+              if(keyA < keyB) return 1;
+              if(keyA > keyB) return -1;
+              return 0;
+            });
+            console.log(sortedArr)
+            this.setState({
+              reviews: sortedArr
+            });
+          })
         });
       });
     });
   }
+
+  // componentDidMount() {
+  //   console.log(this.state.reviews)
+  //   var sortedArr = this.state.reviews.sort(function(a, b){
+  //     var keyA = new Date(a.reviewDate),
+  //         keyB = new Date(b.reviewDate);
+  //     // Compare the 2 dates
+  //     if(keyA < keyB) return -1;
+  //     if(keyA > keyB) return 1;
+  //     return 0;
+  //   });
+  //   this.setState({
+  //     reviews: sortedArr
+  //   })
+  //   console.log(this.state.reviews)
+  // }
 
   componentWillUnmount() {
     this.userRef.off();
@@ -246,6 +281,12 @@ class UserProfile extends Component {
     ) : (
       this.setState({ reviewsToShow: 5, expanded: false })
     )
+  }
+
+  simplifyDate(date) {
+    let dateArray = date.split(" ")
+    let dateOnly = dateArray.slice(1, 4)
+    return dateOnly.join(" ")
   }
 
   render() {
@@ -600,7 +641,7 @@ class UserProfile extends Component {
                               <Image className="reviewer-avatar" src={review.reviewerAvatar} responsive />
                               <div className="reviewer-name">{review.reviewerName}</div>
                             </Link>
-                            <div className="review-date">{review.reviewDate}</div>
+                            <div className="review-date">{this.simplifyDate(new Date(review.reviewDate).toUTCString())}</div>
                           </div>
                         </div>
                       )

@@ -3,7 +3,7 @@ import UserSearchItem from './UserSearchItem';
 import WIPSearchItem from './WIPSearchItem';
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 import { Checkbox, TextArea, RadioGroup, Radio } from "@blueprintjs/core";
-import {Index, InstantSearch, Hits, Highlight, SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement, PoweredBy} from 'react-instantsearch/dom';
+import {Index, InstantSearch, Hits, Highlight, SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement, PoweredBy, Pagination} from 'react-instantsearch/dom';
 import { connectToggleRefinement } from 'react-instantsearch/connectors';
 
 const genresHash = {
@@ -201,6 +201,7 @@ class UserSearch extends Component {
       	      </Index>
             )
           }
+          <Pagination />
           </Col>
         </Row>        
 			</Grid>
