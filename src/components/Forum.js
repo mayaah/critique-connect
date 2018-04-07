@@ -29,28 +29,35 @@ class Forum extends Component {
       Promise.all(promises).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           var thread = snapshot.val()
+          let postsCount = 0
+          threadRef.child("Posts").on("value", function(snapshot2) {
+					  postsCount = snapshot2.numChildren()
+					})
 	        newState.push({
 	          id: snapshot.key,
 	          author: thread.author,
 	          date: this.simplifyDate(new Date(thread.date).toUTCString()),
 	          topic: thread.topic,
-	          postsCount: Object.keys(thread.Posts).length
-	        });
-	        var sortedArr = newState.sort(function(a, b){
-	          var keyA = new Date(a.date),
-	              keyB = new Date(b.date);
-	          // Compare the 2 dates
-	          if(keyA < keyB) return 1;
-	          if(keyA > keyB) return -1;
-	          return 0;
-	        });
-	        console.log(sortedArr)
-	        this.setState({
-	          threads: sortedArr
+	          postsCount: postsCount
 	        });
 	      });
+	      var sortedArr = newState.sort(function(a, b){
+	        var keyA = new Date(a.date),
+	            keyB = new Date(b.date);
+	        // Compare the 2 dates
+	        if(keyA < keyB) return 1;
+	        if(keyA > keyB) return -1;
+	        return 0;
+	      });
+	      this.setState({
+          threads: sortedArr
+        });
       })
     })
+  }
+
+  componentWillUmount() {
+  	this.theadsRef.off();
   }
 
   simplifyDate(date) {
