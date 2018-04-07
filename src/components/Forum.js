@@ -30,6 +30,7 @@ class Forum extends Component {
         snapshots.forEach((snapshot) => {
           var thread = snapshot.val()
           let postsCount = 0
+          var threadRef = firebaseDB.database().ref(`/Threads/${snapshot.key}`)
           threadRef.child("Posts").on("value", function(snapshot2) {
 					  postsCount = snapshot2.numChildren()
 					})
@@ -82,17 +83,19 @@ class Forum extends Component {
 	      	<Col sm={12}>
 	      		{this.state.threads.map((thread) => {
               return (
-              	<Row className="forum-thread-row">
-              		<Col sm={8}>
-              			<div className="thread-row-topic">{thread.topic}</div>
-              		</Col>
-              		<Col sm={2}>
-              			<div className="thread-row-postCount">{thread.postsCount} comments</div>
-              		</Col>
-              		<Col sm={2}>
-              			<div className="thread-row-date">{thread.date}</div>
-              		</Col>
-              	</Row>
+              	<Link to={"/thread/" + thread.id}>
+	              	<Row className="forum-thread-row">
+	              		<Col sm={8}>
+	              			<div className="thread-row-topic">{thread.topic}</div>
+	              		</Col>
+	              		<Col sm={2}>
+	              			<div className="thread-row-postCount">{thread.postsCount} comments</div>
+	              		</Col>
+	              		<Col sm={2}>
+	              			<div className="thread-row-date">{thread.date}</div>
+	              		</Col>
+	              	</Row>
+              	</Link>
               )
             })}
 	      	</Col>

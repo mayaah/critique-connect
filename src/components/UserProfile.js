@@ -108,7 +108,6 @@ class UserProfile extends Component {
 
 
   componentWillMount() {
-    console.log("WILLMOUNT")
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
       // let returnedGenresRead = []

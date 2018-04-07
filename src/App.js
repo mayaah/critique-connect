@@ -14,6 +14,7 @@ import WIP from './components/WIP';
 import Search from './components/Search';
 import Forum from './components/Forum';
 import NewThreadForm from './components/NewThreadForm';
+import Thread from './components/Thread';
 
 import { firebaseDB, base } from './base'
 
@@ -136,6 +137,7 @@ class App extends Component {
             <Route exact path="/submit_thread" render={(props) => {
               return <NewThreadForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />
             }} />
+             <Route path="/thread/:threadId" component={Thread} currentUserId={this.state.currentUserId}/>
             {this.state.authenticated ? null :  (<Redirect to="/login" />)}
           </div>
         </BrowserRouter>
