@@ -18,3 +18,38 @@
 	font-size: 13px;
 	text-align: right;
 }
+
+.post {
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
+	padding: 20px 0;
+	border-bottom: 1px lightgray solid;
+	align-items: center;
+	white-space: pre-wrap;
+}
+
+.post-comment {
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 2em;
+	margin: 0 0 10px 0;
+}
+
+.post-author-avatar {
+	max-width: 100px;
+	width: 100px;
+	align-self: center;
+	display: inline-block;
+	margin: 10px 0;
+}
+
+.post-author-name {
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.post-date {
+	font-size: 12px;
+	font-weight: 400;
+}

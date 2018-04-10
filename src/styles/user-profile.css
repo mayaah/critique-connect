@@ -328,6 +328,7 @@ span#ltr-label {
 	font-size: 14px;
 	line-height: 2em;
 	margin: 0 0 10px 0;
+	white-space: pre-wrap;
 }
 
 .review-trait {

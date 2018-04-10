@@ -87,19 +87,34 @@ class Thread extends Component {
 	render() {
     
     return (
-	  	<div style={{marginTop: "100px"}}>
-        <h1>{this.state.topic}</h1>
+	  	<Grid style={{marginTop: "100px"}}>
+        <Row className="forum-header">
+          <Col sm={12}>
+            <div className="page-name">{this.state.topic}</div>
+          </Col>
+        </Row>
         {this.state.posts.map((post) => {
           return (
-            <div className="wip-summary" key={post.id}>
-              <Link to={"/user/" + post.authorId}><div className="wip-logline-text">{post.author}</div></Link>
-              <div className="wip-logline-text">{this.simplifyDate(new Date(post.date).toUTCString())}</div>
-              <div className="wip-logline-text">{post.comment}</div>
-            </div>
+            <Row className="post flex" key={post.id}>
+              <Col sm={2}>
+                <Link to={"/user/" + post.authorId}>
+                  <div className="post-author-name">{post.author}</div>
+                  <Image className="post-author-avatar" src={post.authorAvatar} responsive />
+                </Link>
+                <div className="post-date">{this.simplifyDate(new Date(post.date).toUTCString())}</div>
+              </Col>
+              <Col sm={10}>
+                <div className="post-comment">{post.comment}</div>
+              </Col>
+            </Row>
           )
-        })} 
-        <NewPostForm threadId={this.state.threadId} /> 
-      </div>
+        })}
+        <Row>
+          <Col sm={12}>
+            <NewPostForm threadId={this.state.threadId} /> 
+          </Col>
+        </Row> 
+      </Grid>
 	   );
   }
 }
