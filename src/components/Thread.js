@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import NewPostForm from './NewPostForm'
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+import Pagination from "react-js-pagination";
 
 import { firebaseDB, base } from '../base'
 
@@ -13,11 +14,14 @@ class Thread extends Component {
       redirect: false,
       threadId: this.props.match.params.threadId,
       topic: "",
-      posts: []
+      posts: [],
+      currentPosts: [],
+      activePage: 1
     }
     this.threadRef = firebaseDB.database().ref(`Threads/${this.state.threadId}`);
     this.postsRef = firebaseDB.database().ref(`Threads/${this.state.threadId}/Posts`)
     this.simplifyDate = this.simplifyDate.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +68,8 @@ class Thread extends Component {
             });
             console.log(sortedArr)
             this.setState({
-              posts: sortedArr
+              posts: sortedArr,
+              currentPosts: sortedArr.slice(0, 20)
             });
           })
         });
@@ -83,6 +88,15 @@ class Thread extends Component {
     return dateOnly.join(" ")
   }
 
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState(
+      {
+        activePage: pageNumber,
+        currentPosts: this.state.posts.slice((pageNumber - 1) * 20, (pageNumber - 1) * 20 + 20)
+      });
+  }
+
 
 	render() {
     
@@ -93,7 +107,7 @@ class Thread extends Component {
             <div className="page-name">{this.state.topic}</div>
           </Col>
         </Row>
-        {this.state.posts.map((post) => {
+        {this.state.currentPosts.map((post) => {
           return (
             <Row className="post flex" key={post.id}>
               <Col sm={2}>
@@ -114,6 +128,19 @@ class Thread extends Component {
             <NewPostForm threadId={this.state.threadId} /> 
           </Col>
         </Row> 
+        <Row>
+          <Col sm={12}>
+            <div>
+            <Pagination
+              activePage={this.state.activePage}
+              itemsCountPerPage={20}
+              totalItemsCount={this.state.posts.length}
+              pageRangeDisplayed={5}
+              onChange={this.handlePageChange}
+            />
+          </div>
+          </Col>
+        </Row>
       </Grid>
 	   );
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 import { Checkbox, TextArea, RadioGroup, Radio } from "@blueprintjs/core";
+import Pagination from "react-js-pagination";
 
 import { firebaseDB, base } from '../base'
 
@@ -10,11 +11,14 @@ class Forum extends Component {
     super()
       this.state = {
       redirect: false,
-      threads: []
+      threads: [],
+      currentThreads: [],
+      activePage: 1
     }
 
     this.threadsRef = firebaseDB.database().ref(`/Threads`)
     this.simplifyDate = this.simplifyDate.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }	
 
   componentWillMount() {
@@ -51,7 +55,8 @@ class Forum extends Component {
 	        return 0;
 	      });
 	      this.setState({
-          threads: sortedArr
+          threads: sortedArr,
+          currentThreads: sortedArr.slice(0, 20)
         });
       })
     })
@@ -59,6 +64,15 @@ class Forum extends Component {
 
   componentWillUmount() {
   	this.theadsRef.off();
+  }
+
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState(
+    	{
+    		activePage: pageNumber,
+    		currentThreads: this.state.threads.slice((pageNumber - 1) * 20, (pageNumber - 1) * 20 + 20)
+    	});
   }
 
   simplifyDate(date) {
@@ -81,7 +95,7 @@ class Forum extends Component {
 	      </Row>
 	      <Row className="forum-grid">
 	      	<Col sm={12}>
-	      		{this.state.threads.map((thread) => {
+	      		{this.state.currentThreads.map((thread) => {
               return (
               	<Link to={"/thread/" + thread.id}>
 	              	<Row className="forum-thread-row">
@@ -98,6 +112,19 @@ class Forum extends Component {
               	</Link>
               )
             })}
+	      	</Col>
+	      </Row>
+	      <Row>
+	      	<Col sm={12}>
+	      		<div>
+		        <Pagination
+		          activePage={this.state.activePage}
+		          itemsCountPerPage={20}
+		          totalItemsCount={this.state.threads.length}
+		          pageRangeDisplayed={5}
+		          onChange={this.handlePageChange}
+		        />
+		      </div>
 	      	</Col>
 	      </Row>
       </Grid>
