@@ -18,7 +18,7 @@ class NewPostForm extends Component {
     }
     this.threadRef = firebaseDB.database().ref(`Threads/${this.state.threadId}`);
     this.postsRef = firebaseDB.database().ref(`Posts`)
-    this.userPostsRef = firebaseDB.database().ref(`/Users/${this.state.author}/Posts`)
+    this.userPostsRef = firebaseDB.database().ref(`/Users/${this.state.authorId}/Posts`)
     this.threadPostsRef = firebaseDB.database().ref(`Threads/${this.state.threadId}/Posts`)
     this.handleChange = this.handleChange.bind(this);
     this.submitPost = this.submitPost.bind(this);
