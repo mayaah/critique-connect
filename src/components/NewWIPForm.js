@@ -135,7 +135,7 @@ class NewWIPForm extends Component {
 	    blurb: this.state.blurb,
 	    additionalNotes: this.state.additionalNotes,
 	    genres: this.state.genres.split(","),
-	    types: this.state.genres.split(",")
+	    types: this.state.types.split(",")
 	  }
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;

@@ -18,6 +18,7 @@ import './styles/wip.css';
 import './styles/form.css';
 import './styles/search.css';
 import './styles/forum.css';
+import './HomePage.css';
 
 
 ReactDOM.render(<App />, document.getElementById('root'));

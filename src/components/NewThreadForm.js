@@ -69,30 +69,6 @@ class NewThreadForm extends Component {
   	this.setState({ redirect: true })
   }
 
-  createWIP(event) {
-    event.preventDefault()
-		const WIPsRef = firebaseDB.database().ref('WIPs');
-	  const WIP = {
-	    title: this.state.title,
-	    writer: this.state.userId,
-	    wc: this.state.wordCount,
-	    logline: this.state.logline,
-	    draft: this.state.draft,
-	    language: this.state.language,
-	    disclaimers: this.state.disclaimers,
-	    improvementAreas: this.state.improvementAreas,
-	    blurb: this.state.blurb,
-	    additionalNotes: this.state.additionalNotes,
-	    genres: this.state.genres.split(","),
-	    types: this.state.genres.split(",")
-	  }
-	  var newWIPRef = WIPsRef.push(WIP);
-	  var WIPId = newWIPRef.key;
-    this.addWIPToUser(WIPId)
-    this.WIPForm.reset()
-    this.setState({ redirect: true })
-  }
-
   addThreadToUser(threadId) {
   	this.userThreadsRef.update({
   		[threadId] : true

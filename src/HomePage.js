@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Header from './components/Header';
 import Logout from './components/Logout';
 import './HomePage.css';
+import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 import {InstantSearch, Hits, Highlight,SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement} from 'react-instantsearch/dom';
 
 import { firebaseDB, base } from './base'
@@ -42,9 +43,9 @@ class HomePage extends Component {
       threads: []
     }
 
-    this.usersRef = firebaseDB.database().ref(`/Users`).orderByChild('creationDate').limitToFirst(6)
-    this.wipsRef = firebaseDB.database().ref(`/WIPs`).orderByChild('creationDate').limitToFirst(5)
-    this.threadsRef = firebaseDB.database().ref(`/Threads`).orderByChild('date').limitToLast(5)
+    this.usersRef = firebaseDB.database().ref(`/Users`).orderByChild('creationDate').limitToLast(6)
+    this.wipsRef = firebaseDB.database().ref(`/WIPs`).orderByChild('creationDate').limitToLast(4)
+    this.threadsRef = firebaseDB.database().ref(`/Threads`).orderByChild('date').limitToLast(6)
 
   }	
 
@@ -63,7 +64,7 @@ class HomePage extends Component {
           newState.push({
             id: snapshot.key,
             name: user.displayName,
-            avatarURL: user.avatarURL
+            avatarURL: user.avatarURL ? user.avatarURL : "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fwatercolour-2038253.jpg?alt=media&token=4a02554a-ca37-4b95-a7e4-a62bfdc1db6c",
           }); 
         });
         this.setState({
@@ -123,23 +124,36 @@ class HomePage extends Component {
 
   render() {
     return (
-    	<div>
-        	<BrowserRouter>
-          <div style={{marginTop: "100px"}}>
-            {this.state.users.map((user) => {
-                return (
-                  <Link to={"/user/" + user.id}>
-                  <div className="wip-summary" key={user.id}>
-                    <div className="wip-name-text">{user.name}</div>
-                  </div>
-                  </Link>
-                )
-              })}
-            <div className="display-WIPs">
-              {this.state.wips.map((WIP) => {
-                return (
-                  <Link to={"/wip/" + WIP.id}>
-                  <div className="wip-summary" key={WIP.id}>
+    	<Grid style={{marginTop: "100px"}}>
+        <Row className="homepage-section">
+          <div className="section-divider">
+            <span className="section-divider-title">
+              Newest Users
+            </span>
+            <div className="section-divider-hr"></div>
+          </div>
+          {this.state.users.map((user) => {
+              return (
+                <Link to={"/user/" + user.id}>
+                  <Col sm={2} className="homepage-user flex" key={user.id}>
+                    <div className="homepage-user-name">{user.name}</div>
+                    <Image className="homepage-avatar-url" src={user.avatarURL} responsive/>
+                  </Col>
+                </Link>
+              )
+            })}
+          </Row>
+          <Row className="display-WIPs homepage-section">
+            <div className="section-divider">
+              <span className="section-divider-title">
+                Newest Works in Progress
+              </span>
+              <div className="section-divider-hr"></div>
+            </div>
+            {this.state.wips.map((WIP) => {
+              return (
+                <Link to={"/wip/" + WIP.id}>
+                  <Col sm={3} className="hompage-wip" key={WIP.id}>
                     <div className="wip-name-text">{WIP.title}</div>
                     <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div><div className="wip-wc-text">{WIP.wc} words</div>
                     {WIP.genres.map((genre) => {
@@ -148,23 +162,29 @@ class HomePage extends Component {
                       )
                     })}
                     <div className="wip-logline-text">{WIP.logline}</div>
-                  </div>
-                  </Link>
-                )
-              })}
+                  </Col>
+                </Link>
+              )
+            })}
+          </Row>
+          <Row className="homepage-section">
+            <div className="section-divider">
+              <span className="section-divider-title">
+                Newest Discussions
+              </span>
+              <div className="section-divider-hr"></div>
             </div>
             {this.state.threads.map((thread) => {
                 return (
                   <Link to={"/thread/" + thread.id}>
-                  <div className="wip-summary" key={thread.id}>
-                    <div className="wip-name-text">{thread.topic}</div>
-                  </div>
+                    <Col sm={12} className="homepage-thread" key={thread.id}>
+                      <div className="wip-name-text">{thread.topic}</div>
+                    </Col>
                   </Link>
                 )
               })}
-          </div>
-    		</BrowserRouter>
-    	</div>
+          </Row>
+    	</Grid>
     );
   }
 }
