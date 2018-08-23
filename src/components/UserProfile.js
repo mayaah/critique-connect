@@ -206,8 +206,8 @@ class UserProfile extends Component {
           let reviewerName = ""
           let reviewerAvatar = ""
           var reviewerRef = firebaseDB.database().ref(`/Users/${review.reviewerId}`)
-          reviewerRef.once('value', snapshot => {
-            let reviewer = snapshot.val();
+          reviewerRef.once('value', snapshot2 => {
+            let reviewer = snapshot2.val();
             reviewerName = reviewer.displayName,
             reviewerAvatar = reviewer.avatarURL
             newState.push({
@@ -337,10 +337,12 @@ class UserProfile extends Component {
     return (
         <Grid className="profile-page" style={{marginTop: "100px"}}>
           <Row className="profile-header">
-            <Col sm={3} className="profile-avatar">
+            <Col sm={3}>
               <Row>
                 <Col sm={12}>
-                  <Image src={this.state.avatarURL} responsive/>
+                  <div className="profile-avatar-container">
+                    <Image className="profile-avatar" src={this.state.avatarURL} responsive/>
+                  </div>
                 </Col>
               </Row>
               <Row>
@@ -558,17 +560,14 @@ class UserProfile extends Component {
                     {this.state.userId == this.state.currentUserId
                       ?
                       (
-                      <Button className="black-bordered-button" block>
-                        <Link className="flex" to={"/edit_profile"} >
-                          <Image src={require('../images/pencil-black.png')} responsive />
-                          <span className="edit-profile-text">Edit Profile</span>
-                        </Link>
-                      </Button>
+                        <Button className="black-bordered-button" block>
+                          <Link className="flex" to={"/edit_profile"} >
+                            <Image src={require('../images/pencil-black.png')} responsive />
+                            <span className="edit-profile-text">Edit Profile</span>
+                          </Link>
+                        </Button>
                       ) : (
-                      <Button className="black-bordered-button" block>
-                        <Image src={require('../images/message-black.png')} responsive />
-                        <span className="message-user-text">Send Message</span>
-                      </Button>
+                        null
                       )
                     }
                   </div>
@@ -593,9 +592,16 @@ class UserProfile extends Component {
                     </span>
                     <div className="section-divider-hr"></div>
                   </div>
-                  <Button className="black-bordered-button">
-                    <Link className="flex" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
-                  </Button>
+                  {this.state.userId == this.state.currentUserId
+                    ?
+                    (
+                      <Button className="black-bordered-button">
+                        <Link className="flex" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
+                      </Button>
+                    ) : (
+                      null
+                    )
+                  }
                   <div className="display-WIPs">
                     {this.state.WIPs.map((WIP) => {
                       return (

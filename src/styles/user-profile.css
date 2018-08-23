@@ -1,20 +1,31 @@
 .profile-page {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 300;
 }
 
-.profile-avatar {
-	padding: 0px 20px 20px;
+.profile-avatar-container {
+/*	padding: 0px 20px 20px;*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	width: 260px;
+	height: 260px;
+	border-bottom: 5px solid var(--ccRed);
 }
 
-.profile-avatar img {
-	display: block;
-	max-width: 80%;
+.profile-avatar {
+/*	display: block;*/
+/*	max-width: 80%;
   margin: 0 auto;
-  text-align:center;
-  padding-bottom:5px;
+  text-align:center;*/
+/*  padding-bottom:5px;
   background: var(--mainGradient);
-  background-size:100% 5px; 
+  background-size:100% 5px; */
+  	flex-shrink: 0;
+	min-width: 100%;
+	min-height: 100%;
+	object-fit: cover;
 }
 
 .user-info-col {
@@ -23,11 +34,12 @@
 
 .user-info .user-name {
 	display: inline-block;
-	background: var(--mainGradient);
+/*	background: var(--mainGradient);
 	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	text-transform: uppercase;
-	letter-spacing: 0.2em;
+	-webkit-text-fill-color: transparent;*/
+/*	text-transform: uppercase;*/
+	color: var(--ccRed);
+	letter-spacing: 0.1em;
 	font-size: 50px;
 }
 
@@ -44,16 +56,16 @@
 }
 
 .user-info-detail-label {
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
+/*	font-family: 'Lato', sans-serif;
+*/	font-weight: 400;
 	font-size: 14px;
 	font-style: italic;
 
 }
 
 .user-info-detail {
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
+/*	font-family: 'Lato', sans-serif;
+*/	font-weight: 400;
 	font-size: 14px;
 	margin-left: 5px;
 }
@@ -70,8 +82,8 @@
 }
 
 button.black-bordered-button {
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
+/*	font-family: 'Lato', sans-serif;
+*/	font-weight: 400;
 	display: flex;
 	text-align: center;
 	justify-content: center;
@@ -107,7 +119,7 @@ button.black-bordered-button a {
 }
 
 .user-info .message-user-button, .edit-profile-button {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	display: flex;
 	text-align: center;
@@ -141,25 +153,26 @@ button.black-bordered-button a {
 }
 
 .looking-labels {
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
+/*	font-family: 'Lato', sans-serif;
+*/	font-weight: 400;
 	align-self: center;
 	margin: 0 10px 0 50px;
 	padding: 10px 20px;
 	text-transform: uppercase;
 	font-size: 10px;
 	letter-spacing: 0.2em;
-	border-radius: 10px;
+	background: var(--ccRed);
+/*	border-radius: 10px;*/
 }
 
-span#lfr-label {
+/*span#lfr-label {
 	background: var(--cherry1);
 }
 
 span#ltr-label {
 	background: var(--cherry2);
 }
-
+*/
 /*.section-divider {
 	font-family: Lato-Regular;
   line-height: 1em;
@@ -180,21 +193,22 @@ span#ltr-label {
 }
 
 .section-divider-title {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Cardo', serif;*/
 	font-weight: 400;
-	font-size: 20px;
-	text-transform: uppercase;
+	font-size: 22px;
+/*	text-transform: uppercase;*/
 	white-space: nowrap;
 	margin-right: 15px;
 	color: black;
 	background-color: white;
   padding-bottom: 2px;
-  background: var(--mainGradient) 
+/*  background: var(--mainGradient) 
   	left 
     bottom
     white    
-    no-repeat;; 
-  background-size:100% 2px;
+    no-repeat;; */
+/*  background-size:100% 2px;*/
+	border-bottom: 3px solid var(--ccRed);
 }
 
 .small-section-divider {
@@ -239,7 +253,7 @@ span#ltr-label {
 }*/
 
 .section-long-text {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	font-size: 15px;
 	white-space: pre-wrap;
@@ -248,17 +262,21 @@ span#ltr-label {
 }
 
 .small-field-text {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	font-size: 13px;
 	margin: 5px 0;
 }
 
 .wip-summary {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
+}
+
+.display-WIPs a{
+	text-decoration: none;
 }
 .display-WIPs :last-of-type a{
 	border-bottom: none;
@@ -267,9 +285,8 @@ span#ltr-label {
 .wip-name-text {
 	margin: 10px 0;
 	font-size: 25px;
-	font-family: 'Lato', sans-serif;
 	font-weight: 400;
-	text-transform: uppercase;
+/*	text-transform: uppercase;*/
 	background: var(--mainGradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -279,7 +296,7 @@ span#ltr-label {
 .wip-wc-text {
 	display: inline-block;
 	margin: 5px 0;
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	font-size: 16px;
 	color: black;
@@ -289,6 +306,7 @@ span#ltr-label {
 	margin: 5px 0;
 	font-size: 12px;
 	color: black;
+	font-weight: 700;
 }
 
 .wip-types-text {
@@ -298,7 +316,7 @@ span#ltr-label {
 }
 
 .wip-logline-text {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	font-size: 14px;
 	color: black;
@@ -310,8 +328,8 @@ span#ltr-label {
 }
 
 .user-trait-count {
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
+/*	font-family: 'Lato', sans-serif;*/
+	font-weight: 700;
 	margin-right: 5px;
 	font-size: 12px;
 }
@@ -323,7 +341,7 @@ span#ltr-label {
 }
 
 .review-message {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 2em;
@@ -359,7 +377,7 @@ span#ltr-label {
 	display: inline-block;
 	margin-left: 10px;
 	font-size: 14px;
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	color: black;
 	text-transform: uppercase;

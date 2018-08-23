@@ -124,7 +124,7 @@ class HomePage extends Component {
 
   render() {
     return (
-    	<Grid style={{marginTop: "100px"}}>
+    	<Grid style={{marginTop: "75px"}}>
         <Row className="homepage-section">
           <div className="section-divider">
             <span className="section-divider-title">
@@ -136,8 +136,10 @@ class HomePage extends Component {
               return (
                 <Link to={"/user/" + user.id}>
                   <Col sm={2} className="homepage-user flex" key={user.id}>
+                    <div className="homepage-avatar-url-container">
+                      <Image className="homepage-avatar-url" src={user.avatarURL} responsive/>
+                    </div>
                     <div className="homepage-user-name">{user.name}</div>
-                    <Image className="homepage-avatar-url" src={user.avatarURL} responsive/>
                   </Col>
                 </Link>
               )

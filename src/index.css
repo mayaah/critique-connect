@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
+@import url('https://fonts.googleapis.com/css?family=Cardo:400,400i,700');
 
 /*@font-face {
   font-family: 'Lato-Light';
@@ -13,13 +14,13 @@
 */
 html {
 	height: 100%;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Cardo', serif;
 }
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
+  font-family: 'Cardo', serif;
+  font-weight: 400;
   min-height: 100%;
 }
 
@@ -34,8 +35,11 @@ body {
   --g1: #F09819 ;
   --g2: #EDDE5D;
   --g3: #29ffc6;
+  --dark1: #000000;
+  --dark2: #434343;
   --redGreenBlueGradient: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
   --mainGradient: -webkit-linear-gradient(0deg, var(--cherry1), var(--cherry2));
+  --ccRed: #ed1c24;
 }
 
 .flex {
@@ -47,8 +51,8 @@ body {
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	padding-top: 150px;
-/*	background-image: url("images/sharpen.jpg");
+/*	padding-top: 150px;*/
+/*	background-image: url("images/sharpen2.jpg");
 	background-size: cover;*/
 
 }
@@ -70,11 +74,11 @@ body {
 	display: flex;
 	flex: 1 0 0;
 	align-items: center;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Cardo', serif;
 	font-weight: 300;
 	justify-content: center;
 	color: black; /*non-webkit fallback*/
-	text-transform: uppercase;
+/*	text-transform: uppercase;*/
 	text-align: center;
 /*	display: inline-block;
 	background: -webkit-linear-gradient(180deg, var(--yellow), var(--red));
@@ -90,16 +94,18 @@ body {
 
 
 nav.pt-navbar {
-	box-shadow: 0 7px 40px #888888;
-	border-bottom:2px solid #c4268c;
+/*	box-shadow: 0 7px 40px #888888;
+	border-bottom:2px solid #c4268c;*/
 	height: 60px;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Cardo', serif;
 	font-weight: 400;
-	text-transform: uppercase;
-	background: var(--mainGradient);
+/*	text-transform: uppercase;*/
+	/*background: var(--mainGradient);*/
+	background: white;
+	box-shadow: none;
 }
 
-nav.pt-navbar:before {
+/*nav.pt-navbar:before {
   content:'';
   position:absolute;
   width:100%;
@@ -107,18 +113,29 @@ nav.pt-navbar:before {
   background: var(--mainGradient);
   bottom:-3px;
   left:0;
-}
+}*/
 
 .pt-button.pt-minimal {
-	color: white;
+	color: black;
+	font-size: 16px;
+}
+
+a.pt-button.pt-minimal:hover {
+	color: black;
+	background-color: white;
 }
 
 .pt-navbar-heading {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Cardo', serif;
 	font-weight: 300;
-	color: white; /*non-webkit fallback*/
-	text-transform: uppercase;
+	color: black; /*non-webkit fallback*/
+/*	text-transform: uppercase;*/
 	font-size: 30px !important;
+}
+
+.pt-navbar-heading:hover {
+	text-decoration: none;
+	color: black;
 }
 
 .login-styles {
@@ -126,7 +143,7 @@ nav.pt-navbar:before {
 */
 /*	display: flex;
 	justify-content: space-evenly;*/
-	font-family: 'Lato', sans-serif;
+	font-family: 'Cardo', serif;
 	font-weight: 400;
 	font-size: 20px;
 /*	width: 400px;
@@ -161,36 +178,49 @@ input::-webkit-input-placeholder {
 }
 
 .splash-page .login-auth {
-
-	display: flex;
-	text-align: center;
-
-	justify-content: space-evenly;
-	white-space: normal;
-	align-items: center;
-	border: 1px black solid;
-	padding: 10px 40px;
-	font-size: 15px;
-	text-transform: uppercase;
+	font-family: 'Cardo', serif;
+	font-size: 23px;
+	border: none;
+	border-radius: 0;
 	box-shadow: none;
-	-webkit-transition: all 2s; 
-  transition: all 2s;
-  background: white;
+	border-bottom: 4px solid #ed1c24;
+	max-width: 300px;
+	margin: 0 auto;
+	padding-bottom: 0px;
 }
 
 .splash-page .login-auth:hover {
-	/*background: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));*/
 	background: white;
 }
+
+/*.splash-page .login-auth {
+
+	display: flex;
+	text-align: center;
+	border: none;
+	border-bottom: 1px solid black;
+	justify-content: space-evenly;
+	white-space: normal;
+	align-items: center;*/
+/*	border: 1px black solid;*/
+/*	padding: 10px 40px;
+	font-size: 15px;*/
+/*	text-transform: uppercase;*/
+/*	box-shadow: none;
+	-webkit-transition: all 2s; 
+  transition: all 2s;
+  background: white;
+}*/
+
 
 /*.login-auth {
 	margin-top: 20px;
 }*/
-
+/*
 .splash-page .login-auth img {
 	width: 30px;
-}
-
+}*/
+/*
 .splash-page .login-auth.fb-auth {
 	border: 2px #4267B2 solid;
 	color: #4267B2;
@@ -205,7 +235,7 @@ input::-webkit-input-placeholder {
 	border: 2px #00aced solid;
 	color: #00aced;
 }
-
+*/
 
 
 

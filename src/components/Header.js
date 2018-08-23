@@ -24,17 +24,20 @@ class Header extends Component {
           </div>
           <div className="pt-navbar-group pt-align-right">
           <span className="pt-navbar-divider"></span>
-            <Link className="pt-button pt-minimal profile-link" to={"/search"}>Search</Link>
+            <Link className="pt-button pt-minimal" to={"/search"}>Search</Link>
             <span className="pt-navbar-divider"></span>
-            <Link className="pt-button pt-minimal profile-link" to={"/forum"}>Forum</Link>
+            <Link className="pt-button pt-minimal" to={"/forum"}>Forum</Link>
             <span className="pt-navbar-divider"></span>
-            <Link className="pt-button pt-minimal profile-link" to={"/user/"+this.props.currentUserId}>My Profile</Link>
+            <Link className="pt-button pt-minimal" to={"/user/"+this.props.currentUserId}>My Profile</Link>
             <span className="pt-navbar-divider"></span>
             <Link className="pt-button pt-minimal log-out-link" aria-label="Log Out" to="/logout">Logout</Link>
           </div>
         </div>
       )
-      : null
+      : 
+      <div className="pt-navbar-group pt-align-left">
+        <Link style={headerStyle} className="pt-navbar-heading" to="/">Critique Connect</Link>
+      </div>
         }
       </nav>
     );
