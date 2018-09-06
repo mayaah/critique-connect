@@ -84,7 +84,7 @@ class Forum extends Component {
   render() {
 
 	  return (
-      <Grid style={{marginTop: "100px"}}>
+      <Grid style={{marginTop: "100px", marginBottom: "50px"}}>
       	<Row>
       		<Col sm={12} className="flex forum-header">
 		      	<div className="page-name">Forum</div>
@@ -116,15 +116,15 @@ class Forum extends Component {
 	      </Row>
 	      <Row>
 	      	<Col sm={12}>
-	      		<div>
-		        <Pagination
-		          activePage={this.state.activePage}
-		          itemsCountPerPage={20}
-		          totalItemsCount={this.state.threads.length}
-		          pageRangeDisplayed={5}
-		          onChange={this.handlePageChange}
-		        />
-		      </div>
+	      		<div className="forum-paginate">
+  		        <Pagination
+  		          activePage={this.state.activePage}
+  		          itemsCountPerPage={20}
+  		          totalItemsCount={this.state.threads.length}
+  		          pageRangeDisplayed={5}
+  		          onChange={this.handlePageChange}
+  		        />
+		        </div>
 	      	</Col>
 	      </Row>
       </Grid>

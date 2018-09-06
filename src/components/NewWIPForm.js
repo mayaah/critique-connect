@@ -75,7 +75,8 @@ class NewWIPForm extends Component {
       disclaimers: "",
       improvementAreas: "",
       blurb: "",
-      additionalNotes: ""
+      additionalNotes: "",
+      creationDate: ""
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
     this.WIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
@@ -135,7 +136,8 @@ class NewWIPForm extends Component {
 	    blurb: this.state.blurb,
 	    additionalNotes: this.state.additionalNotes,
 	    genres: this.state.genres.split(","),
-	    types: this.state.types.split(",")
+	    types: this.state.types.split(","),
+	    creationDate: Date.now()
 	  }
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;

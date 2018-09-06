@@ -107,22 +107,26 @@ class Thread extends Component {
             <div className="page-name">{this.state.topic}</div>
           </Col>
         </Row>
-        {this.state.currentPosts.map((post) => {
-          return (
-            <Row className="post flex" key={post.id}>
-              <Col sm={2}>
-                <Link to={"/user/" + post.authorId}>
-                  <div className="post-author-name">{post.author}</div>
-                  <Image className="post-author-avatar" src={post.authorAvatar} responsive />
-                </Link>
-                <div className="post-date">{this.simplifyDate(new Date(post.date).toUTCString())}</div>
-              </Col>
-              <Col sm={10}>
-                <div className="post-comment">{post.comment}</div>
-              </Col>
-            </Row>
-          )
-        })}
+        <div className="posts">
+          {this.state.currentPosts.map((post) => {
+            return (
+              <Row className="post flex" key={post.id}>
+                <Col sm={2}>
+                  <Link to={"/user/" + post.authorId}>
+                    <div className="post-author-name">{post.author}</div>
+                    <div className="post-author-avatar-container">
+                      <Image className="post-author-avatar" src={post.authorAvatar} responsive />
+                    </div>
+                  </Link>
+                  <div className="post-date">{this.simplifyDate(new Date(post.date).toUTCString())}</div>
+                </Col>
+                <Col sm={10}>
+                  <div className="post-comment">{post.comment}</div>
+                </Col>
+              </Row>
+            )
+          })}
+        </div>
         <Row>
           <Col sm={12}>
             <NewPostForm threadId={this.state.threadId} /> 

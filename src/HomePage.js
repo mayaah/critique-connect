@@ -125,51 +125,57 @@ class HomePage extends Component {
   render() {
     return (
     	<Grid style={{marginTop: "75px"}}>
-        <Row className="homepage-section">
+        <Row className="display-WIPs homepage-section">
           <div className="section-divider">
             <span className="section-divider-title">
-              Newest Users
+              Newest Works in Progress
             </span>
             <div className="section-divider-hr"></div>
           </div>
-          {this.state.users.map((user) => {
-              return (
-                <Link to={"/user/" + user.id}>
-                  <Col sm={2} className="homepage-user flex" key={user.id}>
-                    <div className="homepage-avatar-url-container">
-                      <Image className="homepage-avatar-url" src={user.avatarURL} responsive/>
-                    </div>
-                    <div className="homepage-user-name">{user.name}</div>
-                  </Col>
-                </Link>
-              )
-            })}
-          </Row>
-          <Row className="display-WIPs homepage-section">
+          {this.state.wips.map((WIP) => {
+            return (
+              <Link to={"/wip/" + WIP.id}>
+                <Col sm={3} className="hompage-wip" key={WIP.id}>
+                  <div className="wip-name-text">{WIP.title}</div>
+                  {WIP.types[0] &&
+                    <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div>
+                  }
+                  {WIP.wc > 0 &&
+                    <div className="wip-wc-text">{WIP.wc} words</div>
+                  }
+                  {WIP.genres.map((genre) => {
+                    return (
+                      <div className="wip-genre-text">{genresHash[genre]}</div>
+                    )
+                  })}
+                  <div className="wip-logline-text">{WIP.logline}</div>
+                </Col>
+              </Link>
+            )
+          })}
+        </Row>
+        <Row className="homepage-section">
+          <Col sm={6} md={6} lg={6}>
             <div className="section-divider">
               <span className="section-divider-title">
-                Newest Works in Progress
+                Newest Users
               </span>
               <div className="section-divider-hr"></div>
             </div>
-            {this.state.wips.map((WIP) => {
-              return (
-                <Link to={"/wip/" + WIP.id}>
-                  <Col sm={3} className="hompage-wip" key={WIP.id}>
-                    <div className="wip-name-text">{WIP.title}</div>
-                    <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div><div className="wip-wc-text">{WIP.wc} words</div>
-                    {WIP.genres.map((genre) => {
-                      return (
-                        <div className="wip-genre-text">{genresHash[genre]}</div>
-                      )
-                    })}
-                    <div className="wip-logline-text">{WIP.logline}</div>
-                  </Col>
-                </Link>
-              )
-            })}
-          </Row>
-          <Row className="homepage-section">
+            {this.state.users.map((user) => {
+                return (
+                  <Link to={"/user/" + user.id}>
+                    <Col sm={4} className="homepage-user flex" key={user.id}>
+                      <div className="homepage-avatar-url-container">
+                        <Image className="homepage-avatar-url" src={user.avatarURL} responsive/>
+                      </div>
+                      <div className="homepage-user-name">{user.name}</div>
+                    </Col>
+                  </Link>
+                )
+              })}
+          </Col>
+          <Col sm={6} md={6} lg={6}>
             <div className="section-divider">
               <span className="section-divider-title">
                 Newest Discussions
@@ -180,12 +186,13 @@ class HomePage extends Component {
                 return (
                   <Link to={"/thread/" + thread.id}>
                     <Col sm={12} className="homepage-thread" key={thread.id}>
-                      <div className="wip-name-text">{thread.topic}</div>
+                      <div className="thread-title">{thread.topic}</div>
                     </Col>
                   </Link>
                 )
               })}
-          </Row>
+          </Col>
+        </Row>
     	</Grid>
     );
   }

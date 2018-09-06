@@ -57,7 +57,7 @@ const languagesHash = {
   chinese: "Chinese",
   german: "German",
   spanish: "Spanish",
-  japanese: "Japanese",
+  Japanese: "Japanese",
   russian: "Russian",
   french: "French",
   korean: "Korean",
@@ -74,7 +74,9 @@ class WIP extends Component {
     this.state = {
       redirect: false,
       wipId: this.props.match.params.wipId,
+      currentUserId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       writer: "",
+      writerName: "",
       title: "",
       wordCount: "",
       genres: [],
@@ -123,6 +125,17 @@ class WIP extends Component {
         genres: WIP.genres ? WIP.genres : [],
         types: WIP.types ? WIP.types : []
       });
+      var promises = []
+      var writerRef = firebaseDB.database().ref(`/Users/${WIP.writer}`)
+      promises.push(writerRef.once('value')); 
+      Promise.all(promises).then((snapshots) => {
+        snapshots.forEach((snapshot) => {
+          var writer = snapshot.val()
+          this.setState({
+            writerName: writer.displayName ? writer.displayName : ""
+          })
+        })
+      })
   	})
   }
 
@@ -145,86 +158,124 @@ class WIP extends Component {
 	  	<Grid className="wip-page" style={{marginTop: "100px"}}>
 	  		<Row className="wip-header">
 	  			<Col sm={12}>
-	  				<div className="wip-title">{this.state.title}</div>
-            <div className="wip-buttons flex">
-              <Button className="black-bordered-button" block>
-                <Link className="flex" to={"/edit_wip/" + this.state.wipId} >
-                <Image src={require('../images/pencil-black.png')} responsive />
-                <span className="edit-wip-text">Edit WIP</span>
-                </Link>
-              </Button>
-              <Button className="black-bordered-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</Button>
+            <div className="flex wip-title-and-buttons">
+  	  				<div className="wip-title">{this.state.title}</div>
+              <div className="wip-buttons flex">
+                {this.state.writer == this.state.currentUserId &&
+                  <Button className="black-bordered-button">
+                    <Link className="flex" to={"/edit_wip/" + this.state.wipId} >
+                      <span className="edit-wip-text">Edit WIP</span>
+                    </Link>
+                  </Button>
+                }
+                {this.state.writer == this.state.currentUserId &&
+                  <Button className="black-bordered-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</Button>
+                }
+              </div>
             </div>
-            <div className="wip-logline">{this.state.logline}</div>
+            <Link to={"/user/" + this.state.writer}>
+              <div className="wip-writer">By {this.state.writerName}</div>
+            </Link>
+            {this.state.logline.length > 0 &&
+              <div className="wip-logline">{this.state.logline}</div>
+            }
 	  			</Col>
 	  		</Row>
         <Row>
           <Col className="wip-left-col" sm={4}>
-            <div className="section-divider small-section-divider">
-              <span className="section-divider-title small-section-divider-title">
-                Wordcount
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="small-field-text">{this.state.wordCount} words</div>
-            <div className="section-divider small-section-divider">
-              <span className="section-divider-title small-section-divider-title">
-                Language
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="small-field-text">{this.state.language}</div>
-            <div className="section-divider small-section-divider">
-              <span className="section-divider-title small-section-divider-title">
-                Type(s)
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="display-field-list">
-              <div className="wrapper">
-                  {this.state.types.map((type) => {
-                    return (
-                      <div className="small-field-text">{type}</div>
-                    )
-                  })}
+            {this.state.wordCount.length > 0 &&
+              <div className="wip-section">
+                <div className="section-divider small-section-divider">
+                  <span className="section-divider-title small-section-divider-title">
+                    Wordcount
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="small-field-text">{this.state.wordCount} words</div>
               </div>
-            </div>
-            <div className="section-divider small-section-divider">
-              <span className="section-divider-title small-section-divider-title">
-                Genre(s)
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="display-field-list">
-              <div className="wrapper">
-                  {this.state.genres.map((genre) => {
-                    return (
-                      <div className="small-field-text">{genresHash[genre]}</div>
-                    )
-                  })}
+            }
+            {this.state.language.length > 0 &&
+              <div className="wip-section">
+                <div className="section-divider small-section-divider">
+                  <span className="section-divider-title small-section-divider-title">
+                    Language
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="small-field-text">{languagesHash[this.state.language]}</div>
               </div>
-            </div>
-            <div className="section-divider small-section-divider">
-              <span className="section-divider-title small-section-divider-title">
-                Draft
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="small-field-text">{this.state.draft}</div>
-            <div className="section-divider small-section-divider">
-              <span className="section-divider-title small-section-divider-title">
-                Disclaimers
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="small-field-text">{this.state.disclaimers}</div>
-            <div className="section-divider small-section-divider">
-              <span className="section-divider-title small-section-divider-title">
-                Improvement Areas
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="small-field-text">{this.state.improvementAreas}</div>
+            }
+            {this.state.types[0] &&
+              <div className="wip-section">
+                <div className="section-divider small-section-divider">
+                  <span className="section-divider-title small-section-divider-title">
+                    Type(s)
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="display-field-list">
+                  <div className="wrapper">
+                      {this.state.types.map((type) => {
+                        return (
+                          <div className="small-field-text">{type}</div>
+                        )
+                      })}
+                  </div>
+                </div>
+              </div>
+            }
+            {this.state.genres[0] &&
+              <div className="wip-section">
+                <div className="section-divider small-section-divider">
+                  <span className="section-divider-title small-section-divider-title">
+                    Genre(s)
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="display-field-list">
+                  <div className="wrapper">
+                      {this.state.genres.map((genre) => {
+                        return (
+                          <div className="small-field-text">{genresHash[genre]}</div>
+                        )
+                      })}
+                  </div>
+                </div>
+              </div>
+            }
+            {this.state.draft.length > 0 &&
+              <div className="wip-section">
+                <div className="section-divider small-section-divider">
+                  <span className="section-divider-title small-section-divider-title">
+                    Draft
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="small-field-text">{this.state.draft}</div>
+              </div>
+            }
+            {this.state.disclaimers.length > 0 &&
+              <div className="wip-section">
+                <div className="section-divider small-section-divider">
+                  <span className="section-divider-title small-section-divider-title">
+                    Disclaimers
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="small-field-text">{this.state.disclaimers}</div>
+              </div>
+            }
+            {this.state.improvementAreas.length > 0 &&
+              <div className="wip-section">
+                <div className="section-divider small-section-divider">
+                  <span className="section-divider-title small-section-divider-title">
+                    Improvement Areas
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="small-field-text">{this.state.improvementAreas}</div>
+              </div>
+            }
           </Col>
           <Col className="wip-right-col" sm={8}>
             <div className="section-divider">
@@ -233,15 +284,22 @@ class WIP extends Component {
               </span>
               <div className="section-divider-hr"></div>
             </div>
-            <div className="section-long-text">{this.state.blurb}</div>
-            <div className="section-divider">
-              <span className="section-divider-title">
-                Additional Notes
-              </span>
-              <div className="section-divider-hr"></div>
-            </div>
-            <div className="section-long-text">{this.state.additionalNotes}</div>
-          </Col>
+            {this.state.blurb.length > 0 ?
+              (<div className="section-long-text">{this.state.blurb}</div>) :
+              (<div className="no-data">There's no blurb for {this.state.title} yet!</div>)
+            }
+            {this.state.additionalNotes.length > 0 &&
+              <div className="wip-section">
+                <div className="section-divider">
+                  <span className="section-divider-title">
+                    Additional Notes
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <div className="section-long-text">{this.state.additionalNotes}</div>
+              </div>
+            }
+            </Col>
         </Row>
 	  	</Grid>
 	   );

@@ -71,19 +71,19 @@
 }
 
 .social-links {
+	margin-top: 10px;
 	display: flex;
 	align-items: center;
 }
 
 .social-icons {
-	width: 25px;
+	width: 20px;
 	align-self: center;
 	margin-right: 15px;
 }
 
-button.black-bordered-button {
-/*	font-family: 'Lato', sans-serif;
-*/	font-weight: 400;
+/*button.black-bordered-button {
+	font-weight: 400;
 	display: flex;
 	text-align: center;
 	justify-content: center;
@@ -116,7 +116,45 @@ button.black-bordered-button img {
 button.black-bordered-button a {
 	text-decoration: none;
 	color: black;
+}*/
+
+button.black-bordered-button {
+	display: block;
+	padding: 10px 30px;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+	transition: .3s;
+	border: 2px solid black;
+	text-decoration: none;
+	border-radius: 0;
+	font-size: 15px;
 }
+button.black-bordered-button:hover {
+	cursor: pointer;
+	background: white;
+	border: 2px black solid;
+	color: black;
+}
+button.black-bordered-button:hover:after {
+	width: 100%;
+	left: 0;
+}
+button.black-bordered-button:after {
+	position: absolute;
+	transition: .3s;
+	content: '';
+	width: 0;
+	left: 0;
+	bottom: 0;
+	height: 3px;
+	background: black;
+}
+button.black-bordered-button a {
+	text-decoration: none;
+	color: black;
+}
+
 
 .user-info .message-user-button, .edit-profile-button {
 /*	font-family: 'Lato', sans-serif;*/
@@ -358,11 +396,24 @@ span#ltr-label {
 	letter-spacing: 0.1em;
 }
 
+.reviewer-avatar-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	width: 25px;
+	height: 25px;
+}
+
 .reviewer-avatar {
-	max-width: 25px;
+	/*max-width: 25px;
 	width: 25px;
 	align-self: center;
-	display: inline-block;
+	display: inline-block;*/
+	flex-shrink: 0;
+	min-width: 100%;
+	min-height: 100%;
+	object-fit: cover;
 }
 
 .review-metadata {
@@ -376,13 +427,16 @@ span#ltr-label {
 .reviewer-name {
 	display: inline-block;
 	margin-left: 10px;
-	font-size: 14px;
+	font-size: 16px;
 /*	font-family: 'Lato', sans-serif;*/
 	font-weight: 400;
 	color: black;
-	text-transform: uppercase;
 }
 
+.no-data {
+	font-size: 14px;
+	margin: 10px 0;
+}
 
 
 

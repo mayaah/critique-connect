@@ -138,6 +138,18 @@ a.pt-button.pt-minimal:hover {
 	color: black;
 }
 
+.pt-navbar-heading:visited {
+	text-decoration: none;
+	color: black;
+}
+
+.pt-navbar-heading:active {
+	text-decoration: none;
+	color: black;
+}
+
+
+
 .login-styles {
 /*	flex-display: 1 1 0;
 */
@@ -148,6 +160,10 @@ a.pt-button.pt-minimal:hover {
 	font-size: 20px;
 /*	width: 400px;
 	margin: 0 auto;*/
+}
+
+.login-styles button {
+	margin: 0 auto;
 }
 
 .splash-page label.pt-label .pt-input, label.pt-label .pt-select {
@@ -177,7 +193,7 @@ input::-webkit-input-placeholder {
 	text-align: center;
 }
 
-.splash-page .login-auth {
+/*.splash-page .login-auth {
 	font-family: 'Cardo', serif;
 	font-size: 23px;
 	border: none;
@@ -191,7 +207,7 @@ input::-webkit-input-placeholder {
 
 .splash-page .login-auth:hover {
 	background: white;
-}
+}*/
 
 /*.splash-page .login-auth {
 

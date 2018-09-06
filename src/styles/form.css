@@ -3,7 +3,6 @@
 	background: var(--mainGradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-	text-transform: uppercase;
 	letter-spacing: 0.1em;
 	font-size: 50px;
 }
@@ -17,10 +16,7 @@ label.pt-label {
 }
 
 .label-field-name {
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
 	font-size: 15px;
-	text-transform: uppercase;
 	background-color: white;
 	padding-bottom: 2px;
   background: var(--mainGradient) 
@@ -47,7 +43,7 @@ label.pt-label {
 
 .multiselect-field {
 	width: 500px;
-	margin-top: 10px;
+	margin: 10px 0;
 }
 
 .select-field {
@@ -67,10 +63,11 @@ label.pt-label {
 	font-size: 14px;
 	margin-top: 5px;
 	line-height: 2em;
+	font-weight: 300;
 }
 
 .review-textarea, .thread-textarea {
-	width: 100%;
+	min-width: 100%;
 	min-height: 200px;
 	box-shadow: none;
 	padding: 0;
@@ -81,22 +78,22 @@ label.pt-label {
 	line-height: 2em;
 }
 
+.thread-textarea {
+	margin: 30px 0;
+}
+
 .input-checkbox {
 	font-size: 12px;
-	text-transform: uppercase;
-	font-family: 'Lato', sans-serif;
-	font-weight: 300;
-
 }
 
 .pt-control:hover input:checked ~ .pt-control-indicator, .pt-control:hover .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox .pt-control:hover input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox:hover input:indeterminate ~ .pt-control-indicator {
-	background-color: var(--cherry2);
+	background-color: var(--ccRed);
 }
 
 
 .pt-control input:checked ~ .pt-control-indicator, .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator {
 	box-shadow: none;
-	background-color: var(--cherry2);
+	background-color: var(--ccRed);
 }
 
 .field-avatar {
@@ -111,7 +108,7 @@ label.pt-label {
 	font-weight: 400;
 	margin: 10px 0;
 }
-
+/*
 input.black-bordered-button {
 	font-family: 'Lato', sans-serif;
 	font-weight: 400;
@@ -147,6 +144,44 @@ input.black-bordered-button img {
 
 input.black-bordered-button a {
 	text-decoration: none;
+}*/
+
+input.black-bordered-button {
+	display: block;
+	flex: 1 1 auto;
+	padding: 10px 30px;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+	transition: .3s;
+	border: 2px solid black;
+	text-decoration: none;
+	border-radius: 0;
+	font-size: 15px;
+}
+input.black-bordered-button:hover {
+	cursor: pointer;
+	background: white;
+	border: 2px black solid;
+	color: black;
+}
+input.black-bordered-button:hover:after {
+	width: 100%;
+	left: 0;
+}
+input.black-bordered-button:after {
+	position: absolute;
+	transition: .3s;
+	content: '';
+	width: 0;
+	left: 0;
+	bottom: 0;
+	height: 3px;
+	background: black;
+}
+input.black-bordered-button a {
+	text-decoration: none;
+	color: black;
 }
 
 .Select, .Select div, .Select input, .Select span {
@@ -154,7 +189,7 @@ input.black-bordered-button a {
 }
 
 .Select--multi .Select-value {
-	background-color: var(--cherry1);
+	background-color: var(--ccRed);
 	color: white;
 	font-size: 12px;
 	letter-spacing: 0.1em;
@@ -162,6 +197,20 @@ input.black-bordered-button a {
 
 .Select--multi .Select-value-icon {
 	border-right: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.Select-control {
+	border: 1px solid black;
+	border-radius: 0;
+}
+
+.Select-option.is-selected {
+    color: red;
+}
+
+.Select-option.is-focused  {
+    background-color: var(--ccRed) !important;
+    color: white;
 }
 
 

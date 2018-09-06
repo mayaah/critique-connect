@@ -19,7 +19,7 @@
 }
 
 .homepage-user-name {
-	color: var(--ccRed);
+	color: black;
 	font-size: 20px;
 	letter-spacing: 0.1em;
 	font-weight: 400;
@@ -46,4 +46,12 @@
 
 .homepage-thread {
 	border-bottom: 1px lightgray solid;
+}
+
+.thread-title {
+	margin: 10px 0;
+	font-size: 25px;
+	color: black;
+	font-weight: 400;
+	letter-spacing: 0.1em;
 }

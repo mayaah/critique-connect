@@ -74,7 +74,7 @@ class NewPostForm extends Component {
 
     return (
       <form onSubmit={(event) => this.submitPost(event)} ref={(form) => this.submitPostForm = form}>
-        <TextArea className="review-textarea" large={true} value={this.state.comment} name="comment" onChange={this.handleChange} label="comment"/>
+        <TextArea className="thread-textarea" large={true} value={this.state.comment} name="comment" onChange={this.handleChange} label="comment"/>
         <input type="submit" className="black-bordered-button" value="Submit Post"></input>
       </form>
     )

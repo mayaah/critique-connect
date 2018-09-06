@@ -6,21 +6,20 @@
 .forum-thread-row {
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
+	color: black;
 }
 
 .thread-row-topic {
 	font-size: 18px;
-	color: var(--cherry2);
 	font-weight: 400;
 }
 
 .thread-row-postCount, .thread-row-date {
-	font-size: 13px;
+	font-size: 14px;
 	text-align: right;
 }
 
 .post {
-	font-family: 'Lato', sans-serif;
 	font-weight: 400;
 	padding: 20px 0;
 	border-bottom: 1px lightgray solid;
@@ -28,28 +27,75 @@
 	white-space: pre-wrap;
 }
 
+.post:last-child {
+	border-bottom: 0;
+}
+
+.post a {
+	text-decoration: none;
+}
+
 .post-comment {
-	font-family: 'Lato', sans-serif;
 	font-weight: 400;
-	font-size: 14px;
+	font-size: 15px;
 	line-height: 2em;
 	margin: 0 0 10px 0;
 }
 
-.post-author-avatar {
-	max-width: 100px;
-	width: 100px;
-	align-self: center;
-	display: inline-block;
+.post-author-avatar-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	width: 150px;
+	height: 150px;
 	margin: 10px 0;
 }
 
+.post-author-avatar {
+	flex-shrink: 0;
+	min-width: 100%;
+	min-height: 100%;
+	object-fit: cover;
+}
+
 .post-author-name {
-	font-size: 15px;
-	font-weight: 700;
+	font-size: 18px;
+	color: black;
 }
 
 .post-date {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 400;
 }
+
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span{
+	border-radius: 0;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+	color: red;
+	background-color: white;
+
+}
+
+.pagination > li > a{
+	width: 50px;
+	border: none;
+}
+
+.pagination > li > a, .pagination > li > span {
+	font-size: 20px;
+	color: black;
+	text-align: center;
+	font-weight: 700;
+}
+
+
+
+

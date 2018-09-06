@@ -1,11 +1,9 @@
-.wip-page {
-	font-family: 'Lato', sans-serif;
-	font-weight: 300;
+.wip-header {
+	padding-bottom: 10px;
 }
 
-.wip-header {
-	padding-bottom: 40px;
-	border-bottom: 1px lightgrey solid;
+.wip-header a {
+	text-decoration: none;
 }
 
 .wip-title {
@@ -13,13 +11,27 @@
 	background: var(--mainGradient);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-	text-transform: uppercase;
 	letter-spacing: 0.1em;
 	font-size: 50px;
 }
 
+.wip-writer {
+	text-decoration: none;
+	font-size: 17px;
+	color: black;
+	margin: 10px 0;
+}
+
+.wip-title-and-buttons {
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.wip-buttons button{
+	margin-left: 10px;
+}
+
 .wip-logline {
-	font-family: 'Lato', sans-serif;
 	font-weight: 400;
 	font-size: 15px;
 }
@@ -34,14 +46,12 @@
 }
 
 .wip-field {
-	font-family: 'Lato', sans-serif;
 	font-weight: 400;
 	font-size: 13px;
 	margin-bottom: 10px;
 }
 
 .wip-field-name {
-	font-family: 'Lato', sans-serif;
 	font-weight: 700;
 	font-size: 16px;
 	padding-bottom: 2px;

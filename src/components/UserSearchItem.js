@@ -54,7 +54,9 @@ class UserSearchItem extends Component {
       		<Link to={"/user/" + this.state.objectId}>
       			<Row className="user-search-summary flex">
       				<Col sm={2} className="flex">
-      					<Image className="user-search-img" src={this.state.avatarURL} responsive />
+                <div className="user-search-img-container">
+                  <Image className="user-search-img" src={this.state.avatarURL} responsive />
+                </div>
       				</Col>
       				<Col sm={10}>
 			        	<div className="user-name-and-labels">
@@ -68,18 +70,26 @@ class UserSearchItem extends Component {
 			              ( null )
 			            }
 		          	</div>
-		          	<div className="user-search-result">
-		            	<span className="user-search-result-field">Last active: </span><span className="user-search-result-value">{this.state.lastLogin}</span> 
-		            </div>
-		            <div className="user-search-result">
-		            	<span className="user-search-result-field">Critique compensation type: </span><span className="user-search-result-value">{this.state.compensation}</span>
-		            </div>
-		            <div className="user-search-result">
-		            	<span className="user-search-result-field">Genres Write: </span><span className="wip-genre-text">{this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}</span>
-		            </div>
-		            <div className="user-search-result">
-		            	<span className="user-search-result-field">Genres Read: </span><span className="wip-genre-text">{this.state.genresRead.map(genre => genresHash[genre]).join(', ')}</span>
-		            </div>
+                {this.state.lastLogin &&
+  		          	<div className="user-search-result">
+  		            	<span className="user-search-result-field">Last active: </span><span className="user-search-result-value">{this.state.lastLogin}</span> 
+  		            </div>
+                }
+                {this.state.compensation &&
+  		            <div className="user-search-result">
+  		            	<span className="user-search-result-field">Critique compensation type: </span><span className="user-search-result-value">{this.state.compensation}</span>
+  		            </div>
+                }
+                {this.state.genresWrite[0] &&
+  		            <div className="user-search-result">
+  		            	<span className="user-search-result-field">Genres Write: </span><span className="wip-genre-text">{this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}</span>
+  		            </div>
+                }
+                {this.state.genresRead[0] &&
+  		            <div className="user-search-result">
+  		            	<span className="user-search-result-field">Genres Read: </span><span className="wip-genre-text">{this.state.genresRead.map(genre => genresHash[genre]).join(', ')}</span>
+  		            </div>
+                }
 				      </Col>
 			      </Row>
 		      </Link>
