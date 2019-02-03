@@ -53,19 +53,19 @@ const typesHash = {
 }
 
 const languagesHash = {
-  english : "English",
-  chinese: "Chinese",
-  german: "German",
-  spanish: "Spanish",
+  English : "English",
+  Chinese: "Chinese",
+  German: "German",
+  Spanish: "Spanish",
   Japanese: "Japanese",
-  russian: "Russian",
-  french: "French",
-  korean: "Korean",
-  italian: "Italian",
-  dutch: "Dutch",
-  portuguese: "Portuguese",
-  hindi: "Hindi",
-  other: "Other"
+  Russian: "Russian",
+  French: "French",
+  Korean: "Korean",
+  Italian: "Italian",
+  Dutch: "Dutch",
+  Portuguese: "Portuguese",
+  Hindi: "Hindi",
+  Other: "Other"
 }
 
 class WIP extends Component {
@@ -143,6 +143,10 @@ class WIP extends Component {
   	this.WIPRef.off();
   }
 
+  componentDidUpdate(nextProps) {
+    window.scrollTo(0,0);
+  }
+
   removeWIP(WIPId) {
     this.setState({ redirect: true })
     this.WIPRef.remove();
@@ -202,7 +206,7 @@ class WIP extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                <div className="small-field-text">{languagesHash[this.state.language]}</div>
+                <div className="small-field-text">{this.state.language}</div>
               </div>
             }
             {this.state.types[0] &&

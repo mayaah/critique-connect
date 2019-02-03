@@ -82,12 +82,12 @@ class UserSearchItem extends Component {
                 }
                 {this.state.genresWrite[0] &&
   		            <div className="user-search-result">
-  		            	<span className="user-search-result-field">Genres Write: </span><span className="wip-genre-text">{this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}</span>
+  		            	<span className="user-search-result-field">Genres I Write: </span><span className="wip-genre-text">{this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}</span>
   		            </div>
                 }
                 {this.state.genresRead[0] &&
   		            <div className="user-search-result">
-  		            	<span className="user-search-result-field">Genres Read: </span><span className="wip-genre-text">{this.state.genresRead.map(genre => genresHash[genre]).join(', ')}</span>
+  		            	<span className="user-search-result-field">Genres I Read: </span><span className="wip-genre-text">{this.state.genresRead.map(genre => genresHash[genre]).join(', ')}</span>
   		            </div>
                 }
 				      </Col>

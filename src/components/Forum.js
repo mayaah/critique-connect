@@ -66,6 +66,10 @@ class Forum extends Component {
   	this.theadsRef.off();
   }
 
+  componentDidUpdate(nextProps) {
+    window.scrollTo(0,0);
+  }
+
   handlePageChange(pageNumber) {
     console.log(`active page is ${pageNumber}`);
     this.setState(

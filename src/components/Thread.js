@@ -82,6 +82,10 @@ class Thread extends Component {
     this.postsRef.off()
   }
 
+  componentDidUpdate(nextProps) {
+    window.scrollTo(0,0);
+  }
+
   simplifyDate(date) {
     let dateArray = date.split(" ")
     let dateOnly = dateArray.slice(1, 4)

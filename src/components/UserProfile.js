@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Redirect, withRouter } from 'react-router-dom';
 import NewWIPForm from './NewWIPForm';
 import EditProfileForm from './EditProfileForm';
 import EditWIPForm from './EditWIPForm';
@@ -91,23 +91,29 @@ class UserProfile extends Component {
       reviewsToShow: 5,
       doneExpanded: false
     }
-    this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
-    this.usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
-    this.usersReviewsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Reviews`)
     this.handleChange = this.handleChange.bind(this);
     this.showMore = this.showMore.bind(this);
     this.simplifyDate = this.simplifyDate.bind(this);
+    this.loadData = this.loadData.bind(this);
     // this.WIPsRef = firebaseDB.database().ref(`/WIPs`).on('value', snapshot => {
     //   return snapshot.val();
     // })
   }
 
-  componentWillMount() {
-    this.removeWIP = this.removeWIP.bind(this)
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.match.params.id !== this.props.match.params.id) {
+  //     this.setState({
 
+  //       userId: nextProps.match.params.id,
 
-  componentWillMount() {
+  //     })
+  //   }
+  // }
+
+  loadData(userId) {
+    this.userRef = firebaseDB.database().ref(`/Users/${userId}`)
+    this.usersWIPsRef = firebaseDB.database().ref(`/Users/${userId}/WIPs`)
+    this.usersReviewsRef = firebaseDB.database().ref(`/Users/${userId}/Reviews`)
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
       // let returnedGenresRead = []
@@ -235,6 +241,24 @@ class UserProfile extends Component {
         });
       });
     });
+  }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.setState({ userId: this.props.match.params.id });
+      this.loadData(this.props.match.params.id);
+      window.scrollTo(0,0);
+    }
+  }
+
+  // componentWillMount() {
+    
+  // }
+
+
+  componentWillMount() {
+    this.removeWIP = this.removeWIP.bind(this)
+    this.loadData(this.state.userId);
   }
 
   // componentDidMount() {

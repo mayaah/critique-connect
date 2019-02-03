@@ -124,7 +124,7 @@ class App extends Component {
               <Route exact path="/logout" component={Logout}/>
               <Route exact path="/search" component={Search}/>
               <Route exact path="/forum" component={Forum}/>
-              <Route path="/user/:id" component={UserProfile} currentUserId={this.state.currentUserId}/>
+              <Route exact path="/user/:id" component={UserProfile} currentUserId={this.state.currentUserId}/>
               <Route path="/wip/:wipId" component={WIP} currentUserId={this.state.currentUserId}/>
               <Route exact path="/submit_wip/:userId" render={(props) => {
                 return <NewWIPForm authenticated={this.state.authenticated} currentUserId={this.state.currentUserId} {...props} />

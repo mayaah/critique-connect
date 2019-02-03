@@ -69,6 +69,10 @@ class UserSearch extends Component {
     });
   }
 
+  componentDidUpdate(nextProps) {
+    window.scrollTo(0,0);
+  }
+
   render() {
     const Toggle = ({ refine, currentRefinement, label }) => (
       <Checkbox checked={currentRefinement} className="input-checkbox form-field-box" label={label} onChange={() => refine(!currentRefinement)} />
