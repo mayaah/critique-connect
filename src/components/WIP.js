@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
-import NewWIPForm from './NewWIPForm';
-import EditProfileForm from './EditProfileForm';
-import EditWIPForm from './EditWIPForm';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-
+import { Link, Redirect } from 'react-router-dom';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 import { firebaseDB, base } from '../base'
 
 const genresHash = {
@@ -31,17 +27,6 @@ const genresHash = {
   ya: "Young Adult"
 }
 
-const TYPES = [
-  { label: "Fiction", value: "Fiction" },
-  { label: "Nonfiction", value: "Nonfiction"},
-  { label: "Novel", value: "Novel"},
-  { label: "Novella", value: "Novella"},
-  { label: "Poetry", value: "Poetry"},
-  { label: "Short Story", value: "Short Story"},
-  { label: "Screenplay", value: "Screenplay"},
-  { label: "Anthology", value: "Anthology"}
-];
-
 const typesHash = {
   fiction: "Fiction",
   nonfiction: "Nonfiction",
@@ -52,24 +37,8 @@ const typesHash = {
   anthology: "Anthology"
 }
 
-const languagesHash = {
-  English : "English",
-  Chinese: "Chinese",
-  German: "German",
-  Spanish: "Spanish",
-  Japanese: "Japanese",
-  Russian: "Russian",
-  French: "French",
-  Korean: "Korean",
-  Italian: "Italian",
-  Dutch: "Dutch",
-  Portuguese: "Portuguese",
-  Hindi: "Hindi",
-  Other: "Other"
-}
-
 class WIP extends Component {
-	constructor(props){
+  constructor(props){
     super(props)
     this.state = {
       redirect: false,
@@ -93,25 +62,9 @@ class WIP extends Component {
   }
 
   componentDidMount() {
-  	this.WIPRef.on('value', snapshot => {
-  		let WIP = snapshot.val()
-      // let returnedTypes = []
-      // if (WIP.types != null) {
-      //   var types = Object.keys(WIP.types) || []
-      //   var filteredTypes = types.filter(function(type) {
-      //     return WIP.types[type]
-      //   })
-      //   returnedTypes = filteredTypes
-      // }
-      // let returnedGenres = []
-      // if (WIP.genres != null) {
-      //   var genres = Object.keys(WIP.genres) || []
-      //   var filteredGenres = genres.filter(function(genre) {
-      //     return WIP.genres[genre]
-      //   })
-      //   returnedGenres = filteredGenres
-      // }
-  		this.setState({
+    this.WIPRef.on('value', snapshot => {
+      let WIP = snapshot.val()
+      this.setState({
         title: WIP.title ? WIP.title : "",
         wordCount: WIP.wc ? WIP.wc : "",
         logline: WIP.logline ? WIP.logline : "",
@@ -136,15 +89,15 @@ class WIP extends Component {
           })
         })
       })
-  	})
-  }
-
-  componentWillUnmount() {
-  	this.WIPRef.off();
+    })
   }
 
   componentDidUpdate(nextProps) {
     window.scrollTo(0,0);
+  }
+
+  componentWillUnmount() {
+    this.WIPRef.off();
   }
 
   removeWIP(WIPId) {
@@ -154,40 +107,52 @@ class WIP extends Component {
     usersWIPRef.remove();
   }
 
-	render() {
+  render() {
     if (this.state.redirect === true) {
       return <Redirect to= {{pathname: '/user/' + this.state.writer}} />
     }
     return (
-	  	<Grid className="wip-page" style={{marginTop: "100px"}}>
-	  		<Row className="wip-header">
-	  			<Col sm={12}>
+      <Grid className="wip-page" style={{ marginTop: "100px" }}>
+        <Row className="wip-header">
+          <Col sm={12}>
             <div className="flex wip-title-and-buttons">
-  	  				<div className="wip-title">{this.state.title}</div>
+              <div className="wip-title">
+                {this.state.title}
+              </div>
               <div className="wip-buttons flex">
-                {this.state.writer == this.state.currentUserId &&
+                {this.state.writer == this.state.currentUserId && (
                   <Button className="black-bordered-button">
-                    <Link className="flex" to={"/edit_wip/" + this.state.wipId} >
-                      <span className="edit-wip-text">Edit WIP</span>
+                    <Link className="flex" to={"/edit_wip/" + this.state.wipId}>
+                      <span className="edit-wip-text">
+                        Edit WIP
+                      </span>
                     </Link>
                   </Button>
-                }
-                {this.state.writer == this.state.currentUserId &&
-                  <Button className="black-bordered-button" onClick={() => this.removeWIP(WIP.id)}>Remove Item</Button>
-                }
+                )}
+                {this.state.writer == this.state.currentUserId && (
+                  <Button className="black-bordered-button" 
+                          onClick={() => this.removeWIP(WIP.id)}
+                  >
+                    Remove Item
+                  </Button>
+                )}
               </div>
             </div>
             <Link to={"/user/" + this.state.writer}>
-              <div className="wip-writer">By {this.state.writerName}</div>
+              <div className="wip-writer">
+                By {this.state.writerName}
+              </div>
             </Link>
-            {this.state.logline.length > 0 &&
-              <div className="wip-logline">{this.state.logline}</div>
-            }
-	  			</Col>
-	  		</Row>
+            {this.state.logline.length > 0 && (
+              <div className="wip-logline">
+                {this.state.logline}
+              </div>
+            )}
+          </Col>
+        </Row>
         <Row>
           <Col className="wip-left-col" sm={4}>
-            {this.state.wordCount.length > 0 &&
+            {this.state.wordCount.length > 0 && (
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -195,10 +160,12 @@ class WIP extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                <div className="small-field-text">{this.state.wordCount} words</div>
+                <div className="small-field-text">
+                  {this.state.wordCount} words
+                </div>
               </div>
-            }
-            {this.state.language.length > 0 &&
+            )}
+            {this.state.language.length > 0 && (
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -206,10 +173,12 @@ class WIP extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                <div className="small-field-text">{this.state.language}</div>
+                <div className="small-field-text">
+                  {this.state.language}
+                </div>
               </div>
-            }
-            {this.state.types[0] &&
+            )}
+            {this.state.types[0] && (
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -219,16 +188,18 @@ class WIP extends Component {
                 </div>
                 <div className="display-field-list">
                   <div className="wrapper">
-                      {this.state.types.map((type) => {
-                        return (
-                          <div className="small-field-text">{type}</div>
-                        )
-                      })}
+                    {this.state.types.map((type) => {
+                      return (
+                        <div className="small-field-text">
+                          {type}
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
               </div>
-            }
-            {this.state.genres[0] &&
+            )}
+            {this.state.genres[0] && (
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -240,14 +211,16 @@ class WIP extends Component {
                   <div className="wrapper">
                       {this.state.genres.map((genre) => {
                         return (
-                          <div className="small-field-text">{genresHash[genre]}</div>
+                          <div className="small-field-text">
+                            {genresHash[genre]}
+                          </div>
                         )
                       })}
                   </div>
                 </div>
               </div>
-            }
-            {this.state.draft.length > 0 &&
+            )}
+            {this.state.draft.length > 0 && (
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -255,10 +228,12 @@ class WIP extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                <div className="small-field-text">{this.state.draft}</div>
+                <div className="small-field-text">
+                  {this.state.draft}
+                </div>
               </div>
-            }
-            {this.state.disclaimers.length > 0 &&
+            )}
+            {this.state.disclaimers.length > 0 && (
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -266,10 +241,12 @@ class WIP extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                <div className="small-field-text">{this.state.disclaimers}</div>
+                <div className="small-field-text">
+                  {this.state.disclaimers}
+                </div>
               </div>
-            }
-            {this.state.improvementAreas.length > 0 &&
+            )}
+            {this.state.improvementAreas.length > 0 && (
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
@@ -277,9 +254,11 @@ class WIP extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                <div className="small-field-text">{this.state.improvementAreas}</div>
+                <div className="small-field-text">
+                  {this.state.improvementAreas}
+                </div>
               </div>
-            }
+            )}
           </Col>
           <Col className="wip-right-col" sm={8}>
             <div className="section-divider">
@@ -288,11 +267,12 @@ class WIP extends Component {
               </span>
               <div className="section-divider-hr"></div>
             </div>
-            {this.state.blurb.length > 0 ?
-              (<div className="section-long-text">{this.state.blurb}</div>) :
-              (<div className="no-data">There's no blurb for {this.state.title} yet!</div>)
-            }
-            {this.state.additionalNotes.length > 0 &&
+            {this.state.blurb.length > 0 ? (
+              <div className="section-long-text">{this.state.blurb}</div>
+            ) : (
+              <div className="no-data">There's no blurb for {this.state.title} yet!</div>
+            )}
+            {this.state.additionalNotes.length > 0 && (
               <div className="wip-section">
                 <div className="section-divider">
                   <span className="section-divider-title">
@@ -300,13 +280,15 @@ class WIP extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                <div className="section-long-text">{this.state.additionalNotes}</div>
+                <div className="section-long-text">
+                  {this.state.additionalNotes}
+                </div>
               </div>
-            }
-            </Col>
+            )}
+          </Col>
         </Row>
-	  	</Grid>
-	   );
+      </Grid>
+    );
   }
 }
 

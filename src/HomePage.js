@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
-import Header from './components/Header';
-import Logout from './components/Logout';
+import { Link } from 'react-router-dom';
 import './HomePage.css';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-import {InstantSearch, Hits, Highlight,SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement} from 'react-instantsearch/dom';
-
+import { Grid, Row, Col, Image } from 'react-bootstrap';
 import { firebaseDB, base } from './base'
 
 const genresHash = {
@@ -32,7 +28,6 @@ const genresHash = {
   ya: "Young Adult"
 }
 
-
 class HomePage extends Component {
   constructor() {
     super()
@@ -42,12 +37,10 @@ class HomePage extends Component {
       wips: [],
       threads: []
     }
-
     this.usersRef = firebaseDB.database().ref(`/Users`).orderByChild('creationDate').limitToLast(6)
     this.wipsRef = firebaseDB.database().ref(`/WIPs`).orderByChild('creationDate').limitToLast(4)
     this.threadsRef = firebaseDB.database().ref(`/Threads`).orderByChild('date').limitToLast(6)
-
-  }	
+  } 
 
   componentWillMount() {
     this.usersRef.on('value', snapshot => {
@@ -122,37 +115,45 @@ class HomePage extends Component {
     });  
   }
 
+  componentWillUnmount() {
+    this.usersRef.off();
+    this.wipsRef.off();
+    this.threadsRef.off();
+  }
+
   render() {
     return (
-    	<Grid style={{marginTop: "75px"}}>
+      <Grid style={{ marginTop: "75px" }}>
         <Row className="display-WIPs homepage-section">
-          <div className="section-divider">
-            <span className="section-divider-title">
-              Newest Works in Progress
-            </span>
-            <div className="section-divider-hr"></div>
-          </div>
-          {this.state.wips.map((WIP) => {
-            return (
-              <Link to={"/wip/" + WIP.id}>
-                <Col sm={3} className="hompage-wip" key={WIP.id}>
-                  <div className="wip-name-text">{WIP.title}</div>
-                  {WIP.types[0] &&
-                    <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div>
-                  }
-                  {WIP.wc > 0 &&
-                    <div className="wip-wc-text">{WIP.wc} words</div>
-                  }
-                  {WIP.genres.map((genre) => {
-                    return (
-                      <div className="wip-genre-text">{genresHash[genre]}</div>
-                    )
-                  })}
-                  <div className="wip-logline-text">{WIP.logline}</div>
-                </Col>
-              </Link>
-            )
-          })}
+          <Col sm={12} md={12} lg={12}>
+            <div className="section-divider">
+              <span className="section-divider-title">
+                Newest Works in Progress
+              </span>
+              <div className="section-divider-hr"></div>
+            </div>
+            {this.state.wips.map((WIP) => {
+              return (
+                <Link to={"/wip/" + WIP.id} key={WIP.id}>
+                  <Col sm={3} className="hompage-wip">
+                    <div className="wip-name-text">{WIP.title}</div>
+                    {WIP.types[0] && (
+                      <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div>
+                    )}
+                    {WIP.wc > 0 && (
+                      <div className="wip-wc-text">{WIP.wc} words</div>
+                    )}
+                    {WIP.genres.map((genre) => {
+                      return (
+                        <div className="wip-genre-text" key={genre}>{genresHash[genre]}</div>
+                      )
+                    })}
+                    <div className="wip-logline-text">{WIP.logline}</div>
+                  </Col>
+                </Link>
+              )
+            })}
+          </Col>
         </Row>
         <Row className="homepage-section">
           <Col sm={6} md={6} lg={6}>
@@ -164,8 +165,8 @@ class HomePage extends Component {
             </div>
             {this.state.users.map((user) => {
                 return (
-                  <Link to={"/user/" + user.id}>
-                    <Col sm={4} className="homepage-user flex" key={user.id}>
+                  <Link to={"/user/" + user.id} key={user.id}>
+                    <Col sm={4} className="homepage-user flex">
                       <div className="homepage-avatar-url-container">
                         <Image className="homepage-avatar-url" src={user.avatarURL} responsive/>
                       </div>
@@ -184,8 +185,8 @@ class HomePage extends Component {
             </div>
             {this.state.threads.map((thread) => {
                 return (
-                  <Link to={"/thread/" + thread.id}>
-                    <Col sm={12} className="homepage-thread" key={thread.id}>
+                  <Link to={"/thread/" + thread.id} key={thread.id}>
+                    <Col sm={12} className="homepage-thread">
                       <div className="thread-title">{thread.topic}</div>
                     </Col>
                   </Link>
@@ -193,7 +194,7 @@ class HomePage extends Component {
               })}
           </Col>
         </Row>
-    	</Grid>
+      </Grid>
     );
   }
 }

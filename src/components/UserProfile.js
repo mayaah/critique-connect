@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect, withRouter } from 'react-router-dom';
-import NewWIPForm from './NewWIPForm';
-import EditProfileForm from './EditProfileForm';
-import EditWIPForm from './EditWIPForm';
+import { Link } from 'react-router-dom';
 import WIP from './WIP.js';
 import NewReviewForm from './NewReviewForm'
-import { Checkbox, TextArea } from "@blueprintjs/core";
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-
-
-
+import { Spinner } from '@blueprintjs/core';
 import { firebaseDB, base } from '../base'
 
 const genresHash = {
@@ -34,16 +28,6 @@ const genresHash = {
   sf: "Science Fiction",
   wf: "Women's",
   ya: "Young Adult"
-}
-
-const typesHash = {
-  fiction: "Fiction",
-  nonfiction: "Nonfiction",
-  novella: "Novella",
-  poetry: "Poetry",
-  ss: "Short Story",
-  sp: "Screenplay",
-  anthology: "Anthology"
 }
 
 const TRAITS_LIST = [
@@ -89,26 +73,34 @@ class UserProfile extends Component {
       compensation: "",
       rates: "",
       reviewsToShow: 5,
-      doneExpanded: false
+      doneExpanded: false,
+      loading: true,
     }
     this.handleChange = this.handleChange.bind(this);
     this.showMore = this.showMore.bind(this);
     this.simplifyDate = this.simplifyDate.bind(this);
     this.loadData = this.loadData.bind(this);
-    // this.WIPsRef = firebaseDB.database().ref(`/WIPs`).on('value', snapshot => {
-    //   return snapshot.val();
-    // })
+    this.thereIsSomeUserInfo = this.thereIsSomeUserInfo.bind(this);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.match.params.id !== this.props.match.params.id) {
-  //     this.setState({
+  componentWillMount() {
+    this.removeWIP = this.removeWIP.bind(this)
+    this.loadData(this.state.userId);
+  }
 
-  //       userId: nextProps.match.params.id,
+  componentDidUpdate(nextProps) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.setState({ userId: this.props.match.params.id });
+      this.loadData(this.props.match.params.id);
+    }
+    window.scrollTo(0,0);
+  }
 
-  //     })
-  //   }
-  // }
+  componentWillUnmount() {
+    this.userRef.off();
+    this.usersWIPsRef.off();
+    this.usersReviewsRef.off();
+  }
 
   loadData(userId) {
     this.userRef = firebaseDB.database().ref(`/Users/${userId}`)
@@ -116,22 +108,6 @@ class UserProfile extends Component {
     this.usersReviewsRef = firebaseDB.database().ref(`/Users/${userId}/Reviews`)
     this.userRef.on('value', snapshot => {
       let user = snapshot.val()
-      // let returnedGenresRead = []
-      // let returnedGenresWrite = []
-      // if (user.genresRead != null) {
-      //   var genres = Object.keys(user.genresRead)
-      //   var filteredRead = genres.filter(function(genre) {
-      //     return user.genresRead[genre]
-      //   })
-      //   returnedGenresRead = filteredRead
-      // }
-      // if (user.genresWrite != null) {
-      //   var genres = Object.keys(user.genresWrite)
-      //   var filteredWrite = genres.filter(function(genre) {
-      //     return user.genresWrite[genre]
-      //   })
-      //   returnedGenresWrite = filteredWrite
-      // }
       this.setState({
         displayName: user.displayName,
         lfr: user.lfr ? user.lfr : false,
@@ -154,7 +130,8 @@ class UserProfile extends Component {
         critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
         goals: user.goals ? user.goals : "",
         compensation: user.compensation ? user.compensation : "",
-        rates: user.rates ? user.rates : ""
+        rates: user.rates ? user.rates : "",
+        loading: false,
       });
     });
     this.usersWIPsRef.on('value', snapshot => {
@@ -168,22 +145,6 @@ class UserProfile extends Component {
       Promise.all(promises).then((snapshots) => {
         snapshots.forEach((snapshot) => {
           var WIP = snapshot.val()
-          // let returnedGenres = []
-          // if (WIP.genres != null) {
-          //   var genres = Object.keys(genresHash)
-          //   var filteredGenres = genres.filter(function(genre) {
-          //     return WIP.genres[genre]
-          //   })
-          //   returnedGenres = filteredGenres
-          // }
-          // let returnedTypes= []
-          // if (WIP.types != null) {
-          //   var types = Object.keys(typesHash)
-          //   var filteredTypes = types.filter(function(type) {
-          //     return WIP.types[type]
-          //   })
-          //   returnedTypes = filteredTypes
-          // }
           newState.push({
             id: snapshot.key,
             title: WIP.title,
@@ -235,53 +196,12 @@ class UserProfile extends Component {
             });
             console.log(sortedArr)
             this.setState({
-              reviews: sortedArr
+              reviews: sortedArr,
             });
           })
         });
       });
     });
-  }
-
-  componentDidUpdate(nextProps) {
-    if (nextProps.match.params.id !== this.props.match.params.id) {
-      this.setState({ userId: this.props.match.params.id });
-      this.loadData(this.props.match.params.id);
-      window.scrollTo(0,0);
-    }
-  }
-
-  // componentWillMount() {
-    
-  // }
-
-
-  componentWillMount() {
-    this.removeWIP = this.removeWIP.bind(this)
-    this.loadData(this.state.userId);
-  }
-
-  // componentDidMount() {
-  //   console.log(this.state.reviews)
-  //   var sortedArr = this.state.reviews.sort(function(a, b){
-  //     var keyA = new Date(a.reviewDate),
-  //         keyB = new Date(b.reviewDate);
-  //     // Compare the 2 dates
-  //     if(keyA < keyB) return -1;
-  //     if(keyA > keyB) return 1;
-  //     return 0;
-  //   });
-  //   this.setState({
-  //     reviews: sortedArr
-  //   })
-  //   console.log(this.state.reviews)
-  // }
-
-  componentWillUnmount() {
-    this.userRef.off();
-    this.usersWIPsRef.off();
-    this.usersReviewsRef.off();
-    // this.WIPsRef.off()
   }
 
   removeWIP(WIPId) {
@@ -291,7 +211,6 @@ class UserProfile extends Component {
     usersWIPRef.remove();
   }
 
-
   handleChange(event) {
     this.setState({ 
       [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
@@ -300,9 +219,15 @@ class UserProfile extends Component {
 
   showMore() {
     this.state.reviewsToShow === 5 ? (
-      this.setState({ reviewsToShow: this.state.reviews.length, expanded: true })
+      this.setState({ 
+        reviewsToShow: this.state.reviews.length, 
+        expanded: true  
+      })
     ) : (
-      this.setState({ reviewsToShow: 5, expanded: false })
+      this.setState({ 
+        reviewsToShow: 5, 
+        expanded: false 
+      })
     )
   }
 
@@ -312,7 +237,20 @@ class UserProfile extends Component {
     return dateOnly.join(" ")
   }
 
+  // Used to check if there exists some user info to know whether to show the user info div
+  thereIsSomeUserInfo() {
+    return this.state.location.length > 0 || this.state.occupation.length > 0 || this.state.education.length > 0
+  }
+
   render() {
+    if (this.state.loading === true) {
+        return (
+          <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%" }}>
+            <h3>Loading</h3>
+            <Spinner />
+          </div>
+        )
+      }
 
     const websiteTooltip = (
       <Tooltip id="tooltip">
@@ -356,398 +294,458 @@ class UserProfile extends Component {
       </Tooltip>
     );
 
-
-
     return (
-        <Grid className="profile-page" style={{marginTop: "100px"}}>
-          <Row className="profile-header">
-            <Col sm={3}>
-              <Row>
-                <Col sm={12}>
-                  <div className="profile-avatar-container">
-                    <Image className="profile-avatar" src={this.state.avatarURL} responsive/>
+      <Grid className="profile-page" style={{ marginTop: "100px" }}>
+        <Row className="profile-header">
+          <Col sm={3}>
+            <Row>
+              <Col sm={12}>
+                <div className="profile-avatar-container">
+                  <Image className="profile-avatar" 
+                         src={this.state.avatarURL} 
+                         responsive
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={12}>
+                {this.state.genresRead.length > 0 && (
+                  <div className="user-profile-section">
+                    <div className="section-divider">
+                      <span className="section-divider-title small-section-divider-title">
+                        Genres I Read
+                      </span>
+                      <div className="section-divider-hr"></div>
+                    </div>
+                     <div className="display-genres-read">
+                      <div className="wrapper">
+                          {this.state.genresRead.map((genre) => {
+                            return (
+                              <div className="small-field-text">
+                                {genresHash[genre]}
+                              </div>
+                            )
+                          })}
+                      </div>
+                    </div>
                   </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col sm={12}>
-                  {this.state.genresRead.length > 0 &&
-                    <div className="user-profile-section">
-                      <div className="section-divider">
-                        <span className="section-divider-title small-section-divider-title">
-                          Genres I Read
-                        </span>
-                        <div className="section-divider-hr"></div>
-                      </div>
-                       <div className="display-genres-read">
-                        <div className="wrapper">
-                            {this.state.genresRead.map((genre) => {
-                              return (
-                                <div className="small-field-text">{genresHash[genre]}</div>
-                              )
-                            })}
-                        </div>
+                )}
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={12}>
+                {this.state.genresWrite.length > 0 && (
+                  <div className="user-profile-section">
+                    <div className="section-divider">
+                      <span className="section-divider-title small-section-divider-title">
+                        Genres I Write
+                      </span>
+                      <div className="section-divider-hr"></div>
+                    </div>
+                     <div className="display-genres-write">
+                      <div className="wrapper">
+                          {this.state.genresWrite.map((genre) => {
+                            return (
+                              <div className="small-field-text">
+                                {genresHash[genre]}
+                              </div>
+                            )
+                          })}
                       </div>
                     </div>
-                  }
-                </Col>
-              </Row>
+                  </div>
+                )}
+              </Col>
+            </Row>
+            {this.state.ltr ? (
               <Row>
                 <Col sm={12}>
-                  {this.state.genresWrite.length > 0 &&
+                  {this.state.compensation.length > 0 && (
                     <div className="user-profile-section">
                       <div className="section-divider">
                         <span className="section-divider-title small-section-divider-title">
-                          Genres I Write
-                        </span>
-                        <div className="section-divider-hr"></div>
-                      </div>
-                       <div className="display-genres-write">
-                        <div className="wrapper">
-                            {this.state.genresWrite.map((genre) => {
-                              return (
-                                <div className="small-field-text">{genresHash[genre]}</div>
-                              )
-                            })}
-                        </div>
-                      </div>
-                    </div>
-                  }
-                </Col>
-              </Row>
-              {this.state.ltr ? 
-                (
-                  <Row>
-                    <Col sm={12}>
-                      {this.state.compensation.length > 0 &&
-                        <div className="user-profile-section">
-                          <div className="section-divider">
-                            <span className="section-divider-title small-section-divider-title">
-                              Critique Compensation
-                            </span>
-                            <div className="section-divider-hr"></div>
-                          </div>
-                           <div className="display-genres-write">
-                            <div className="wrapper">
-                              <div className="small-field-text">{this.state.compensation}</div>
-                              {this.state.compensation == "Paid Services" ? 
-                                (
-                                  <div className="small-field-text">{this.state.rates}</div>
-                                )
-                                :
-                                (
-                                  null
-                                )
-                              }
-                              
-                            </div>
-                          </div>
-                        </div>
-                      }
-                    </Col>
-                  </Row>
-                )
-                :
-                (
-                  null
-                )
-
-              }
-              {this.state.ltr ?
-                (
-                  <Row>
-                    <Col sm={12}>
-                      {this.state.critiqueStyle.length > 0 &&
-                        <div className="user-profile-section">
-                          <div className="section-divider">
-                            <span className="section-divider-title small-section-divider-title">
-                              Critique Style
-                            </span>
-                            <div className="section-divider-hr"></div>
-                          </div>
-                           <div className="display-genres-write">
-                            <div className="wrapper">
-                              <div className="small-field-text">{this.state.critiqueStyle}</div>
-                            </div>
-                          </div>
-                        </div>
-                      }
-                    </Col>
-                  </Row> 
-                )
-                :
-                (
-                  null
-                )
-              }
-              {this.state.lfr ?
-                (
-                  <Row>
-                    <Col sm={12}>
-                      {this.state.critiqueTolerance.length > 0 &&
-                        <div className="user-profile-section">
-                          <div className="section-divider">
-                            <span className="section-divider-title small-section-divider-title">
-                              Critique Tolerance
-                            </span>
-                            <div className="section-divider-hr"></div>
-                          </div>
-                           <div className="display-genres-write">
-                            <div className="wrapper">
-                              <div className="small-field-text">{this.state.critiqueTolerance}</div>
-                            </div>
-                          </div>
-                        </div>
-                      }
-                    </Col>
-                  </Row> 
-                )
-                :
-                (
-                  null
-                )
-              }
-              <Row>
-                <Col sm={12}>
-                  {this.state.goals.length > 0 &&
-                    <div className="user-profile-section">
-                      <div className="section-divider">
-                        <span className="section-divider-title small-section-divider-title">
-                          Goals
+                          Critique Compensation
                         </span>
                         <div className="section-divider-hr"></div>
                       </div>
                        <div className="display-genres-write">
                         <div className="wrapper">
-                          <div className="small-field-text">{this.state.goals}</div>
+                          <div className="small-field-text">
+                            {this.state.compensation}
+                          </div>
+                          {this.state.compensation == "Paid Services" ? (
+                            <div className="small-field-text">
+                              {this.state.rates}
+                            </div>
+                          ) : (
+                            null
+                          )}
                         </div>
                       </div>
                     </div>
-                  }
+                  )}
+                </Col>
+              </Row>
+            ) : (
+              null
+            )}
+            {this.state.ltr ? (
+              <Row>
+                <Col sm={12}>
+                  {this.state.critiqueStyle.length > 0 && (
+                    <div className="user-profile-section">
+                      <div className="section-divider">
+                        <span className="section-divider-title small-section-divider-title">
+                          Critique Style
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                       <div className="display-genres-write">
+                        <div className="wrapper">
+                          <div className="small-field-text">
+                            {this.state.critiqueStyle}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </Col>
               </Row> 
-            </Col>
-            <Col sm={9} className="user-info-col">
-              <Row className="user-header">
+            ) : (
+              null
+            )}
+            {this.state.lfr ? (
+              <Row>
                 <Col sm={12}>
-                  <div className="user-info">
-                    <div className="user-name-and-labels">
-                      <span className="user-name">{this.state.displayName}</span>
-                      {this.state.lfr ? 
-                       (<Label className="looking-labels" id="lfr-label">Is Looking for a Reader</Label>) :
-                       ( null )
-                      }
-                      {this.state.ltr ? 
-                        (<Label className="looking-labels" id="ltr-label">Is Looking to Read</Label>) :
-                        ( null )
-                      }
+                  {this.state.critiqueTolerance.length > 0 && (
+                    <div className="user-profile-section">
+                      <div className="section-divider">
+                        <span className="section-divider-title small-section-divider-title">
+                          Critique Tolerance
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                       <div className="display-genres-write">
+                        <div className="wrapper">
+                          <div className="small-field-text">
+                            {this.state.critiqueTolerance}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <Row>
-                      {(this.state.location.length > 0 || this.state.occupation.length > 0 || this.state.education.length > 0) &&
-                        <Col sm={4}>
-                          {this.state.location.length > 0 &&
-                            <div className="user-info-details">
-                              <OverlayTrigger placement="left" overlay={locationTooltip}>
-                                <Image className="user-info-icons" src={require('../images/location-black.png')} responsive/>
-                              </OverlayTrigger>
-                              <span className="user-info-detail">{this.state.location}</span>
-                            </div>
-                          }
-                          {this.state.occupation.length > 0 &&
-                            <div className="user-info-details">
-                              <OverlayTrigger placement="left" overlay={occupationTooltip}>
-                                <Image className="user-info-icons" src={require('../images/work-black.png')} responsive/>
-                              </OverlayTrigger>
-                              <span className="user-info-detail">{this.state.occupation}</span>
-                            </div>
-                          }
-                          {this.state.education.length > 0 &&
-                            <div className="user-info-details">
-                              <OverlayTrigger placement="left" overlay={educationTooltip}>
-                                <Image className="user-info-icons" src={require('../images/education-black.png')} responsive/>
-                              </OverlayTrigger>
-                              <span className="user-info-detail">{this.state.education}</span>
-                            </div>
-                          }
-                        </Col>
-                      }
-                      <Col sm={4}>
-                        <div className="user-info-details">
-                          <span className="user-info-detail-label">Joined: </span>
-                          <span className="user-info-detail">{this.state.joinDate}</span>
-                        </div>
-                        <div className="user-info-details">
-                          <span className="user-info-detail-label">Last Active: </span>
-                          <span className="user-info-detail">{this.state.lastActive}</span>
-                        </div>
-                      </Col>
-                      <Col sm={4}>
-                        <div className="social-links">
-                          {this.state.website.length > 0 &&
-                            <OverlayTrigger placement="left" overlay={websiteTooltip}>
-                              <a href={this.state.website} target="_blank">
-                                <Image className="social-icons" src={require('../images/website-black.png')} responsive/>
-                              </a>
-                            </OverlayTrigger>
-                          }
-                          {this.state.email.length > 0 &&
-                            <OverlayTrigger placement="left" overlay={emailTooltip}>
-                              <a href={`mailto:${this.state.email}`} target="_top">
-                                <Image className="social-icons" src={require('../images/email-black.png')} responsive/>
-                              </a>
-                            </OverlayTrigger>
-                          }
-                          {this.state.fbProfile.length > 0 &&
-                            <OverlayTrigger placement="left" overlay={fbTooltip}>
-                              <a href={this.state.fbProfile} target="_blank">
-                                <Image className="social-icons" src={require('../images/fb-icon.png')} responsive/>
-                              </a>
-                            </OverlayTrigger>
-                          }
-                          {this.state.twitterProfile.length > 0 &&
-                            <OverlayTrigger placement="left" overlay={twitterTooltip}>
-                              <a href={this.state.twitterProfile} target="_blank">
-                                <Image className="social-icons" src={require('../images/twitter-icon.png')} responsive/>
-                              </a>
-                            </OverlayTrigger>
-                          }
-                        </div>
-                      </Col>
-                    </Row>
-                    <div className="user-traits">
-                      {TRAITS_LIST.map((trait) => {
-                        return (
-                          <span className="user-trait-count">{trait} (+{this.state.traits[trait] ? this.state.traits[trait] : 0})</span>
-                        )
-                    })}
+                  )}
+                </Col>
+              </Row> 
+            ) : (
+              null
+            )}
+            <Row>
+              <Col sm={12}>
+                {this.state.goals.length > 0 && (
+                  <div className="user-profile-section">
+                    <div className="section-divider">
+                      <span className="section-divider-title small-section-divider-title">
+                        Goals
+                      </span>
+                      <div className="section-divider-hr"></div>
                     </div>
-                    {this.state.userId == this.state.currentUserId
-                      ?
-                      (
-                        <Button className="black-bordered-button">
-                          <Link className="flex" to={"/edit_profile"} >
-                            Edit Profile
-                          </Link>
-                        </Button>
-                      ) : (
-                        null
-                      )
-                    }
+                     <div className="display-genres-write">
+                      <div className="wrapper">
+                        <div className="small-field-text">
+                          {this.state.goals}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </Col>
-              </Row>
-              <Row className="about-me">
-                <Col sm={12}>
-                  <div className="section-divider">
-                    <span className="section-divider-title">
-                      About Me
+                )}
+              </Col>
+            </Row> 
+          </Col>
+          <Col sm={9} className="user-info-col">
+            <Row className="user-header">
+              <Col sm={12}>
+                <div className="user-info">
+                  <div className="user-name-and-labels">
+                    <span className="user-name">
+                      {this.state.displayName}
                     </span>
-                    <div className="section-divider-hr"></div>
-                  </div>
-                  {this.state.bio.length > 0 ?
-                    (<div className="section-long-text">{this.state.bio}</div>) :
-                    (<div className="no-data">I haven't filled this out yet!</div>)
-                  }
-                </Col>
-              </Row>
-              <Row className="user-wips">
-                <Col sm={12}>
-                  <div className="section-divider">
-                    <span className="section-divider-title">
-                      My Works In Progress
-                    </span>
-                    <div className="section-divider-hr"></div>
-                  </div>
-                  {this.state.userId == this.state.currentUserId
-                    ?
-                    (
-                      <Button className="black-bordered-button">
-                        <Link className="flex" to={"/submit_wip/"+this.state.userId} >Add a Work in Progress</Link>
-                      </Button>
-                    ) : (
+                    {this.state.lfr ? (
+                      <Label className="looking-labels" id="lfr-label">
+                        Is Looking for a Reader
+                      </Label>
+                    ) : ( 
                       null
-                    )
-                  }
-                  {this.state.WIPs.length > 0 ?
-                    (<div className="display-WIPs">
-                      {this.state.WIPs.map((WIP) => {
-                        return (
-                          <Link to={"/wip/" + WIP.id}>
+                    )}
+                    {this.state.ltr ? (
+                      <Label className="looking-labels" id="ltr-label">
+                        Is Looking to Read
+                      </Label>
+                    ) : ( 
+                      null
+                    )}
+                  </div>
+                  <Row>
+                    {this.thereIsSomeUserInfo() && (
+                      <Col sm={4}>
+                        {this.state.location.length > 0 && (
+                          <div className="user-info-details">
+                            <OverlayTrigger placement="left" overlay={locationTooltip}>
+                              <Image className="user-info-icons" 
+                                     src={require('../images/location-black.png')} 
+                                     responsive
+                              />
+                            </OverlayTrigger>
+                            <span className="user-info-detail">
+                              {this.state.location}
+                            </span>
+                          </div>
+                        )}
+                        {this.state.occupation.length > 0 && (
+                          <div className="user-info-details">
+                            <OverlayTrigger placement="left" overlay={occupationTooltip}>
+                              <Image className="user-info-icons" 
+                                     src={require('../images/work-black.png')} 
+                                     responsive/>
+                            </OverlayTrigger>
+                            <span className="user-info-detail">
+                              {this.state.occupation}
+                            </span>
+                          </div>
+                        )}
+                        {this.state.education.length > 0 && (
+                          <div className="user-info-details">
+                            <OverlayTrigger placement="left" overlay={educationTooltip}>
+                              <Image className="user-info-icons" 
+                                     src={require('../images/education-black.png')} 
+                                     responsive
+                              />
+                            </OverlayTrigger>
+                            <span className="user-info-detail">
+                              {this.state.education}
+                            </span>
+                          </div>
+                        )}
+                      </Col>
+                    )}
+                    <Col sm={4}>
+                      <div className="user-info-details">
+                        <span className="user-info-detail-label">
+                          Joined: 
+                        </span>
+                        <span className="user-info-detail">
+                          {this.state.joinDate}
+                        </span>
+                      </div>
+                      <div className="user-info-details">
+                        <span className="user-info-detail-label">
+                          Last Active: 
+                        </span>
+                        <span className="user-info-detail">
+                          {this.state.lastActive}
+                        </span>
+                      </div>
+                    </Col>
+                    <Col sm={4}>
+                      <div className="social-links">
+                        {this.state.website.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={websiteTooltip}>
+                            <a href={this.state.website} target="_blank">
+                              <Image className="social-icons" 
+                                     src={require('../images/website-black.png')} 
+                                     responsive
+                              />
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                        {this.state.email.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={emailTooltip}>
+                            <a href={`mailto:${this.state.email}`} target="_top">
+                              <Image className="social-icons" 
+                                     src={require('../images/email-black.png')} 
+                                     responsive
+                              />
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                        {this.state.fbProfile.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={fbTooltip}>
+                            <a href={this.state.fbProfile} target="_blank">
+                              <Image className="social-icons" 
+                                     src={require('../images/fb-icon.png')} 
+                                     responsive/>
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                        {this.state.twitterProfile.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={twitterTooltip}>
+                            <a href={this.state.twitterProfile} target="_blank">
+                              <Image className="social-icons" 
+                                     src={require('../images/twitter-icon.png')} 
+                                     responsive/>
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="user-traits">
+                    {TRAITS_LIST.map((trait) => {
+                      return (
+                        <span className="user-trait-count">
+                          {trait} (+{this.state.traits[trait] ? this.state.traits[trait] : 0})
+                        </span>
+                      )
+                    })}
+                  </div>
+                  {this.state.userId == this.state.currentUserId ? (
+                    <Button className="black-bordered-button">
+                      <Link className="flex" to={"/edit_profile"} >
+                        Edit Profile
+                      </Link>
+                    </Button>
+                  ) : (
+                    null
+                  )}
+                </div>
+              </Col>
+            </Row>
+            <Row className="about-me">
+              <Col sm={12}>
+                <div className="section-divider">
+                  <span className="section-divider-title">
+                    About Me
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                {this.state.bio.length > 0 ? (
+                  <div className="section-long-text">{this.state.bio}</div>
+                ) : (
+                  <div className="no-data">
+                    I haven't filled this out yet!
+                  </div>
+                )}
+              </Col>
+            </Row>
+            <Row className="user-wips">
+              <Col sm={12}>
+                <div className="section-divider">
+                  <span className="section-divider-title">
+                    My Works In Progress
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                {this.state.userId == this.state.currentUserId ? (
+                  <Button className="black-bordered-button">
+                    <Link className="flex" to={"/submit_wip/"+this.state.userId}>
+                      Add a Work in Progress
+                    </Link>
+                  </Button>
+                ) : (
+                  null
+                )}
+                {this.state.WIPs.length > 0 ? (
+                  <div className="display-WIPs">
+                    {this.state.WIPs.map((WIP) => {
+                      return (
+                        <Link to={"/wip/" + WIP.id}>
                           <div className="wip-summary" key={WIP.id}>
-                            <div className="wip-name-text">{WIP.title}</div>
-                            {WIP.types[0].length > 0 &&
-                              <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div>
-                            }
-                            {WIP.wc > 0 &&
-                              <div className="wip-wc-text">{WIP.wc} words</div>
-                            }
+                            <div className="wip-name-text">
+                              {WIP.title}
+                            </div>
+                            {WIP.types[0].length > 0 && (
+                              <div className="wip-types-text">
+                                {WIP.types.join(', ')} |&nbsp;
+                              </div>
+                            )}
+                            {WIP.wc > 0 && (
+                              <div className="wip-wc-text">
+                                {WIP.wc} words
+                              </div>
+                            )}
                             {WIP.genres.map((genre) => {
                               return (
-                                <div className="wip-genre-text">{genresHash[genre]}</div>
+                                <div className="wip-genre-text">
+                                  {genresHash[genre]}
+                                </div>
                               )
                             })}
-                            <div className="wip-logline-text">{WIP.logline}</div>
+                            <div className="wip-logline-text">
+                              {WIP.logline}
+                            </div>
                           </div>
-                          </Link>
-                        )
-                      })}
-                    </div>) : 
-                    (<div className="no-data">I have no WIPs.</div>)
-                  }
-                </Col>
-              </Row>
-              <Row className="user-reviews">
-                <Col sm={12}>
-                  <div className="section-divider">
-                    <span className="section-divider-title">
-                      Reviews
-                    </span>
-                    <div className="section-divider-hr"></div>
-                  </div>
-                  <NewReviewForm revieweeId={this.state.userId} revieweeName={this.state.displayName} />
-                  <div className="display-WIPs">
-                    {this.state.reviews.slice(0, this.state.reviewsToShow).map((review) => {
-                      return (
-                        <div className="review-summary" key={review.id}>
-                          <div className="review-message">"{review.reviewMessage}"</div>
-                          {review.traits.map((trait) => {
-                            return (
-                              <span className="review-trait">{trait}(+1)</span>
-                              )
-                          })}
-                          <div className="review-metadata"> 
-                            <Link to={"/user/" + review.reviewerId}>
-                              <div className="reviewer-info flex">
-                                <div className="reviewer-avatar-container">
-                                  <Image className="reviewer-avatar" src={review.reviewerAvatar} responsive />
-                                </div>
-                                <div className="reviewer-name">{review.reviewerName}</div>
-                              </div>
-                            </Link>
-                            <div className="review-date">{this.simplifyDate(new Date(review.reviewDate).toUTCString())}</div>
-                          </div>
-                        </div>
+                        </Link>
                       )
                     })}
                   </div>
-                  {this.state.reviews.length > 5 &&
-                    (
-                    <Button className="black-bordered-button" onClick={this.showMore}>
-                      {this.state.expanded ? (
-                         <span>Show less</span>
-                       ) : (
-                         <span>Show more</span>
-                       )
-                      }
-                    </Button>
+                ) :  (
+                  <div className="no-data">
+                    I have no WIPs.
+                  </div>
+                )}
+              </Col>
+            </Row>
+            <Row className="user-reviews">
+              <Col sm={12}>
+                <div className="section-divider">
+                  <span className="section-divider-title">
+                    Reviews
+                  </span>
+                  <div className="section-divider-hr"></div>
+                </div>
+                <NewReviewForm revieweeId={this.state.userId} 
+                               revieweeName={this.state.displayName} />
+                <div className="display-WIPs">
+                  {this.state.reviews.slice(0, this.state.reviewsToShow).map((review) => {
+                    return (
+                      <div className="review-summary" key={review.id}>
+                        <div className="review-message">
+                          "{review.reviewMessage}"
+                        </div>
+                        {review.traits.map((trait) => {
+                          return (
+                            <span className="review-trait">
+                              {trait}(+1)
+                            </span>
+                            )
+                        })}
+                        <div className="review-metadata"> 
+                          <Link to={"/user/" + review.reviewerId}>
+                            <div className="reviewer-info flex">
+                              <div className="reviewer-avatar-container">
+                                <Image className="reviewer-avatar" 
+                                       src={review.reviewerAvatar} 
+                                       responsive 
+                                />
+                              </div>
+                              <div className="reviewer-name">
+                                {review.reviewerName}
+                              </div>
+                            </div>
+                          </Link>
+                          <div className="review-date">
+                            {this.simplifyDate(new Date(review.reviewDate).toUTCString())}
+                          </div>
+                        </div>
+                      </div>
                     )
-                  }
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Grid>
-      );
+                  })}
+                </div>
+                {this.state.reviews.length > 5 && (
+                  <Button className="black-bordered-button" onClick={this.showMore}>
+                    {this.state.expanded ? (
+                      <span>Show less</span>
+                    ) : (
+                      <span>Show more</span>
+                    )}
+                  </Button>
+                )}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Grid>
+    );
   }
 }
 
