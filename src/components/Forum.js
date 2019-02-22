@@ -62,12 +62,12 @@ class Forum extends Component {
     })
   }
 
-  componentWillUmount() {
-  	this.theadsRef.off();
-  }
-
   componentDidUpdate(nextProps) {
     window.scrollTo(0,0);
+  }
+
+  componentWillUmount() {
+  	this.theadsRef.off();
   }
 
   handlePageChange(pageNumber) {
@@ -91,9 +91,13 @@ class Forum extends Component {
       <Grid style={{marginTop: "100px", marginBottom: "50px"}}>
       	<Row>
       		<Col sm={12} className="flex forum-header">
-		      	<div className="page-name">Forum</div>
+		      	<div className="page-name">
+              Forum
+            </div>
 		      	<Button className="black-bordered-button">
-		      		<Link className="flex" to={"/submit_thread"} >New Thread</Link>
+		      		<Link className="flex" to={"/submit_thread"}>
+                New Thread
+              </Link>
 		      	</Button>
 		      </Col>
 	      </Row>
@@ -104,13 +108,19 @@ class Forum extends Component {
               	<Link to={"/thread/" + thread.id}>
 	              	<Row className="forum-thread-row">
 	              		<Col sm={8}>
-	              			<div className="thread-row-topic">{thread.topic}</div>
+	              			<div className="thread-row-topic">
+                        {thread.topic}
+                      </div>
 	              		</Col>
 	              		<Col sm={2}>
-	              			<div className="thread-row-postCount">{thread.postsCount} comments</div>
+	              			<div className="thread-row-postCount">
+                        {thread.postsCount} comments
+                      </div>
 	              		</Col>
 	              		<Col sm={2}>
-	              			<div className="thread-row-date">{thread.date}</div>
+	              			<div className="thread-row-date">
+                        {thread.date}
+                      </div>
 	              		</Col>
 	              	</Row>
               	</Link>
@@ -133,8 +143,7 @@ class Forum extends Component {
 	      </Row>
       </Grid>
 	  );
-
   }
 }
 
-export default Forum
+export default Forum;

@@ -149,6 +149,7 @@ class App extends Component {
                     currentUserId={this.state.currentUserId}/>
           </Switch>
           {this.state.authenticated ? null :  (<Redirect to="/login" />)}
+          <Footer />
         </div>
       </BrowserRouter>
     );

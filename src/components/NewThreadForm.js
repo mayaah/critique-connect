@@ -28,7 +28,6 @@ class NewThreadForm extends Component {
     this.addPostToUser = this.addPostToUser.bind(this);
   }
 
-
   componentWillUnmount() {
   	this.userRef.off();
   	this.userPostsRef.off();
@@ -88,18 +87,47 @@ class NewThreadForm extends Component {
     return (
     	<div>
 	    	<BrowserRouter>
-		      <Grid style={{marginTop: "100px"}}>
-		      	<div className="form-name">New Thread</div>
-		        <form className="center-form" onSubmit={(event) => this.submitThread(event)} ref={(form) => this.ThreadForm = form}>
+		      <Grid style={{ marginTop: "100px" }}>
+		      	<div className="form-name">
+              New Thread
+            </div>
+		        <form 
+              className="center-form" 
+              onSubmit={(event) => this.submitThread(event)} 
+              ref={(form) => this.ThreadForm = form}
+            >
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Topic</span>
-		            <input className="pt-input input-field" value={this.state.topic} name="topic" type="text" onChange={this.handleChange} ></input>
+		            <span className="label-field-name">
+                  Topic
+                </span>
+		            <input 
+                  className="pt-input input-field" 
+                  value={this.state.topic} 
+                  name="topic" 
+                  type="text" 
+                  onChange={this.handleChange}
+                >
+                </input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		          	<span className="label-field-name">Comment</span>
-		          	<TextArea className="thread-textarea" large={true} value={this.state.comment} name="comment" onChange={this.handleChange} label="comment"/>
+		          	<span className="label-field-name">
+                  Comment
+                </span>
+		          	<TextArea 
+                  className="thread-textarea" 
+                  large={true} 
+                  value={this.state.comment} 
+                  name="comment" 
+                  onChange={this.handleChange} 
+                  label="comment"
+                />
 		          </label>	
-		          <input type="submit" className="black-bordered-button" value="Submit Thread"></input>
+		          <input 
+                type="submit" 
+                className="black-bordered-button" 
+                value="Submit Thread"
+              >
+              </input>
 		        </form>
 		      </Grid>
 	      </BrowserRouter>
@@ -108,4 +136,4 @@ class NewThreadForm extends Component {
   }
 }
 
-export default NewThreadForm
+export default NewThreadForm;

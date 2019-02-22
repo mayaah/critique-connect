@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Checkbox, TextArea } from "@blueprintjs/core";
-import Select from 'react-select';
-import TextareaAutosize from 'react-autosize-textarea';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-
 import { firebaseDB, base } from '../base'
 
 class NewPostForm extends Component {
@@ -22,10 +18,6 @@ class NewPostForm extends Component {
     this.threadPostsRef = firebaseDB.database().ref(`Threads/${this.state.threadId}/Posts`)
     this.handleChange = this.handleChange.bind(this);
     this.submitPost = this.submitPost.bind(this);
-  }
-
-  componentWillMount() {
-		
   }
 
   componentWillUnmount() {
@@ -73,12 +65,23 @@ class NewPostForm extends Component {
   render() {
 
     return (
-      <form onSubmit={(event) => this.submitPost(event)} ref={(form) => this.submitPostForm = form}>
-        <TextArea className="thread-textarea" large={true} value={this.state.comment} name="comment" onChange={this.handleChange} label="comment"/>
-        <input type="submit" className="black-bordered-button" value="Submit Post"></input>
+      <form onSubmit={(event) => this.submitPost(event)} 
+            ref={(form) => this.submitPostForm = form}
+      >
+        <TextArea className="thread-textarea" 
+                  large={true} 
+                  value={this.state.comment} 
+                  name="comment" 
+                  onChange={this.handleChange} 
+                  label="comment"
+        />
+        <input type="submit" 
+               className="black-bordered-button" 
+               value="Submit Post">
+        </input>
       </form>
     )
   }
 }
 
-export default NewPostForm
+export default NewPostForm;

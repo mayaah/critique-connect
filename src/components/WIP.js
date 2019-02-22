@@ -292,4 +292,4 @@ class WIP extends Component {
   }
 }
 
-export default WIP
+export default WIP;

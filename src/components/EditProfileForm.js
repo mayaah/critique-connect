@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
-import { Checkbox, TextArea } from "@blueprintjs/core";
+import { BrowserRouter, Redirect } from 'react-router-dom';
+import { Checkbox } from "@blueprintjs/core";
 import Select from 'react-select';
 import FileUploader from 'react-firebase-file-uploader';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-import ReactDOM from 'react-dom';
+import { Grid, Row, Col, Label } from 'react-bootstrap';
 import TextareaAutosize from 'react-autosize-textarea';
-
-
-
 import { firebaseDB, base } from '../base'
 
 const GENRES = [
@@ -40,7 +36,6 @@ const COMPENSATION_TYPES = [
 	{ label: "Paid Services", value: "Paid Services"},
 	{ label: "Critique Exchange", value: "Critique Exchange" },
 ]
-
 
 class EditProfileForm extends Component {
 	constructor(props) {
@@ -82,13 +77,40 @@ class EditProfileForm extends Component {
     this.handleUploadError = this.handleUploadError.bind(this);
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}`);
-    // this.genresWriteRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresWrite`);
-    // this.genresReadRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}/genresRead`);
+  }
+
+  componentDidMount() {
+    this.userRef.on('value', snapshot => {
+    	let currentUser = snapshot.val()
+      this.setState({
+        displayName: currentUser.displayName,
+	      lfr: currentUser.lfr ? currentUser.lfr : false,
+	      ltr: currentUser.ltr ? currentUser.ltr : false,
+	      bio: currentUser.bio ? currentUser.bio : "",
+	      location: currentUser.location ? currentUser.location : "",
+	      education: currentUser.education ? currentUser.education: "",
+	      occupation: currentUser.occupation ? currentUser.occupation : "",
+	      website: currentUser.website ? currentUser.website : "",
+	      fbProfile: currentUser.fbProfile ? currentUser.fbProfile : "",
+	      twitterProfile: currentUser.twitterProfile ? currentUser.twitterProfile : "",
+	      email: currentUser.email ? currentUser.email : "",
+	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : "",
+	      genresWrite: currentUser.genresWrite ? currentUser.genresWrite.join(",") : "",
+	      genresRead: currentUser.genresRead ? currentUser.genresRead.join(",") : "",
+	      critiqueTolerance: currentUser.critiqueTolerance ? currentUser.critiqueTolerance : "",
+	      critiqueStyle: currentUser.critiqueStyle ? currentUser.critiqueStyle : "",
+	      goals: currentUser.goals ? currentUser.goals : "",
+	      compensation: currentUser.compensation ? currentUser.compensation : "",
+	      rates: currentUser.rates ? currentUser.rates : ""
+      });
+    });
+  }
+
+  componentWillUnmount() {
+		this.userRef.off();
   }
 
   handleChange(event) {
-  	console.log(event.target.name)
-    console.log(event.target.value)
     this.setState({ 
     	[event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
     });
@@ -143,91 +165,8 @@ class EditProfileForm extends Component {
   	);
   };
 
-  componentDidMount() {
-    this.userRef.on('value', snapshot => {
-    	let currentUser = snapshot.val()
-      this.setState({
-        displayName: currentUser.displayName,
-	      lfr: currentUser.lfr ? currentUser.lfr : false,
-	      ltr: currentUser.ltr ? currentUser.ltr : false,
-	      bio: currentUser.bio ? currentUser.bio : "",
-	      location: currentUser.location ? currentUser.location : "",
-	      education: currentUser.education ? currentUser.education: "",
-	      occupation: currentUser.occupation ? currentUser.occupation : "",
-	      website: currentUser.website ? currentUser.website : "",
-	      fbProfile: currentUser.fbProfile ? currentUser.fbProfile : "",
-	      twitterProfile: currentUser.twitterProfile ? currentUser.twitterProfile : "",
-	      email: currentUser.email ? currentUser.email : "",
-	      avatarURL: currentUser.avatarURL ? currentUser.avatarURL : "",
-	      genresWrite: currentUser.genresWrite ? currentUser.genresWrite.join(",") : "",
-	      genresRead: currentUser.genresRead ? currentUser.genresRead.join(",") : "",
-	      critiqueTolerance: currentUser.critiqueTolerance ? currentUser.critiqueTolerance : "",
-	      critiqueStyle: currentUser.critiqueStyle ? currentUser.critiqueStyle : "",
-	      goals: currentUser.goals ? currentUser.goals : "",
-	      compensation: currentUser.compensation ? currentUser.compensation : "",
-	      rates: currentUser.rates ? currentUser.rates : ""
-      });
-    });
-   //  this.genresWriteRef.on('value', snapshot => {
-			// let genresWriteHash = snapshot.val()
-			// let selectedGenresWrite = []
-			// for (let genre in genresWriteHash) {
-			// 	if (genresWriteHash[genre]) {
-   //  			selectedGenresWrite.push(genre)
-   //  		}
-   //  	}
-   //  	this.setState({
-   //  		genresWrite: selectedGenresWrite.join(',')
-   //  	})
-   //  })
-   //  this.genresReadRef.on('value', snapshot => {
-   //  	console.log(snapshot.val())
-   //  	let genresReadHash = snapshot.val()
-   //  	let selectedGenresRead = []
-   //  	for (let genre in genresReadHash) {
-   //  		if (genresReadHash[genre]) {
-   //  			selectedGenresRead.push(genre)
-   //  		}
-   //  	}
-   //  	this.setState({
-   //  		genresRead: selectedGenresRead.join(',')
-   //  	})
-   //  })
-  }
-
-  componentWillUnmount() {
-		this.userRef.off();
-		// this.genresWriteRef.off();
-		// this.genresReadRef.off();
-  }
-
   updateUserProfile(event) {
     event.preventDefault()
-   //  for (let genreKey in GENRES) {
-   //  	let genre = GENRES[genreKey].value
-   //  	let genresWriteString = this.state.genresWrite
-   //  	if (genresWriteString.length > 0 && genresWriteString.split(',').includes(genre)) {
-			// 	this.genresWriteRef.update({
-			// 		[genre] : true
-			// 	})
-			// }
-			// else {
-			// 	this.genresWriteRef.update({
-			// 		[genre] : false
-			// 	})
-   //  	}
-   //  	let genresReadString = this.state.genresRead
-   //  	if (genresReadString.length > 0 && genresReadString.split(',').includes(genre)) {
-			// 	this.genresReadRef.update({
-			// 		[genre] : true
-			// 	})
-			// }
-			// else {
-			// 	this.genresReadRef.update({
-			// 		[genre] : false
-			// 	})
-			// }	
-   //  }
 	  this.userRef.update({
       displayName: this.state.displayName,
 	    lfr: this.state.lfr,
@@ -261,20 +200,35 @@ class EditProfileForm extends Component {
     	<div>
 	    	<BrowserRouter>
 		      <Grid style={{marginTop: "100px"}}>
-		      	<div className="form-name">Edit Profile</div>
-		        <form className="center-form" onSubmit={(event) => this.updateUserProfile(event)} ref={(form) => this.EditProfileForm = form}>
+		      	<div className="form-name">
+		      		Edit Profile
+	      		</div>
+		        <form className="center-form" 
+		        			onSubmit={(event) => this.updateUserProfile(event)} 
+		        			ref={(form) => this.EditProfileForm = form}
+      			>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Name</span>
-		            <input className="pt-input input-field" value={this.state.displayName} name="displayName" onChange={this.handleChange} type="text" placeholder={this.state.displayName} ></input>
+		            <span className="label-field-name">
+		            	Name
+	            	</span>
+		            <input className="pt-input input-field" 
+		            			 value={this.state.displayName} 
+		            			 name="displayName" 
+		            			 onChange={this.handleChange} 
+		            			 type="text" 
+		            			 placeholder={this.state.displayName}>
+          			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-								<span className="label-field-name">Avatar</span>
-								{this.state.isUploading &&
+								<span className="label-field-name">
+									Avatar
+								</span>
+								{this.state.isUploading && (
 			            <p>Progress: {this.state.progress}</p>
-			          }
-			          {this.state.avatarURL &&
+			          )}
+			          {this.state.avatarURL && (
 			            <img className="field-avatar" src={this.state.avatarURL} />
-			          }
+			          )}
 			          <FileUploader
 			          	className="avatar-upload-button"
 			            accept="image/*"
@@ -287,42 +241,114 @@ class EditProfileForm extends Component {
 			            onProgress={this.handleProgress}
 			          />
 							</label>
-	            <Checkbox className="input-checkbox form-field-box" checked={this.state.lfr} value={this.state.lfr} name="lfr" onChange={this.handleChange} label="Is Looking For Reader" />
-	            <Checkbox className="input-checkbox form-field-box" checked={this.state.ltr} value={this.state.ltr} name="ltr" onChange={this.handleChange} label="Is Looking To Read" />
+	            <Checkbox className="input-checkbox form-field-box" 
+	            					checked={this.state.lfr} 
+	            					value={this.state.lfr} 
+	            					name="lfr" 
+	            					onChange={this.handleChange} 
+	            					label="Is Looking For Reader"
+    					/>
+	            <Checkbox className="input-checkbox form-field-box" 
+	            					checked={this.state.ltr} 
+	            					value={this.state.ltr} 
+	            					name="ltr" 
+	            					onChange={this.handleChange} 
+	            					label="Is Looking To Read"
+    					/>
 	            <label className="pt-label form-field-box"> 
-	            	<span className="label-field-name">Bio</span>
-		            <TextareaAutosize className="textarea-field" large={true} value={this.state.bio} name="bio" onChange={this.handleChange} label="Bio" onResize={(e) => {}} />
+	            	<span className="label-field-name">
+	            		Bio
+            		</span>
+		            <TextareaAutosize className="textarea-field" 
+		            									large={true} 
+		            									value={this.state.bio} 
+		            									name="bio" 
+		            									onChange={this.handleChange} 
+		            									label="Bio" 
+		            									onResize={(e) => {}}
+								/>
 							</label>
 							<label className="pt-label form-field-box">
-		            <span className="label-field-name">Location</span>
-		            <input className="pt-input input-field" value={this.state.location} name="location" onChange={this.handleChange} type="text" ></input>
+		            <span className="label-field-name">
+		            	Location
+	            	</span>
+		            <input className="pt-input input-field" 
+		            			 value={this.state.location} 
+		            			 name="location" 
+		            			 onChange={this.handleChange} 
+		            			 type="text">
+        			  </input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Occupation</span>
-		            <input className="pt-input input-field" value={this.state.occupation} name="occupation" onChange={this.handleChange} type="text" ></input>
+		            <span className="label-field-name">
+		            	Occupation
+	            	</span>
+		            <input className="pt-input input-field" 
+	            				 value={this.state.occupation} 
+	            				 name="occupation" 
+	            				 onChange={this.handleChange} 
+	            				 type="text">
+        				</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Education</span>
-		            <input className="pt-input input-field" value={this.state.education} name="education" onChange={this.handleChange} type="text" ></input>
+		            <span className="label-field-name">
+		            	Education
+	            	</span>
+		            <input className="pt-input input-field" 
+		            			 value={this.state.education} 
+		            			 name="education" 
+		            			 onChange={this.handleChange} 
+		            			 type="text">
+          			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Website</span>
-		            <input className="pt-input input-field" value={this.state.website} name="website" onChange={this.handleChange} type="url" ></input>
+		            <span className="label-field-name">
+		            	Website
+	            	</span>
+		            <input className="pt-input input-field" 
+		            			 value={this.state.website} 
+		            			 name="website" 
+		            			 onChange={this.handleChange} 
+		            			 type="url">
+          			</input>
 		          </label>
 		           <label className="pt-label form-field-box">
-		            <span className="label-field-name">Email</span>
-		            <input className="pt-input input-field" value={this.state.email} name="email" onChange={this.handleChange} type="email" ></input>
+		            <span className="label-field-name">
+		            	Email
+	            	</span>
+		            <input className="pt-input input-field" 
+		            			 value={this.state.email} 
+		            			 name="email" 
+		            			 onChange={this.handleChange} 
+		            			 type="email">
+        			  </input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Facebook Profile Link</span>
-		            <input className="pt-input input-field" value={this.state.fbProfile} name="fbProfile" onChange={this.handleChange} type="url" ></input>
+		            <span className="label-field-name">
+		            	Facebook Profile Link
+	            	</span>
+		            <input className="pt-input input-field" 
+		            			 value={this.state.fbProfile} 
+		            			 name="fbProfile" 
+		            			 onChange={this.handleChange} 
+		            			 type="url">
+        			  </input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Twitter Profile Link</span>
-		            <input className="pt-input input-field" value={this.state.twitterProfile} name="twitterProfile" onChange={this.handleChange} type="url" ></input>
+		            <span className="label-field-name">
+		            	Twitter Profile Link
+	            	</span>
+		            <input className="pt-input input-field" 
+		            			 value={this.state.twitterProfile} 
+		            			 name="twitterProfile" 
+		            			 onChange={this.handleChange} 
+		            			 type="url">
+          			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		          	<span className="label-field-name">Genres I Write</span>
+		          	<span className="label-field-name">
+		          		Genres I Write
+	          		</span>
 			          <Select
 			          	className="multiselect-field"
 									closeOnSelect={false}
@@ -350,61 +376,84 @@ class EditProfileForm extends Component {
 								/>
 							</label>
 							<label className="pt-label form-field-box"> 
-	            	<span className="label-field-name">Goals</span>
-		            <TextareaAutosize className="textarea-field" large={true} value={this.state.goals} name="goals" onChange={this.handleChange} label="Goals" />
+	            	<span className="label-field-name">
+	            		Goals
+            		</span>
+		            <TextareaAutosize className="textarea-field" 
+		            									large={true} 
+		            									value={this.state.goals} 
+		            									name="goals" 
+		            									onChange={this.handleChange} 
+		            									label="Goals"
+								/>
 							</label>
-							{this.state.lfr ?
-								(
-									<div >
-										<label className="pt-label form-field-box"> 
-				            	<span className="label-field-name">Critique Tolerance</span>
-					            <TextareaAutosize className="textarea-field" large={true} value={this.state.critiqueTolerance} name="critiqueTolerance" onChange={this.handleChange} label="critiqueTolerance" />
-										</label>
-									</div>
-								) :
-								(
-									null
-								)
-							}
-							{this.state.ltr ?
-								(
-									<div>
-										<label className="pt-label form-field-box"> 
-				            	<span className="label-field-name">Critique Style</span>
-					            <TextareaAutosize className="textarea-field" large={true} value={this.state.critiqueStyle} name="critiqueStyle" onChange={this.handleChange} label="critiqueStyle" />
-										</label>
-										<label className="pt-label form-field-box">
-					          	<span className="label-field-name">Critique Compensation Type</span>
-						          <Select
-						          	className="select-field"
-												closeOnSelect={false}
-												disabled={false}
-												onChange={this.handleCompensationChange}
-												options={COMPENSATION_TYPES}
-												placeholder="Select compensation type"
-												simpleValue
-												value={this.state.compensation}
-											/>
-										</label>
-									</div>
-								)
-								:
-								(
-									null
-								)
-							}
-							{this.state.compensation == "Paid Services" ? 
-								(
+							{this.state.lfr ? (
+								<div >
 									<label className="pt-label form-field-box"> 
-			            	<span className="label-field-name">Paid Services Rates</span>
-				            <TextareaAutosize className="textarea-field" large={true} value={this.state.rates} name="rates" onChange={this.handleChange} label="rates" />
+			            	<span className="label-field-name">
+			            		Critique Tolerance
+		            		</span>
+				            <TextareaAutosize className="textarea-field" 
+				            									large={true} 
+				            									value={this.state.critiqueTolerance} 
+				            									name="critiqueTolerance" 
+				            									onChange={this.handleChange} 
+				            									label="critiqueTolerance"
+  									/>
 									</label>
-								)
-								:
-								(
-									null
-								)
-							}
+								</div>
+							) : (
+								null
+							)}
+							{this.state.ltr ? (
+								<div>
+									<label className="pt-label form-field-box"> 
+			            	<span className="label-field-name">
+			            		Critique Style
+		            		</span>
+				            <TextareaAutosize className="textarea-field" 
+				            									large={true} 
+				            									value={this.state.critiqueStyle} 
+				            									name="critiqueStyle" 
+				            									onChange={this.handleChange} 
+				            									label="critiqueStyle"
+  									/>
+									</label>
+									<label className="pt-label form-field-box">
+				          	<span className="label-field-name">
+				          		Critique Compensation Type
+			          		</span>
+					          <Select
+					          	className="select-field"
+											closeOnSelect={false}
+											disabled={false}
+											onChange={this.handleCompensationChange}
+											options={COMPENSATION_TYPES}
+											placeholder="Select compensation type"
+											simpleValue
+											value={this.state.compensation}
+										/>
+									</label>
+								</div>
+							) : (
+								null
+							)}
+							{this.state.compensation == "Paid Services" ?  (
+								<label className="pt-label form-field-box"> 
+		            	<span className="label-field-name">
+		            		Paid Services Rates
+	            		</span>
+			            <TextareaAutosize className="textarea-field" 
+			            									large={true} 
+			            									value={this.state.rates} 
+			            									name="rates" 
+			            									onChange={this.handleChange} 
+			            									label="rates"
+									/>
+								</label>
+							) : (
+								null
+							)}
 		          <input type="submit" className="black-bordered-button" value="Save"></input>
 		        </form>
 		      </Grid>

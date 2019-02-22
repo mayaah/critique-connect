@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
-import TextareaAutosize from 'react-autosize-textarea';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-
 import { firebaseDB, base } from '../base'
-
 
 const TRAITS = [
 	{ label: "Constructive", value: "Constructive" },
@@ -144,27 +140,24 @@ class NewReviewForm extends Component {
   			[trait]: newTraitCount
   		})
   	}
-  	// let traitsArray = this.state.traits.split(",")
-  	// for (let traitIndex in traitsArray) {
-  	// 	let trait = traitsArray[traitIndex]
-  	// 	let newTraitCount = 1
-  	// 	firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Traits/${trait}`).once("value",snapshot => {
-   //  		const traitData = snapshot.val();
-   //  		if (traitData) {
-   //  			newTraitCount = snapshot.val() + 1
-   //  		}
-   //  	})
-  	// 	this.revieweeTraitsRef.update({
-  	// 		[trait]: newTraitCount
-  	// 	})
-  	// }
   }
 
   render() {
 
     return (
-      <form onSubmit={(event) => this.submitReview(event)} ref={(form) => this.submitReviewForm = form}>
-        <TextArea className="review-textarea" large={true} value={this.state.reviewMessage} name="reviewMessage" onChange={this.handleChange} label="reviewMessage" placeholder={'Write a review for ' + this.state.revieweeName}/>
+      <form 
+        onSubmit={(event) => this.submitReview(event)} 
+        ref={(form) => this.submitReviewForm = form}
+      >
+        <TextArea 
+          className="review-textarea" 
+          large={true} 
+          value={this.state.reviewMessage} 
+          name="reviewMessage" 
+          onChange={this.handleChange} 
+          label="reviewMessage" 
+          placeholder={'Write a review for ' + this.state.revieweeName}
+        />
         <Select
           className="multiselect-field"
           closeOnSelect={false}
@@ -176,10 +169,15 @@ class NewReviewForm extends Component {
           simpleValue
           value={this.state.traits}
         />
-        <input type="submit" className="black-bordered-button" value="Submit Review"></input>
+        <input 
+          type="submit" 
+          className="black-bordered-button" 
+          value="Submit Review"
+        >
+        </input>
       </form>
     )
   }
 }
 
-export default NewReviewForm
+export default NewReviewForm;

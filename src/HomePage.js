@@ -28,6 +28,8 @@ const genresHash = {
   ya: "Young Adult"
 }
 
+const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
+
 class HomePage extends Component {
   constructor() {
     super()
@@ -57,7 +59,7 @@ class HomePage extends Component {
           newState.push({
             id: snapshot.key,
             name: user.displayName,
-            avatarURL: user.avatarURL ? user.avatarURL : "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fwatercolour-2038253.jpg?alt=media&token=4a02554a-ca37-4b95-a7e4-a62bfdc1db6c",
+            avatarURL: user.avatarURL ? user.avatarURL : defaultAvatarUrl
           }); 
         });
         this.setState({
@@ -136,19 +138,29 @@ class HomePage extends Component {
               return (
                 <Link to={"/wip/" + WIP.id} key={WIP.id}>
                   <Col sm={3} className="hompage-wip">
-                    <div className="wip-name-text">{WIP.title}</div>
+                    <div className="wip-name-text">
+                      {WIP.title}
+                    </div>
                     {WIP.types[0] && (
-                      <div className="wip-types-text">{WIP.types.join(', ')} |&nbsp;</div>
+                      <div className="wip-types-text">
+                        {WIP.types.join(', ')} |&nbsp;
+                      </div>
                     )}
                     {WIP.wc > 0 && (
-                      <div className="wip-wc-text">{WIP.wc} words</div>
+                      <div className="wip-wc-text">
+                        {WIP.wc} words
+                      </div>
                     )}
                     {WIP.genres.map((genre) => {
                       return (
-                        <div className="wip-genre-text" key={genre}>{genresHash[genre]}</div>
+                        <div className="wip-genre-text" key={genre}>
+                          {genresHash[genre]}
+                        </div>
                       )
                     })}
-                    <div className="wip-logline-text">{WIP.logline}</div>
+                    <div className="wip-logline-text">
+                      {WIP.logline}
+                    </div>
                   </Col>
                 </Link>
               )
@@ -164,17 +176,22 @@ class HomePage extends Component {
               <div className="section-divider-hr"></div>
             </div>
             {this.state.users.map((user) => {
-                return (
-                  <Link to={"/user/" + user.id} key={user.id}>
-                    <Col sm={4} className="homepage-user flex">
-                      <div className="homepage-avatar-url-container">
-                        <Image className="homepage-avatar-url" src={user.avatarURL} responsive/>
-                      </div>
-                      <div className="homepage-user-name">{user.name}</div>
-                    </Col>
-                  </Link>
-                )
-              })}
+              return (
+                <Link to={"/user/" + user.id} key={user.id}>
+                  <Col sm={4} className="homepage-user flex">
+                    <div className="homepage-avatar-url-container">
+                      <Image className="homepage-avatar-url" 
+                             src={user.avatarURL} 
+                             responsive
+                      />
+                    </div>
+                    <div className="homepage-user-name">
+                      {user.name}
+                    </div>
+                  </Col>
+                </Link>
+              )
+            })}
           </Col>
           <Col sm={6} md={6} lg={6}>
             <div className="section-divider">
@@ -184,14 +201,16 @@ class HomePage extends Component {
               <div className="section-divider-hr"></div>
             </div>
             {this.state.threads.map((thread) => {
-                return (
-                  <Link to={"/thread/" + thread.id} key={thread.id}>
-                    <Col sm={12} className="homepage-thread">
-                      <div className="thread-title">{thread.topic}</div>
-                    </Col>
-                  </Link>
-                )
-              })}
+              return (
+                <Link to={"/thread/" + thread.id} key={thread.id}>
+                  <Col sm={12} className="homepage-thread">
+                    <div className="thread-title">
+                      {thread.topic}
+                    </div>
+                  </Col>
+                </Link>
+              )
+            })}
           </Col>
         </Row>
       </Grid>
@@ -200,3 +219,4 @@ class HomePage extends Component {
 }
 
 export default HomePage;
+

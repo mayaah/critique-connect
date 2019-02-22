@@ -40,6 +40,8 @@ body {
   --redGreenBlueGradient: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
   --mainGradient: -webkit-linear-gradient(0deg, var(--cherry1), var(--cherry2));
   --ccRed: #ed1c24;
+  --ccPurple: #7385c3;
+  --ccTeal: #32f9fe;
 }
 
 .flex {

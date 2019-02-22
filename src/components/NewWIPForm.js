@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Redirect } from 'react-router-dom';
 import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
 import TextareaAutosize from 'react-autosize-textarea';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
 
 import { firebaseDB, base } from '../base'
 
@@ -141,42 +141,12 @@ class NewWIPForm extends Component {
 	  }
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;
-	  // this.WIPGenresRef = firebaseDB.database().ref(`/WIPs/${WIPId}/genres`)
-	  // for (let genreKey in GENRES) {
-   //  	let genre = GENRES[genreKey].value
-   //  	let genresString = this.state.genres
-   //  	if (genresString.length > 0 && genresString.split(',').includes(genre)) {
-			// 	this.WIPGenresRef.update({
-			// 		[genre] : true
-			// 	})
-			// }
-			// else {
-			// 	this.WIPGenresRef.update({
-			// 		[genre] : false
-			// 	})
-   //  	}
-   //  }
-   //  this.WIPTypesRef = firebaseDB.database().ref(`/WIPs/${WIPId}/types`)
-   //  for (let WIPTypeKey in TYPES) {
-   //  	let WIPType = TYPES[WIPTypeKey].value
-   //  	let typesString = this.state.types
-   //  	if (typesString.length > 0 && typesString.split(',').includes(WIPType)) {
-   //  		this.WIPTypesRef.update({
-   //  			[WIPType] : true
-   //  		})
-   //  	}
-   //  }
     this.addWIPToUser(WIPId)
     this.WIPForm.reset()
     this.setState({ redirect: true })
   }
 
   addWIPToUser(WIPId) {
-    // this.userRef.on('value', snapshot => {
-    //   this.setState({
-    //     displayName: snapshot.val().displayName
-    //   });
-    // });
     this.WIPsRef.update({
       [WIPId]: true
     });
@@ -190,26 +160,69 @@ class NewWIPForm extends Component {
     	<div>
 	    	<BrowserRouter>
 		      <Grid style={{marginTop: "100px"}}>
-		      	<div className="form-name">New Work in Progress</div>
-		        <form className="center-form" onSubmit={(event) => this.createWIP(event)} ref={(form) => this.WIPForm = form}>
+		      	<div className="form-name">
+		      		New Work in Progress
+	      		</div>
+		        <form className="center-form" 
+		        			onSubmit={(event) => this.createWIP(event)} 
+		        			ref={(form) => this.WIPForm = form}
+      			>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Title</span>
-		            <input className="pt-input input-field" value={this.state.title} name="title" type="text" onChange={this.handleChange} ></input>
+		            <span className="label-field-name">
+		            	Title
+	            	</span>
+		            <input 
+		            	className="pt-input input-field" 
+          				value={this.state.title} 
+          			 	name="title" 
+		            	type="text" 
+		            	onChange={this.handleChange}
+	            	>
+          			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Logline</span>
-		            <input className="pt-input input-field" value={this.state.logline} name="logline" type="text" onChange={this.handleChange} ></input>
+		            <span className="label-field-name">
+	            		Logline
+            		</span>
+		            <input 
+		            	className="pt-input input-field" 
+		            	value={this.state.logline} 
+		            	name="logline" 
+		            	type="text" 
+		            	onChange={this.handleChange}
+	            	>
+          			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Word Count</span>
-		            <input className="pt-input input-field" value={this.state.wordCount} name="wordCount" type="number" onChange={this.handleChange} ></input>
+		            <span className="label-field-name">
+		            	Word Count
+	            	</span>
+		            <input 
+		            	className="pt-input input-field" 
+		            	value={this.state.wordCount} 
+		            	name="wordCount" 
+		            	type="number" 
+		            	onChange={this.handleChange}
+	            	>
+          			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		            <span className="label-field-name">Draft</span>
-		            <input className="pt-input input-field" value={this.state.draft} name="draft" type="text" onChange={this.handleChange} ></input>
+		            <span className="label-field-name">
+		            	Draft
+	            	</span>
+		            <input 
+		            	className="pt-input input-field" 
+		            	value={this.state.draft} 
+		            	name="draft" 
+		            	type="text" 
+		            	onChange={this.handleChange}
+	            	>
+          			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
-		          	<span className="label-field-name">Language</span>
+		          	<span className="label-field-name">
+		          		Language
+	          		</span>
 			          <Select
 			          	className="select-field"
 									closeOnSelect={false}
@@ -222,7 +235,9 @@ class NewWIPForm extends Component {
 								/>
 							</label>
 							<label className="pt-label form-field-box">
-		          	<span className="label-field-name">Type(s)</span>
+		          	<span className="label-field-name">
+		          		Type(s)
+	          		</span>
 			          <Select
 			          	className="multiselect-field"
 			          	closeOnSelect={false}
@@ -236,7 +251,9 @@ class NewWIPForm extends Component {
 								/>
 							</label>
 							<label className="pt-label form-field-box">
-		          	<span className="label-field-name">Genre(s)</span>
+		          	<span className="label-field-name">
+		          		Genre(s)
+	          		</span>
 			          <Select
 			          	className="multiselect-field"
 									closeOnSelect={false}
@@ -250,20 +267,56 @@ class NewWIPForm extends Component {
 								/>
 							</label>
 		          <label className="pt-label form-field-box"> 
-	            	<span className="label-field-name">Disclaimers</span>
-		            <TextareaAutosize className="textarea-field" large={true} value={this.state.disclaimers} name="disclaimers" onChange={this.handleChange} label="Bio" />
+	            	<span className="label-field-name">
+	            		Disclaimers
+            		</span>
+		            <TextareaAutosize 
+		            	className="textarea-field" 
+									large={true} 
+		            	value={this.state.disclaimers} 
+		            	name="disclaimers" 
+		            	onChange={this.handleChange} 
+		            	label="Dicslaimers" 
+								/>
 							</label>
 							<label className="pt-label form-field-box"> 
-	            	<span className="label-field-name">Blurb</span>
-		            <TextareaAutosize className="textarea-field" large={true} value={this.state.blurb} name="blurb" onChange={this.handleChange} label="Bio" />
+	            	<span className="label-field-name">
+	            		Blurb
+            		</span>
+		            <TextareaAutosize 
+		            	className="textarea-field" 
+		            	large={true} 
+		            	value={this.state.blurb} 
+		            	name="blurb" 
+		            	onChange={this.handleChange} 
+		            	label="Blurb" 
+								/>
 							</label>
 							<label className="pt-label form-field-box"> 
-	            	<span className="label-field-name">Improvement Areas</span>
-		            <TextareaAutosize className="textarea-field" large={true} value={this.state.improvementAreas} name="improvementAreas" onChange={this.handleChange} label="Bio" />
+	            	<span className="label-field-name">
+	            		Improvement Areas
+            		</span>
+		            <TextareaAutosize 
+		            	className="textarea-field" 
+		            	large={true} 
+		            	value={this.state.improvementAreas} 
+		            	name="improvementAreas" 
+		            	onChange={this.handleChange} 
+		            	label="Improvement Areas" 
+								/>
 							</label>
 							<label className="pt-label form-field-box"> 
-	            	<span className="label-field-name">Additional Notes</span>
-		            <TextareaAutosize className="textarea-field" large={true} value={this.state.additionalNotes} name="additionalNotes" onChange={this.handleChange} label="Bio" />
+	            	<span className="label-field-name">
+	            		Additional Notes
+            		</span>
+		            <TextareaAutosize 
+		            	className="textarea-field" 
+		            	large={true} 
+		            	value={this.state.additionalNotes} 
+		            	name="additionalNotes" 
+		            	onChange={this.handleChange} 
+		            	label="Notes"
+								/>
 							</label>
 		          <input type="submit" className="black-bordered-button" value="Save"></input>
 		        </form>
@@ -274,4 +327,4 @@ class NewWIPForm extends Component {
   }
 }
 
-export default NewWIPForm
+export default NewWIPForm;

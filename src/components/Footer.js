@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 
 class Footer extends Component {
   constructor(props) {
@@ -8,9 +9,15 @@ class Footer extends Component {
 
   render() {
     return (
-      <footer>
-        © {this.state.year} The Seas
-      </footer>
+      <Grid style={{ marginTop: "100px", marginBottom: "25px" }}>
+        <Row>
+          <Col sm={12}>
+            <div>About</div>
+            <div>Contact</div>
+            © {this.state.year} Critique Connect
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

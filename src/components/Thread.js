@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 import NewPostForm from './NewPostForm'
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+import { Grid, Row, Col, Image } from 'react-bootstrap';
 import Pagination from "react-js-pagination";
-
 import { firebaseDB, base } from '../base'
-
 
 class Thread extends Component {
 	constructor(props){
@@ -22,6 +20,11 @@ class Thread extends Component {
     this.postsRef = firebaseDB.database().ref(`Threads/${this.state.threadId}/Posts`)
     this.simplifyDate = this.simplifyDate.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.threadRef.off()
+    this.postsRef.off()
   }
 
   componentDidMount() {
@@ -77,11 +80,6 @@ class Thread extends Component {
     });
   }
 
-  componentWillUnmount() {
-    this.threadRef.off()
-    this.postsRef.off()
-  }
-
   componentDidUpdate(nextProps) {
     window.scrollTo(0,0);
   }
@@ -94,13 +92,11 @@ class Thread extends Component {
 
   handlePageChange(pageNumber) {
     console.log(`active page is ${pageNumber}`);
-    this.setState(
-      {
-        activePage: pageNumber,
-        currentPosts: this.state.posts.slice((pageNumber - 1) * 20, (pageNumber - 1) * 20 + 20)
-      });
+    this.setState({
+      activePage: pageNumber,
+      currentPosts: this.state.posts.slice((pageNumber - 1) * 20, (pageNumber - 1) * 20 + 20)
+    });
   }
-
 
 	render() {
     
@@ -108,7 +104,9 @@ class Thread extends Component {
 	  	<Grid style={{marginTop: "100px"}}>
         <Row className="forum-header">
           <Col sm={12}>
-            <div className="page-name">{this.state.topic}</div>
+            <div className="page-name">
+              {this.state.topic}
+            </div>
           </Col>
         </Row>
         <div className="posts">
@@ -117,15 +115,25 @@ class Thread extends Component {
               <Row className="post flex" key={post.id}>
                 <Col sm={2}>
                   <Link to={"/user/" + post.authorId}>
-                    <div className="post-author-name">{post.author}</div>
+                    <div className="post-author-name">
+                      {post.author}
+                    </div>
                     <div className="post-author-avatar-container">
-                      <Image className="post-author-avatar" src={post.authorAvatar} responsive />
+                      <Image 
+                        className="post-author-avatar" 
+                        src={post.authorAvatar} 
+                        responsive 
+                      />
                     </div>
                   </Link>
-                  <div className="post-date">{this.simplifyDate(new Date(post.date).toUTCString())}</div>
+                  <div className="post-date">
+                    {this.simplifyDate(new Date(post.date).toUTCString())}
+                  </div>
                 </Col>
                 <Col sm={10}>
-                  <div className="post-comment">{post.comment}</div>
+                  <div className="post-comment">
+                    {post.comment}
+                  </div>
                 </Col>
               </Row>
             )
@@ -150,8 +158,8 @@ class Thread extends Component {
           </Col>
         </Row>
       </Grid>
-	   );
+    );
   }
 }
 
-export default Thread
+export default Thread;

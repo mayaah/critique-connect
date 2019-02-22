@@ -41,6 +41,7 @@ const TRAITS_LIST = [
   "Thorough", 
   "Timely"]
 
+const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
 
 class UserProfile extends Component {
   constructor(props){
@@ -120,7 +121,7 @@ class UserProfile extends Component {
         fbProfile: user.fbProfile ? user.fbProfile : "",
         twitterProfile: user.twitterProfile ? user.twitterProfile : "",
         email: user.email ? user.email : "",
-        avatarURL: user.avatarURL ? user.avatarURL : "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fwatercolour-2038253.jpg?alt=media&token=4a02554a-ca37-4b95-a7e4-a62bfdc1db6c",
+        avatarURL: user.avatarURL ? user.avatarURL : defaultAvatarUrl,
         genresRead: user.genresRead ? user.genresRead : [],
         genresWrite: user.genresWrite ? user.genresWrite : [],
         traits: user.Traits ? user.Traits : {},

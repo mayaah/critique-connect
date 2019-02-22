@@ -82,12 +82,6 @@ class Login extends Component {
 
   render() {
     const { from } = this.props.authenticated ? { from: { pathname: '/homepage'} } : { from: {pathname: '/'} }
-    // if (this.props.state.authenticated) {
-    //   const { from } = { from: { pathname: '/homepage'} }
-    // } else {
-    //   const { from } = { from: {pathname: '/'} }
-    // }
-    // const { from } = this.props.location.state || { from: { pathname: '/' } }
 
     if (this.state.redirect === true) {
       return <Redirect to={from} />
@@ -96,17 +90,13 @@ class Login extends Component {
     return (
     <div>
       <div className="splash-page">
-        {this.props.authenticated
-          ? (
-            null
-            )
-          : (
+        {this.props.authenticated ? (
+          null
+        ) : (
           <Grid>
             <Row>
               <Col xs={12} sm={12} lg={12}>
-                
-                  <Image src={require('../images/landing.png')} responsive />
-                
+                <Image src={require('../images/landing.png')} responsive />
               </Col>
             </Row>
             <Row className="login-styles">
@@ -127,12 +117,11 @@ class Login extends Component {
               </Col>
             </Row>
           </Grid>
-          )
-        }
+        )}
       </div>
     </div>
     )
   }
 }
 
-export default Login
+export default Login;

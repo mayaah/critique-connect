@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Highlight} from 'react-instantsearch/dom';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Grid, Row, Col, Image, Label } from 'react-bootstrap';
 
 
 const genresHash = {
@@ -28,6 +28,8 @@ const genresHash = {
   ya: "Young Adult"
 }
 
+const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
+
 class UserSearchItem extends Component {
 	constructor(props){
     super(props)
@@ -41,12 +43,11 @@ class UserSearchItem extends Component {
       genresRead: this.props.hit.genresRead || [],
       lastLogin: this.props.hit.lastLogin,
       compensation: this.props.hit.compensation,
-      avatarURL: this.props.hit.avatarURL || "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fwatercolour-2038253.jpg?alt=media&token=4a02554a-ca37-4b95-a7e4-a62bfdc1db6c"
+      avatarURL: this.props.hit.avatarURL || defaultAvatarUrl
     }
   }
 
   render() {
-
 
     return (
 
@@ -55,47 +56,86 @@ class UserSearchItem extends Component {
       			<Row className="user-search-summary flex">
       				<Col sm={2} className="flex">
                 <div className="user-search-img-container">
-                  <Image className="user-search-img" src={this.state.avatarURL} responsive />
+                  <Image 
+                    className="user-search-img" 
+                    src={this.state.avatarURL} 
+                    responsive
+                  />
                 </div>
       				</Col>
       				<Col sm={10}>
 			        	<div className="user-name-and-labels">
-				          <Highlight className="search-name" attribute="displayName" hit={this.state.hit} />
-				          {this.state.lfr ? 
-			            	(<Label className="looking-labels-small" id="lfr-label">Is Looking for a Reader</Label>) :
-			            	( null )
-			            }
-			            {this.state.ltr ? 
-			              (<Label className="looking-labels-small" id="ltr-label">Is Looking to Read</Label>) :
-			              ( null )
-			            }
+				          <Highlight 
+                    className="search-name" 
+                    attribute="displayName" 
+                    hit={this.state.hit} 
+                  />
+				          {this.state.lfr ? (
+                    <Label 
+                      className="looking-labels-small" 
+                      id="lfr-label"
+                    >
+                      Is Looking for a Reader
+                    </Label>
+                  ) : (
+                    null 
+                  )}
+			            {this.state.ltr ?  (
+                    <Label 
+                      className="looking-labels-small" 
+                      id="ltr-label"
+                    >
+                      Is Looking to Read
+                    </Label>
+                  ) : (
+                    null 
+                  )}
 		          	</div>
-                {this.state.lastLogin &&
+                {this.state.lastLogin && (
   		          	<div className="user-search-result">
-  		            	<span className="user-search-result-field">Last active: </span><span className="user-search-result-value">{this.state.lastLogin}</span> 
+  		            	<span className="user-search-result-field">
+                      Last active:&nbsp;
+                    </span>
+                    <span className="user-search-result-value">
+                      {this.state.lastLogin}
+                    </span> 
   		            </div>
-                }
-                {this.state.compensation &&
+                )}
+                {this.state.compensation && (
   		            <div className="user-search-result">
-  		            	<span className="user-search-result-field">Critique compensation type: </span><span className="user-search-result-value">{this.state.compensation}</span>
+  		            	<span className="user-search-result-field">
+                      Critique compensation type:&nbsp;
+                    </span>
+                    <span className="user-search-result-value">
+                      {this.state.compensation}
+                    </span>
   		            </div>
-                }
-                {this.state.genresWrite[0] &&
+                )}
+                {this.state.genresWrite[0] && (
   		            <div className="user-search-result">
-  		            	<span className="user-search-result-field">Genres I Write: </span><span className="wip-genre-text">{this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}</span>
+  		            	<span className="user-search-result-field">
+                      Genres I Write:&nbsp;
+                    </span>
+                    <span className="wip-genre-text">
+                      {this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}
+                    </span>
   		            </div>
-                }
-                {this.state.genresRead[0] &&
+                )}
+                {this.state.genresRead[0] && (
   		            <div className="user-search-result">
-  		            	<span className="user-search-result-field">Genres I Read: </span><span className="wip-genre-text">{this.state.genresRead.map(genre => genresHash[genre]).join(', ')}</span>
+  		            	<span className="user-search-result-field">
+                      Genres I Read:&nbsp;
+                    </span>
+                    <span className="wip-genre-text">
+                      {this.state.genresRead.map(genre => genresHash[genre]).join(', ')}
+                    </span>
   		            </div>
-                }
+                )}
 				      </Col>
 			      </Row>
 		      </Link>
       </div>
     );
-
   }
 }
 

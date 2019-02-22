@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Highlight} from 'react-instantsearch/dom';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 
 const genresHash = {
@@ -27,7 +27,6 @@ const genresHash = {
   ya: "Young Adult"
 }
 
-
 class WIPSearchItem extends Component {
 	constructor(props){
     super(props)
@@ -45,27 +44,38 @@ class WIPSearchItem extends Component {
 
   render() {
 
-
     return (
 
       <div style={{marginTop: '10px'}}>
       	<Link to={"/wip/" + this.state.objectId}>
 	        <div className="wip-summary">
 	        	<div className="wip-name">
-	          	<Highlight className="wip-name-text" attribute="title" hit={this.state.hit} />
+	          	<Highlight 
+                className="wip-name-text" 
+                attribute="title" 
+                hit={this.state.hit}
+              />
 	          </div>
-            <div className="wip-types-text">{this.state.types.join(', ')} |&nbsp;</div><div className="wip-wc-text">{this.state.wc} words</div>
+            <div className="wip-types-text">
+              {this.state.types.join(', ')} |&nbsp;
+            </div>
+            <div className="wip-wc-text">
+              {this.state.wc} words
+            </div>
             {this.state.genres.map((genre) => {
               return (
-                <div className="wip-genre-text">{genresHash[genre]}</div>
+                <div className="wip-genre-text">
+                  {genresHash[genre]}
+                </div>
               )
             })}
-            <div className="wip-logline-text">{this.state.logline}</div>
+            <div className="wip-logline-text">
+              {this.state.logline}
+            </div>
           </div>
 	      </Link>
       </div>
     );
-
   }
 }
 
