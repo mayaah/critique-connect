@@ -1,16 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
 @import url('https://fonts.googleapis.com/css?family=Cardo:400,400i,700');
 
-/*@font-face {
-  font-family: 'Lato-Light';
-  src: local('Lato-Light'), url('Lato-Light.ttf') format('ttf');
-}
-
-@font-face {
-	font-family: 'Lato-Regular';
-	src: local('Lato-Regular'), url('Lato-Regular.ttf') format('ttf');
-}
-
 */
 html {
 	height: 100%;
@@ -25,23 +15,10 @@ body {
 }
 
 :root {
-  --red: #ec1a00;
-  --green: #00cc64;
-  --blue: #17a3ef;
-  --yellow: #ffc500;
-  --navy: #001fc1;
   --cherry1: #eb3349;
   --cherry2: #f45c43;
-  --g1: #F09819 ;
-  --g2: #EDDE5D;
-  --g3: #29ffc6;
-  --dark1: #000000;
-  --dark2: #434343;
-  --redGreenBlueGradient: -webkit-linear-gradient(0deg, var(--red), var(--green), var(--blue));
   --mainGradient: -webkit-linear-gradient(0deg, var(--cherry1), var(--cherry2));
   --ccRed: #ed1c24;
-  --ccPurple: #7385c3;
-  --ccTeal: #32f9fe;
 }
 
 .flex {
@@ -53,24 +30,7 @@ body {
 	position: absolute;
 	height: 100%;
 	width: 100%;
-/*	padding-top: 150px;*/
-/*	background-image: url("images/sharpen2.jpg");
-	background-size: cover;*/
-
 }
-
-/*.splash-page:after {
-    content : "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url("images/sharpen.jpg");
-    width: 100%;
-    height: 100%;
-    opacity : 0.6;
-    z-index: -1;
-}*/
 
 .cc-title {
 	display: flex;
@@ -80,12 +40,7 @@ body {
 	font-weight: 300;
 	justify-content: center;
 	color: black; /*non-webkit fallback*/
-/*	text-transform: uppercase;*/
 	text-align: center;
-/*	display: inline-block;
-	background: -webkit-linear-gradient(180deg, var(--yellow), var(--red));
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;*/
 	font-size: 100px;
 	margin: 0 auto 100px;
 } 
@@ -96,26 +51,12 @@ body {
 
 
 nav.pt-navbar {
-/*	box-shadow: 0 7px 40px #888888;
-	border-bottom:2px solid #c4268c;*/
 	height: 60px;
 	font-family: 'Cardo', serif;
 	font-weight: 400;
-/*	text-transform: uppercase;*/
-	/*background: var(--mainGradient);*/
 	background: white;
 	box-shadow: none;
 }
-
-/*nav.pt-navbar:before {
-  content:'';
-  position:absolute;
-  width:100%;
-  height:3px;
-  background: var(--mainGradient);
-  bottom:-3px;
-  left:0;
-}*/
 
 .pt-button.pt-minimal {
 	color: black;
@@ -131,7 +72,6 @@ a.pt-button.pt-minimal:hover {
 	font-family: 'Cardo', serif;
 	font-weight: 300;
 	color: black; /*non-webkit fallback*/
-/*	text-transform: uppercase;*/
 	font-size: 30px !important;
 }
 
@@ -150,18 +90,10 @@ a.pt-button.pt-minimal:hover {
 	color: black;
 }
 
-
-
 .login-styles {
-/*	flex-display: 1 1 0;
-*/
-/*	display: flex;
-	justify-content: space-evenly;*/
 	font-family: 'Cardo', serif;
 	font-weight: 400;
 	font-size: 20px;
-/*	width: 400px;
-	margin: 0 auto;*/
 }
 
 .login-styles button {
@@ -194,66 +126,3 @@ input::-webkit-input-placeholder {
 	font-size: 15px;
 	text-align: center;
 }
-
-/*.splash-page .login-auth {
-	font-family: 'Cardo', serif;
-	font-size: 23px;
-	border: none;
-	border-radius: 0;
-	box-shadow: none;
-	border-bottom: 4px solid #ed1c24;
-	max-width: 300px;
-	margin: 0 auto;
-	padding-bottom: 0px;
-}
-
-.splash-page .login-auth:hover {
-	background: white;
-}*/
-
-/*.splash-page .login-auth {
-
-	display: flex;
-	text-align: center;
-	border: none;
-	border-bottom: 1px solid black;
-	justify-content: space-evenly;
-	white-space: normal;
-	align-items: center;*/
-/*	border: 1px black solid;*/
-/*	padding: 10px 40px;
-	font-size: 15px;*/
-/*	text-transform: uppercase;*/
-/*	box-shadow: none;
-	-webkit-transition: all 2s; 
-  transition: all 2s;
-  background: white;
-}*/
-
-
-/*.login-auth {
-	margin-top: 20px;
-}*/
-/*
-.splash-page .login-auth img {
-	width: 30px;
-}*/
-/*
-.splash-page .login-auth.fb-auth {
-	border: 2px #4267B2 solid;
-	color: #4267B2;
-}
-
-.splash-page .login-auth.g-auth {
-	border: 2px #dd4b39 solid;
-	color: #dd4b39;
-}
-
-.splash-page .login-auth.t-auth {
-	border: 2px #00aced solid;
-	color: #00aced;
-}
-*/
-
-
-

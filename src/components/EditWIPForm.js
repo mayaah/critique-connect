@@ -174,46 +174,54 @@ class EditWIPForm extends Component {
                 <span className="label-field-name">
                   Title
                 </span>
-                <input className="pt-input input-field" 
-                       value={this.state.title} 
-                       name="title" 
-                       onChange={this.handleChange} 
-                       type="text" 
-                       placeholder={this.state.title}>
+                <input 
+                  className="pt-input input-field" 
+                  value={this.state.title} 
+                  name="title" 
+                  onChange={this.handleChange} 
+                  type="text" 
+                  placeholder={this.state.title}
+                >
                 </input>
               </label>
               <label className="pt-label form-field-box">
                 <span className="label-field-name">
                   Logline
                 </span>
-                <input className="pt-input input-field" 
-                       value={this.state.logline} 
-                       name="logline" 
-                       type="text" 
-                       onChange={this.handleChange}>
+                <input 
+                  className="pt-input input-field" 
+                  value={this.state.logline} 
+                  name="logline" 
+                  type="text" 
+                  onChange={this.handleChange}
+                >
                 </input>
               </label>
               <label className="pt-label form-field-box">
                 <span className="label-field-name">
                   Word Count
                 </span>
-                <input className="pt-input input-field" 
-                       value={this.state.wordCount} 
-                       name="wordCount" 
-                       onChange={this.handleChange} 
-                       type="number" 
-                       placeholder={this.state.wordCount}>
+                <input 
+                  className="pt-input input-field" 
+                  value={this.state.wordCount} 
+                  name="wordCount" 
+                  onChange={this.handleChange} 
+                  type="number" 
+                  placeholder={this.state.wordCount}
+                >
                 </input>
               </label>
               <label className="pt-label form-field-box">
                 <span className="label-field-name">
                   Draft
                 </span>
-                <input className="pt-input input-field" 
-                       value={this.state.draft} 
-                       name="draft" 
-                       type="text" 
-                       onChange={this.handleChange}>
+                <input 
+                  className="pt-input input-field" 
+                  value={this.state.draft} 
+                  name="draft" 
+                  type="text" 
+                  onChange={this.handleChange}
+                >
                 </input>
               </label>
               <label className="pt-label form-field-box">
@@ -267,51 +275,60 @@ class EditWIPForm extends Component {
                 <span className="label-field-name">
                   Disclaimers
                 </span>
-                <TextareaAutosize className="textarea-field" 
-                                  large={true} 
-                                  value={this.state.disclaimers} 
-                                  name="disclaimers" 
-                                  onChange={this.handleChange} 
-                                  label="Disclaimers"
+                <TextareaAutosize 
+                  className="textarea-field" 
+                  large={true} 
+                  value={this.state.disclaimers} 
+                  name="disclaimers" 
+                  onChange={this.handleChange} 
+                  label="Disclaimers"
                 />
               </label>
               <label className="pt-label form-field-box"> 
                 <span className="label-field-name">
                   Blurb
                 </span>
-                <TextareaAutosize className="textarea-field" 
-                                  large={true} 
-                                  value={this.state.blurb} 
-                                  name="blurb" 
-                                  onChange={this.handleChange} 
-                                  label="Blurb"
+                <TextareaAutosize 
+                  className="textarea-field" 
+                  large={true} 
+                  value={this.state.blurb} 
+                  name="blurb" 
+                  onChange={this.handleChange} 
+                  label="Blurb"
                 />
               </label>
               <label className="pt-label form-field-box"> 
                 <span className="label-field-name">
                   Improvement Areas
                 </span>
-                <TextareaAutosize className="textarea-field" 
-                                  large={true} 
-                                  value={this.state.improvementAreas} 
-                                  name="improvementAreas" 
-                                  onChange={this.handleChange} 
-                                  label="Improvement Areas"
+                <TextareaAutosize 
+                  className="textarea-field" 
+                  large={true} 
+                  value={this.state.improvementAreas} 
+                  name="improvementAreas" 
+                  onChange={this.handleChange} 
+                  label="Improvement Areas"
                 />
               </label>
               <label className="pt-label form-field-box"> 
                 <span className="label-field-name">
                   Additional Notes
                 </span>
-                <TextareaAutosize className="textarea-field" 
-                                  large={true} 
-                                  value={this.state.additionalNotes} 
-                                  name="additionalNotes" 
-                                  onChange={this.handleChange} 
-                                  label="Additional Notes"
+                <TextareaAutosize 
+                  className="textarea-field" 
+                  large={true} 
+                  value={this.state.additionalNotes} 
+                  name="additionalNotes" 
+                  onChange={this.handleChange} 
+                  label="Additional Notes"
                 />
               </label>
-              <input type="submit" className="black-bordered-button" value="Save"></input>
+              <input 
+                type="submit" 
+                className="black-bordered-button" 
+                value="Save"
+              >
+              </input>
             </form>
           </Grid>
         </BrowserRouter>
@@ -320,4 +337,4 @@ class EditWIPForm extends Component {
   }
 }
 
-export default EditWIPForm
+export default EditWIPForm;

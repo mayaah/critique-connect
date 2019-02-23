@@ -268,9 +268,13 @@ class WIP extends Component {
               <div className="section-divider-hr"></div>
             </div>
             {this.state.blurb.length > 0 ? (
-              <div className="section-long-text">{this.state.blurb}</div>
+              <div className="section-long-text">
+                {this.state.blurb}
+              </div>
             ) : (
-              <div className="no-data">There's no blurb for {this.state.title} yet!</div>
+              <div className="no-data">
+                There's no blurb for {this.state.title} yet!
+              </div>
             )}
             {this.state.additionalNotes.length > 0 && (
               <div className="wip-section">

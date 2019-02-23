@@ -318,7 +318,12 @@ class NewWIPForm extends Component {
 		            	label="Notes"
 								/>
 							</label>
-		          <input type="submit" className="black-bordered-button" value="Save"></input>
+		          <input 
+		          	type="submit" 
+		          	className="black-bordered-button" 
+		          	value="Save"
+	          	>
+	          	</input>
 		        </form>
 		      </Grid>
 	      </BrowserRouter>

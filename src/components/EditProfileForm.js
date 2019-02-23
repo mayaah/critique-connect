@@ -211,12 +211,14 @@ class EditProfileForm extends Component {
 		            <span className="label-field-name">
 		            	Name
 	            	</span>
-		            <input className="pt-input input-field" 
-		            			 value={this.state.displayName} 
-		            			 name="displayName" 
-		            			 onChange={this.handleChange} 
-		            			 type="text" 
-		            			 placeholder={this.state.displayName}>
+		            <input 
+		            	className="pt-input input-field" 
+		            	value={this.state.displayName} 
+		            	name="displayName" 
+		            	onChange={this.handleChange} 
+		            	type="text" 
+		            	placeholder={this.state.displayName}
+	            	>
           			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
@@ -241,108 +243,124 @@ class EditProfileForm extends Component {
 			            onProgress={this.handleProgress}
 			          />
 							</label>
-	            <Checkbox className="input-checkbox form-field-box" 
-	            					checked={this.state.lfr} 
-	            					value={this.state.lfr} 
-	            					name="lfr" 
-	            					onChange={this.handleChange} 
-	            					label="Is Looking For Reader"
+	            <Checkbox 
+	            	className="input-checkbox form-field-box" 
+	            	checked={this.state.lfr} 
+	            	value={this.state.lfr} 
+	            	name="lfr" 
+	            	onChange={this.handleChange} 
+	            	label="Is Looking For Reader"
     					/>
-	            <Checkbox className="input-checkbox form-field-box" 
-	            					checked={this.state.ltr} 
-	            					value={this.state.ltr} 
-	            					name="ltr" 
-	            					onChange={this.handleChange} 
-	            					label="Is Looking To Read"
+	            <Checkbox 
+	            	className="input-checkbox form-field-box"
+	            	checked={this.state.ltr} 
+	            	value={this.state.ltr} 
+	            	name="ltr" 
+	            	onChange={this.handleChange} 
+	            	label="Is Looking To Read"
     					/>
 	            <label className="pt-label form-field-box"> 
 	            	<span className="label-field-name">
 	            		Bio
             		</span>
-		            <TextareaAutosize className="textarea-field" 
-		            									large={true} 
-		            									value={this.state.bio} 
-		            									name="bio" 
-		            									onChange={this.handleChange} 
-		            									label="Bio" 
-		            									onResize={(e) => {}}
+		            <TextareaAutosize 
+		            	className="textarea-field" 
+		            	large={true} 
+		            	value={this.state.bio} 
+		            	name="bio" 
+		            	onChange={this.handleChange} 
+		            	label="Bio" 
+		            	onResize={(e) => {}}
 								/>
 							</label>
 							<label className="pt-label form-field-box">
 		            <span className="label-field-name">
 		            	Location
 	            	</span>
-		            <input className="pt-input input-field" 
-		            			 value={this.state.location} 
-		            			 name="location" 
-		            			 onChange={this.handleChange} 
-		            			 type="text">
+		            <input 
+		            	className="pt-input input-field" 
+		            	value={this.state.location} 
+		            	name="location"
+		            	onChange={this.handleChange}
+		            	type="text"
+	            	>
         			  </input>
 		          </label>
 		          <label className="pt-label form-field-box">
 		            <span className="label-field-name">
 		            	Occupation
 	            	</span>
-		            <input className="pt-input input-field" 
-	            				 value={this.state.occupation} 
-	            				 name="occupation" 
-	            				 onChange={this.handleChange} 
-	            				 type="text">
+		            <input 
+		            	className="pt-input input-field" 
+	            		value={this.state.occupation}
+	            		name="occupation"
+	            		onChange={this.handleChange}
+	            		type="text"
+            		>
         				</input>
 		          </label>
 		          <label className="pt-label form-field-box">
 		            <span className="label-field-name">
 		            	Education
 	            	</span>
-		            <input className="pt-input input-field" 
-		            			 value={this.state.education} 
-		            			 name="education" 
-		            			 onChange={this.handleChange} 
-		            			 type="text">
+		            <input 
+		            	className="pt-input input-field" 
+		            	value={this.state.education}
+		            	name="education"
+		            	onChange={this.handleChange}
+		            	type="text"
+	            	>
           			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
 		            <span className="label-field-name">
 		            	Website
 	            	</span>
-		            <input className="pt-input input-field" 
-		            			 value={this.state.website} 
-		            			 name="website" 
-		            			 onChange={this.handleChange} 
-		            			 type="url">
+		            <input 
+		            	className="pt-input input-field"
+            			value={this.state.website}
+		            	name="website"
+		            	onChange={this.handleChange}
+		            	type="url"
+	            	>
           			</input>
 		          </label>
 		           <label className="pt-label form-field-box">
 		            <span className="label-field-name">
 		            	Email
 	            	</span>
-		            <input className="pt-input input-field" 
-		            			 value={this.state.email} 
-		            			 name="email" 
-		            			 onChange={this.handleChange} 
-		            			 type="email">
+		            <input 
+		            	className="pt-input input-field"
+		            	value={this.state.email}
+		            	name="email"
+		            	onChange={this.handleChange}
+		            	type="email"
+	            	>
         			  </input>
 		          </label>
 		          <label className="pt-label form-field-box">
 		            <span className="label-field-name">
 		            	Facebook Profile Link
 	            	</span>
-		            <input className="pt-input input-field" 
-		            			 value={this.state.fbProfile} 
-		            			 name="fbProfile" 
-		            			 onChange={this.handleChange} 
-		            			 type="url">
+		            <input 
+		            	className="pt-input input-field"
+		            	value={this.state.fbProfile}
+		            	name="fbProfile"
+		            	onChange={this.handleChange}
+		            	type="url"
+	            	>
         			  </input>
 		          </label>
 		          <label className="pt-label form-field-box">
 		            <span className="label-field-name">
 		            	Twitter Profile Link
 	            	</span>
-		            <input className="pt-input input-field" 
-		            			 value={this.state.twitterProfile} 
-		            			 name="twitterProfile" 
-		            			 onChange={this.handleChange} 
-		            			 type="url">
+		            <input 
+		            	className="pt-input input-field"
+		            	value={this.state.twitterProfile}
+		            	name="twitterProfile"
+		            	onChange={this.handleChange}
+		            	type="url">
           			</input>
 		          </label>
 		          <label className="pt-label form-field-box">
@@ -379,12 +397,13 @@ class EditProfileForm extends Component {
 	            	<span className="label-field-name">
 	            		Goals
             		</span>
-		            <TextareaAutosize className="textarea-field" 
-		            									large={true} 
-		            									value={this.state.goals} 
-		            									name="goals" 
-		            									onChange={this.handleChange} 
-		            									label="Goals"
+		            <TextareaAutosize 
+		            	className="textarea-field"
+		            	large={true}
+		            	value={this.state.goals}
+		            	name="goals"
+		            	onChange={this.handleChange}
+		            	label="Goals"
 								/>
 							</label>
 							{this.state.lfr ? (
@@ -393,12 +412,13 @@ class EditProfileForm extends Component {
 			            	<span className="label-field-name">
 			            		Critique Tolerance
 		            		</span>
-				            <TextareaAutosize className="textarea-field" 
-				            									large={true} 
-				            									value={this.state.critiqueTolerance} 
-				            									name="critiqueTolerance" 
-				            									onChange={this.handleChange} 
-				            									label="critiqueTolerance"
+				            <TextareaAutosize 
+				            	className="textarea-field"
+				            	large={true}
+				            	value={this.state.critiqueTolerance}
+				            	name="critiqueTolerance"
+				            	onChange={this.handleChange}
+				            	label="critiqueTolerance"
   									/>
 									</label>
 								</div>
@@ -411,12 +431,13 @@ class EditProfileForm extends Component {
 			            	<span className="label-field-name">
 			            		Critique Style
 		            		</span>
-				            <TextareaAutosize className="textarea-field" 
-				            									large={true} 
-				            									value={this.state.critiqueStyle} 
-				            									name="critiqueStyle" 
-				            									onChange={this.handleChange} 
-				            									label="critiqueStyle"
+				            <TextareaAutosize 
+				            	className="textarea-field"
+				            	large={true}
+				            	value={this.state.critiqueStyle}
+				            	name="critiqueStyle"
+				            	onChange={this.handleChange}
+				            	label="critiqueStyle"
   									/>
 									</label>
 									<label className="pt-label form-field-box">
@@ -443,18 +464,24 @@ class EditProfileForm extends Component {
 		            	<span className="label-field-name">
 		            		Paid Services Rates
 	            		</span>
-			            <TextareaAutosize className="textarea-field" 
-			            									large={true} 
-			            									value={this.state.rates} 
-			            									name="rates" 
-			            									onChange={this.handleChange} 
-			            									label="rates"
+			            <TextareaAutosize 
+			            	className="textarea-field"
+			            	large={true}
+			            	value={this.state.rates}
+			            	name="rates"
+			            	onChange={this.handleChange}
+			            	label="rates"
 									/>
 								</label>
 							) : (
 								null
 							)}
-		          <input type="submit" className="black-bordered-button" value="Save"></input>
+		          <input 
+		          	type="submit" 
+		          	className="black-bordered-button" 
+		          	value="Save"
+	          	>
+	          	</input>
 		        </form>
 		      </Grid>
 	      </BrowserRouter>
@@ -463,4 +490,4 @@ class EditProfileForm extends Component {
   }
 }
 
-export default EditProfileForm
+export default EditProfileForm;

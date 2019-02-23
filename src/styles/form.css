@@ -108,43 +108,6 @@ label.pt-label {
 	font-weight: 400;
 	margin: 10px 0;
 }
-/*
-input.black-bordered-button {
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	white-space: normal;
-	align-items: center;
-	border: 2px black solid;
-	padding: 10px 30px;
-	font-size: 15px;
-	text-transform: uppercase;
-	box-shadow: none;
-	-webkit-transition: all 2s; 
-	transition: all 2s;
-	background: white;
-	width: 200px;
-	margin: 10px 10px 10px 0;
-	border-radius: none;
-}
-
-input.black-bordered-button:hover {
-	background: white;
-	border: 2px var(--cherry2) solid;
-	color: var(--cherry2);;
-}
-
-input.black-bordered-button img {
-	width: 20px;
-	margin-right: 10px;
-	align-self: center;
-}
-
-input.black-bordered-button a {
-	text-decoration: none;
-}*/
 
 input.black-bordered-button {
 	display: block;
@@ -212,5 +175,3 @@ input.black-bordered-button a {
     background-color: var(--ccRed) !important;
     color: white;
 }
-
-
