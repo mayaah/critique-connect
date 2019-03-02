@@ -74,8 +74,7 @@ class UserProfile extends Component {
       compensation: "",
       rates: "",
       reviewsToShow: 5,
-      doneExpanded: false,
-      loading: true,
+      doneExpanded: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.showMore = this.showMore.bind(this);
@@ -131,8 +130,7 @@ class UserProfile extends Component {
         critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
         goals: user.goals ? user.goals : "",
         compensation: user.compensation ? user.compensation : "",
-        rates: user.rates ? user.rates : "",
-        loading: false,
+        rates: user.rates ? user.rates : ""
       });
     });
     this.usersWIPsRef.on('value', snapshot => {
@@ -195,7 +193,6 @@ class UserProfile extends Component {
               if(keyA > keyB) return -1;
               return 0;
             });
-            console.log(sortedArr)
             this.setState({
               reviews: sortedArr,
             });
@@ -244,14 +241,6 @@ class UserProfile extends Component {
   }
 
   render() {
-    if (this.state.loading === true) {
-        return (
-          <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%" }}>
-            <h3>Loading</h3>
-            <Spinner />
-          </div>
-        )
-      }
 
     const websiteTooltip = (
       <Tooltip id="tooltip">
@@ -323,7 +312,7 @@ class UserProfile extends Component {
                       <div className="wrapper">
                           {this.state.genresRead.map((genre) => {
                             return (
-                              <div className="small-field-text">
+                              <div className="small-field-text" key={genre}>
                                 {genresHash[genre]}
                               </div>
                             )
@@ -348,7 +337,7 @@ class UserProfile extends Component {
                       <div className="wrapper">
                           {this.state.genresWrite.map((genre) => {
                             return (
-                              <div className="small-field-text">
+                              <div className="small-field-text" key={genre}>
                                 {genresHash[genre]}
                               </div>
                             )
@@ -593,7 +582,7 @@ class UserProfile extends Component {
                   <div className="user-traits">
                     {TRAITS_LIST.map((trait) => {
                       return (
-                        <span className="user-trait-count">
+                        <span className="user-trait-count" key={trait}>
                           {trait} (+{this.state.traits[trait] ? this.state.traits[trait] : 0})
                         </span>
                       )
@@ -649,8 +638,8 @@ class UserProfile extends Component {
                   <div className="display-WIPs">
                     {this.state.WIPs.map((WIP) => {
                       return (
-                        <Link to={"/wip/" + WIP.id}>
-                          <div className="wip-summary" key={WIP.id}>
+                        <Link to={"/wip/" + WIP.id} key={WIP.id}>
+                          <div className="wip-summary">
                             <div className="wip-name-text">
                               {WIP.title}
                             </div>
@@ -666,7 +655,7 @@ class UserProfile extends Component {
                             )}
                             {WIP.genres.map((genre) => {
                               return (
-                                <div className="wip-genre-text">
+                                <div className="wip-genre-text" key={genre}>
                                   {genresHash[genre]}
                                 </div>
                               )
@@ -705,7 +694,7 @@ class UserProfile extends Component {
                         </div>
                         {review.traits.map((trait) => {
                           return (
-                            <span className="review-trait">
+                            <span className="review-trait" key={trait}>
                               {trait}(+1)
                             </span>
                             )

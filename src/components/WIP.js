@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
-import { firebaseDB, base } from '../base'
+import { firebaseDB, base } from '../base';
+import algoliasearch from 'algoliasearch';
 
 const genresHash = {
   adventure: "Adventure",
@@ -37,6 +38,13 @@ const typesHash = {
   anthology: "Anthology"
 }
 
+const algolia = algoliasearch(
+  process.env.REACT_APP_ALGOLIA_APP_ID,
+  process.env.REACT_APP_ALGOLIA_API_KEY,
+  {protocol: 'https:'}
+)
+const wipsIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME)
+
 class WIP extends Component {
   constructor(props){
     super(props)
@@ -59,9 +67,10 @@ class WIP extends Component {
       additionalNotes: ""
     }
     this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.wipId}`);
+    this.deleteWIPIndexRecord = this.deleteWIPIndexRecord.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.WIPRef.on('value', snapshot => {
       let WIP = snapshot.val()
       this.setState({
@@ -102,9 +111,28 @@ class WIP extends Component {
 
   removeWIP(WIPId) {
     this.setState({ redirect: true })
-    this.WIPRef.remove();
     const usersWIPRef = firebaseDB.database().ref(`/Users/${this.state.writer}/WIPs/${this.state.wipId}`)
+    this.deleteWIPIndexRecord(this.state.wipId)
     usersWIPRef.remove();
+    this.WIPRef.remove();
+  }
+
+  deleteWIPIndexRecord(wipId) {
+    const WIPRef = firebaseDB.database().ref(`WIPs/${wipId}`);
+    WIPRef.on('value', snapshot => {
+    // Get Algolia's objectID from the Firebase object key
+    const objectID = snapshot.key;
+    // Remove the object from Algolia
+    wipsIndex
+      .deleteObject(objectID)
+      .then(() => {
+        console.log('Firebase object deleted from Algolia', objectID);
+      })
+      .catch(error => {
+        console.error('Error when deleting contact from Algolia', error);
+        process.exit(1);
+      });
+    })
   }
 
   render() {
@@ -211,7 +239,7 @@ class WIP extends Component {
                   <div className="wrapper">
                       {this.state.genres.map((genre) => {
                         return (
-                          <div className="small-field-text">
+                          <div className="small-field-text" key={genre}>
                             {genresHash[genre]}
                           </div>
                         )

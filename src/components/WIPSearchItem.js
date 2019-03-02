@@ -57,11 +57,16 @@ class WIPSearchItem extends Component {
               />
 	          </div>
             <div className="wip-types-text">
-              {this.state.types.join(', ')} |&nbsp;
+              {this.state.types.join(', ')}
             </div>
-            <div className="wip-wc-text">
-              {this.state.wc} words
-            </div>
+            {(this.state.wc && this.state.types.length > 0) && (
+              <span>&nbsp;|&nbsp;</span>
+            )}
+            {this.state.wc && (
+              <div className="wip-wc-text">
+                {this.state.wc} words
+              </div>
+            )}
             {this.state.genres.map((genre) => {
               return (
                 <div className="wip-genre-text">

@@ -4,6 +4,7 @@ import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
 import TextareaAutosize from 'react-autosize-textarea';
 import { Grid } from 'react-bootstrap';
+import algoliasearch from 'algoliasearch'
 
 import { firebaseDB, base } from '../base'
 
@@ -58,6 +59,13 @@ const LANGUAGES = [
 	{ label: "Other", value: "Other"}
 ]
 
+const algolia = algoliasearch(
+	process.env.REACT_APP_ALGOLIA_APP_ID,
+	process.env.REACT_APP_ALGOLIA_API_KEY,
+	{protocol: 'https:'}
+)
+const wipsIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME)
+
 
 class NewWIPForm extends Component {
   constructor(props) {
@@ -85,6 +93,7 @@ class NewWIPForm extends Component {
     this.handleTypeSelectChange = this.handleTypeSelectChange.bind(this);
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
     this.createWIP = this.createWIP.bind(this);
+    this.addOrUpdateWIPIndexRecord = this.addOrUpdateWIPIndexRecord.bind(this);
   }
 
   componentWillMount() {
@@ -142,6 +151,7 @@ class NewWIPForm extends Component {
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;
     this.addWIPToUser(WIPId)
+    this.addOrUpdateWIPIndexRecord(WIPId)
     this.WIPForm.reset()
     this.setState({ redirect: true })
   }
@@ -151,6 +161,28 @@ class NewWIPForm extends Component {
       [WIPId]: true
     });
   }
+
+
+addOrUpdateWIPIndexRecord(wipId) {
+	const WIPRef = firebaseDB.database().ref(`WIPs/${wipId}`);
+	WIPRef.on('value', snapshot => {
+	  console.log("ADD WIP")
+	  // Get Firebase object
+	  const record = snapshot.val();
+	  // Specify Algolia's objectID using the Firebase object key
+	  record.objectID = snapshot.key;
+	  // Add or update object
+	  wipsIndex
+	    .saveObject(record)
+	    .then(() => {
+	      console.log('Firebase object indexed in Algolia', record.objectID);
+	    })
+	    .catch(error => {
+	      console.error('Error when indexing contact into Algolia', error);
+	      process.exit(1);
+	    });
+  })
+}
 
   render() {
   	if (this.state.redirect === true) {
@@ -272,7 +304,7 @@ class NewWIPForm extends Component {
             		</span>
 		            <TextareaAutosize 
 		            	className="textarea-field" 
-									large={true} 
+									large="true"
 		            	value={this.state.disclaimers} 
 		            	name="disclaimers" 
 		            	onChange={this.handleChange} 
