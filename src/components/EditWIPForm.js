@@ -4,7 +4,8 @@ import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 import TextareaAutosize from 'react-autosize-textarea';
-import { firebaseDB, base } from '../base'
+import { firebaseDB, base } from '../base';
+import algoliasearch from 'algoliasearch';
 
 const GENRES = [
   { label: "Adventure", value: "adventure" },
@@ -57,6 +58,13 @@ const LANGUAGES = [
   { label: "Other", value: "Other"}
 ]
 
+const algolia = algoliasearch(
+  process.env.REACT_APP_ALGOLIA_APP_ID,
+  process.env.REACT_APP_ALGOLIA_API_KEY,
+  {protocol: 'https:'}
+)
+const wipsIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME)
+
 class EditWIPForm extends Component {
   constructor(props) {
     super(props)
@@ -105,6 +113,12 @@ class EditWIPForm extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.WIPRef.off();
+    this.genresRef.off();
+    this.typesRef.off();
+  }
+
   handleChange(event) {
     this.setState({ 
       [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
@@ -145,15 +159,31 @@ class EditWIPForm extends Component {
       types: this.state.types.split(",")
 
     })
+    this.addOrUpdateWIPIndexRecord(this.state.WIPId)
     this.EditWIPForm.reset()
     this.setState({ redirect: true })
   }
 
-  componentWillUnmount() {
-    this.WIPRef.off();
-    this.genresRef.off();
-    this.typesRef.off();
-  }
+addOrUpdateWIPIndexRecord(wipId) {
+  const WIPRef = firebaseDB.database().ref(`WIPs/${wipId}`);
+  WIPRef.on('value', snapshot => {
+    console.log("ADD WIP")
+    // Get Firebase object
+    const record = snapshot.val();
+    // Specify Algolia's objectID using the Firebase object key
+    record.objectID = snapshot.key;
+    // Add or update object
+    wipsIndex
+      .saveObject(record)
+      .then(() => {
+        console.log('Firebase object indexed in Algolia', record.objectID);
+      })
+      .catch(error => {
+        console.error('Error when indexing contact into Algolia', error);
+        process.exit(1);
+      });
+  })
+}
 
   render() {
     if (this.state.redirect === true) {

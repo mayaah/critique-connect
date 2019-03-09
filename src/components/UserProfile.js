@@ -80,11 +80,17 @@ class UserProfile extends Component {
     this.showMore = this.showMore.bind(this);
     this.simplifyDate = this.simplifyDate.bind(this);
     this.loadData = this.loadData.bind(this);
+    this.setUserState = this.setUserState.bind(this);
+    this.setUsersWIPsState = this.setUsersWIPsState.bind(this);
+    this.setUsersReviewsState = this.setUsersReviewsState.bind(this);
     this.thereIsSomeUserInfo = this.thereIsSomeUserInfo.bind(this);
+    this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
+    this.usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
+    this.usersReviewsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Reviews`)
+
   }
 
   componentWillMount() {
-    this.removeWIP = this.removeWIP.bind(this)
     this.loadData(this.state.userId);
   }
 
@@ -102,103 +108,109 @@ class UserProfile extends Component {
     this.usersReviewsRef.off();
   }
 
-  loadData(userId) {
-    this.userRef = firebaseDB.database().ref(`/Users/${userId}`)
-    this.usersWIPsRef = firebaseDB.database().ref(`/Users/${userId}/WIPs`)
-    this.usersReviewsRef = firebaseDB.database().ref(`/Users/${userId}/Reviews`)
-    this.userRef.on('value', snapshot => {
-      let user = snapshot.val()
+  setUserState(user) {
+    this.setState({
+      displayName: user.displayName,
+      lfr: user.lfr ? user.lfr : false,
+      ltr: user.ltr ? user.ltr : false,
+      bio: user.bio ? user.bio : "",
+      location: user.location ? user.location : "",
+      occupation: user.occupation ? user.occupation : "",
+      education: user.education ? user.education : "",
+      website: user.website ? user.website : "",
+      fbProfile: user.fbProfile ? user.fbProfile : "",
+      twitterProfile: user.twitterProfile ? user.twitterProfile : "",
+      email: user.email ? user.email : "",
+      avatarURL: user.avatarURL ? user.avatarURL : defaultAvatarUrl,
+      genresRead: user.genresRead ? user.genresRead : [],
+      genresWrite: user.genresWrite ? user.genresWrite : [],
+      traits: user.Traits ? user.Traits : {},
+      joinDate: user.creationDate ? user.creationDate : "",
+      lastActive: user.lastLogin ? user.lastLogin : "",
+      critiqueTolerance: user.critiqueTolerance ? user.critiqueTolerance : "",
+      critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
+      goals: user.goals ? user.goals : "",
+      compensation: user.compensation ? user.compensation : "",
+      rates: user.rates ? user.rates : ""
+    });
+  } 
+
+  setUsersWIPsState(usersWIPs) {
+    let newState = [];
+    let promises = [];
+    for (let userWIP in usersWIPs) {
+      var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
+      promises.push(WIPRef.once('value')); 
+    }
+    Promise.all(promises).then((snapshots) => {
+      snapshots.forEach((snapshot) => {
+        var WIP = snapshot.val()
+        newState.push({
+          id: snapshot.key,
+          title: WIP.title,
+          wc: WIP.wc,
+          genres: WIP.genres,
+          logline: WIP.logline,
+          types: WIP.types,
+        });
+      });
       this.setState({
-        displayName: user.displayName,
-        lfr: user.lfr ? user.lfr : false,
-        ltr: user.ltr ? user.ltr : false,
-        bio: user.bio ? user.bio : "",
-        location: user.location ? user.location : "",
-        occupation: user.occupation ? user.occupation : "",
-        education: user.education ? user.education : "",
-        website: user.website ? user.website : "",
-        fbProfile: user.fbProfile ? user.fbProfile : "",
-        twitterProfile: user.twitterProfile ? user.twitterProfile : "",
-        email: user.email ? user.email : "",
-        avatarURL: user.avatarURL ? user.avatarURL : defaultAvatarUrl,
-        genresRead: user.genresRead ? user.genresRead : [],
-        genresWrite: user.genresWrite ? user.genresWrite : [],
-        traits: user.Traits ? user.Traits : {},
-        joinDate: user.creationDate ? user.creationDate : "",
-        lastActive: user.lastLogin ? user.lastLogin : "",
-        critiqueTolerance: user.critiqueTolerance ? user.critiqueTolerance : "",
-        critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
-        goals: user.goals ? user.goals : "",
-        compensation: user.compensation ? user.compensation : "",
-        rates: user.rates ? user.rates : ""
+        WIPs: newState
       });
     });
-    this.usersWIPsRef.on('value', snapshot => {
-      let usersWIPs = snapshot.val();
-      let newState = [];
-      let promises = [];
-      for (let userWIP in usersWIPs) {
-        var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
-        promises.push(WIPRef.once('value')); 
-      }
-      Promise.all(promises).then((snapshots) => {
-        snapshots.forEach((snapshot) => {
-          var WIP = snapshot.val()
+  }
+
+  setUsersReviewsState(usersReviews) {
+    let newState = [];
+    let promises = [];
+    for (let userReview in usersReviews) {
+      var reviewRef = firebaseDB.database().ref(`/Reviews/${userReview}`)
+      promises.push(reviewRef.once('value')); 
+    }
+    Promise.all(promises).then((snapshots) => {
+      snapshots.forEach((snapshot) => {
+        var review = snapshot.val()
+        let reviewerName = ""
+        let reviewerAvatar = ""
+        var reviewerRef = firebaseDB.database().ref(`/Users/${review.reviewerId}`)
+        reviewerRef.once('value', snapshot2 => {
+          let reviewer = snapshot2.val();
+          reviewerName = reviewer.displayName,
+          reviewerAvatar = reviewer.avatarURL
           newState.push({
             id: snapshot.key,
-            title: WIP.title,
-            wc: WIP.wc,
-            genres: WIP.genres,
-            logline: WIP.logline,
-            types: WIP.types,
+            reviewMessage: review.reviewMessage,
+            reviewerId: review.reviewerId,
+            reviewDate: review.reviewDate,
+            reviewerAvatar: reviewerAvatar,
+            reviewerName: reviewerName,
+            traits: review.traits || []
           });
-        });
-        this.setState({
-          WIPs: newState
-        });
+          var sortedArr = newState.sort(function(a, b){
+            var keyA = new Date(a.reviewDate),
+                keyB = new Date(b.reviewDate);
+            // Compare the 2 dates
+            if(keyA < keyB) return 1;
+            if(keyA > keyB) return -1;
+            return 0;
+          });
+          this.setState({
+            reviews: sortedArr,
+          });
+        })
       });
     });
+  }
+
+  loadData(userId) {
+    this.userRef.on('value', snapshot => {
+      this.setUserState(snapshot.val())
+    }, error => {console.log(error);});
+    this.usersWIPsRef.on('value', snapshot => {
+      this.setUsersWIPsState(snapshot.val());
+    });
     this.usersReviewsRef.on('value', snapshot => {
-      let usersReviews = snapshot.val();
-      let newState = [];
-      let promises = [];
-      for (let userReview in usersReviews) {
-        var reviewRef = firebaseDB.database().ref(`/Reviews/${userReview}`)
-        promises.push(reviewRef.once('value')); 
-      }
-      Promise.all(promises).then((snapshots) => {
-        snapshots.forEach((snapshot) => {
-          var review = snapshot.val()
-          let reviewerName = ""
-          let reviewerAvatar = ""
-          var reviewerRef = firebaseDB.database().ref(`/Users/${review.reviewerId}`)
-          reviewerRef.once('value', snapshot2 => {
-            let reviewer = snapshot2.val();
-            reviewerName = reviewer.displayName,
-            reviewerAvatar = reviewer.avatarURL
-            newState.push({
-              id: snapshot.key,
-              reviewMessage: review.reviewMessage,
-              reviewerId: review.reviewerId,
-              reviewDate: review.reviewDate,
-              reviewerAvatar: reviewerAvatar,
-              reviewerName: reviewerName,
-              traits: review.traits || []
-            });
-            var sortedArr = newState.sort(function(a, b){
-              var keyA = new Date(a.reviewDate),
-                  keyB = new Date(b.reviewDate);
-              // Compare the 2 dates
-              if(keyA < keyB) return 1;
-              if(keyA > keyB) return -1;
-              return 0;
-            });
-            this.setState({
-              reviews: sortedArr,
-            });
-          })
-        });
-      });
+      this.setUsersReviewsState(snapshot.val());
     });
   }
 

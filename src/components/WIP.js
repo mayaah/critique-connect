@@ -73,31 +73,33 @@ class WIP extends Component {
   componentWillMount() {
     this.WIPRef.on('value', snapshot => {
       let WIP = snapshot.val()
-      this.setState({
-        title: WIP.title ? WIP.title : "",
-        wordCount: WIP.wc ? WIP.wc : "",
-        logline: WIP.logline ? WIP.logline : "",
-        draft: WIP.draft ? WIP.draft : "",
-        language: WIP.language ? WIP.language : "",
-        disclaimers: WIP.disclaimers ? WIP.disclaimers : "",
-        improvementAreas: WIP.improvementAreas ? WIP.improvementAreas : "",
-        blurb: WIP.blurb ? WIP.blurb : "",
-        additionalNotes: WIP.additionalNotes ? WIP.additionalNotes : "",
-        writer: WIP.writer ? WIP.writer : "",
-        genres: WIP.genres ? WIP.genres : [],
-        types: WIP.types ? WIP.types : []
-      });
-      var promises = []
-      var writerRef = firebaseDB.database().ref(`/Users/${WIP.writer}`)
-      promises.push(writerRef.once('value')); 
-      Promise.all(promises).then((snapshots) => {
-        snapshots.forEach((snapshot) => {
-          var writer = snapshot.val()
-          this.setState({
-            writerName: writer.displayName ? writer.displayName : ""
+      if (WIP) {
+        this.setState({
+          title: WIP.title ? WIP.title : "",
+          wordCount: WIP.wc ? WIP.wc : "",
+          logline: WIP.logline ? WIP.logline : "",
+          draft: WIP.draft ? WIP.draft : "",
+          language: WIP.language ? WIP.language : "",
+          disclaimers: WIP.disclaimers ? WIP.disclaimers : "",
+          improvementAreas: WIP.improvementAreas ? WIP.improvementAreas : "",
+          blurb: WIP.blurb ? WIP.blurb : "",
+          additionalNotes: WIP.additionalNotes ? WIP.additionalNotes : "",
+          writer: WIP.writer ? WIP.writer : "",
+          genres: WIP.genres ? WIP.genres : [],
+          types: WIP.types ? WIP.types : []
+        });
+        var promises = []
+        var writerRef = firebaseDB.database().ref(`/Users/${WIP.writer}`)
+        promises.push(writerRef.once('value')); 
+        Promise.all(promises).then((snapshots) => {
+          snapshots.forEach((snapshot) => {
+            var writer = snapshot.val()
+            this.setState({
+              writerName: writer.displayName ? writer.displayName : ""
+            })
           })
         })
-      })
+      }
     })
   }
 
@@ -109,7 +111,7 @@ class WIP extends Component {
     this.WIPRef.off();
   }
 
-  removeWIP(WIPId) {
+  removeWIP() {
     this.setState({ redirect: true })
     const usersWIPRef = firebaseDB.database().ref(`/Users/${this.state.writer}/WIPs/${this.state.wipId}`)
     this.deleteWIPIndexRecord(this.state.wipId)
@@ -159,7 +161,7 @@ class WIP extends Component {
                 )}
                 {this.state.writer == this.state.currentUserId && (
                   <Button className="black-bordered-button" 
-                          onClick={() => this.removeWIP(WIP.id)}
+                          onClick={() => this.removeWIP()}
                   >
                     Remove Item
                   </Button>

@@ -73,6 +73,7 @@ class NewWIPForm extends Component {
     this.state = {
       redirect: false,
       userId: this.props.match.params.userId,
+      wipId: "",
       title: "",
       wordCount: "",
       genres: "",
@@ -150,6 +151,7 @@ class NewWIPForm extends Component {
 	  }
 	  var newWIPRef = WIPsRef.push(WIP);
 	  var WIPId = newWIPRef.key;
+	  this.setState({wipId: WIPId});
     this.addWIPToUser(WIPId)
     this.addOrUpdateWIPIndexRecord(WIPId)
     this.WIPForm.reset()
@@ -182,11 +184,12 @@ addOrUpdateWIPIndexRecord(wipId) {
 	      process.exit(1);
 	    });
   })
+  WIPRef.off();
 }
 
   render() {
   	if (this.state.redirect === true) {
-      return <Redirect to= {{pathname: '/user/' + this.state.userId}} />
+      return <Redirect to= {{pathname: '/wip/' + this.state.wipId}} />
     }
     return (
     	<div>
@@ -317,7 +320,7 @@ addOrUpdateWIPIndexRecord(wipId) {
             		</span>
 		            <TextareaAutosize 
 		            	className="textarea-field" 
-		            	large={true} 
+		            	large="true"
 		            	value={this.state.blurb} 
 		            	name="blurb" 
 		            	onChange={this.handleChange} 
@@ -330,7 +333,7 @@ addOrUpdateWIPIndexRecord(wipId) {
             		</span>
 		            <TextareaAutosize 
 		            	className="textarea-field" 
-		            	large={true} 
+		            	large="true"
 		            	value={this.state.improvementAreas} 
 		            	name="improvementAreas" 
 		            	onChange={this.handleChange} 
@@ -343,7 +346,7 @@ addOrUpdateWIPIndexRecord(wipId) {
             		</span>
 		            <TextareaAutosize 
 		            	className="textarea-field" 
-		            	large={true} 
+		            	large="true"
 		            	value={this.state.additionalNotes} 
 		            	name="additionalNotes" 
 		            	onChange={this.handleChange} 
