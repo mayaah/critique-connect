@@ -3,14 +3,22 @@ import { Redirect } from 'react-router-dom'
 import { Toaster, Intent } from "@blueprintjs/core";
 import { Grid, Row, Col, Image, Button } from 'react-bootstrap';
 import User from '../User';
-
+import algoliasearch from 'algoliasearch';
 import { firebaseDB, facebookProvider, googleProvider, twitterProvider } from '../base'
+
+const algolia = algoliasearch(
+  process.env.REACT_APP_ALGOLIA_APP_ID,
+  process.env.REACT_APP_ALGOLIA_API_KEY,
+  {protocol: 'https:'}
+)
+const usersIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME)
 
 class Login extends Component {
   constructor() {
     super()
     this.authWithFacebook = this.authWithFacebook.bind(this)
     this.authWithGoogle = this.authWithGoogle.bind(this)
+    this.authWithTwitter = this.authWithTwitter.bind(this)
     this.state = {
       redirect: false
     }
@@ -70,6 +78,27 @@ class Login extends Component {
       creationDate: this.simplifyDate(user.metadata.creationTime),
       lastLogin: this.simplifyDate(user.metadata.lastSignInTime)
     });
+    this.addOrUpdateIndexRecord(user.uid)
+  }
+
+  addOrUpdateIndexRecord(userId) {
+    const userRef = firebaseDB.database().ref(`Users/${userId}`);
+    userRef.on('value', snapshot => {
+      // Get Firebase object
+      const record = snapshot.val();
+      // Specify Algolia's objectID using the Firebase object key
+      record.objectID = snapshot.key;
+      // Add or update object
+      usersIndex
+        .saveObject(record)
+        .then(() => {
+          console.log('Firebase object indexed in Algolia', record.objectID);
+        })
+        .catch(error => {
+          console.error('Error when indexing contact into Algolia', error);
+          process.exit(1);
+        });
+    })
   }
 
   // Expects Firebase formated date such as: "Sun, 21 Jan 2018 23:19:31 GMT"

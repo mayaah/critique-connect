@@ -66,11 +66,30 @@ class WIP extends Component {
       blurb: "",
       additionalNotes: ""
     }
-    this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.wipId}`);
+    // this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.wipId}`);
     this.deleteWIPIndexRecord = this.deleteWIPIndexRecord.bind(this);
+    this.loadData = this.loadData.bind(this);
+    this.getWriterData = this.getWriterData.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.loadData(this.state.wipId)
+  }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.match.params.wipId !== this.props.match.params.wipId) {
+      this.loadData(this.props.match.params.wipId)
+    }
+    window.scrollTo(0,0);
+  }
+
+  componentWillUnmount() {
+    this.WIPRef.off();
+    this.writerRef.off();
+  }
+
+  loadData(wipId) {
+    this.WIPRef = firebaseDB.database().ref(`WIPs/${wipId}`);
     this.WIPRef.on('value', snapshot => {
       let WIP = snapshot.val()
       if (WIP) {
@@ -87,28 +106,27 @@ class WIP extends Component {
           writer: WIP.writer ? WIP.writer : "",
           genres: WIP.genres ? WIP.genres : [],
           types: WIP.types ? WIP.types : []
-        });
-        var promises = []
-        var writerRef = firebaseDB.database().ref(`/Users/${WIP.writer}`)
-        promises.push(writerRef.once('value')); 
-        Promise.all(promises).then((snapshots) => {
-          snapshots.forEach((snapshot) => {
-            var writer = snapshot.val()
-            this.setState({
-              writerName: writer.displayName ? writer.displayName : ""
+        }, 
+        () => {
+          this.getWriterData(this.state.writer)
+          .then((snapshots) =>
+            snapshots.forEach((snapshot) => {
+              var writer = snapshot.val()
+              this.setState({
+                writerName: writer.displayName ? writer.displayName : ""
+              })
             })
-          })
-        })
+          )
+        });
       }
     })
   }
 
-  componentDidUpdate(nextProps) {
-    window.scrollTo(0,0);
-  }
-
-  componentWillUnmount() {
-    this.WIPRef.off();
+  getWriterData(writer) {
+    var promises = []
+    this.writerRef = firebaseDB.database().ref(`/Users/${writer}`)
+    promises.push(this.writerRef.once('value')); 
+    return Promise.all(promises)
   }
 
   removeWIP() {
@@ -122,19 +140,19 @@ class WIP extends Component {
   deleteWIPIndexRecord(wipId) {
     const WIPRef = firebaseDB.database().ref(`WIPs/${wipId}`);
     WIPRef.on('value', snapshot => {
-    // Get Algolia's objectID from the Firebase object key
-    const objectID = snapshot.key;
-    // Remove the object from Algolia
-    wipsIndex
-      .deleteObject(objectID)
-      .then(() => {
-        console.log('Firebase object deleted from Algolia', objectID);
+      // Get Algolia's objectID from the Firebase object key
+      const objectID = snapshot.key;
+      // Remove the object from Algolia
+      wipsIndex
+        .deleteObject(objectID)
+        .then(() => {
+          console.log('Firebase object deleted from Algolia', objectID);
+        })
+        .catch(error => {
+          console.error('Error when deleting contact from Algolia', error);
+          process.exit(1);
+        });
       })
-      .catch(error => {
-        console.error('Error when deleting contact from Algolia', error);
-        process.exit(1);
-      });
-    })
   }
 
   render() {
@@ -161,7 +179,7 @@ class WIP extends Component {
                 )}
                 {this.state.writer == this.state.currentUserId && (
                   <Button className="black-bordered-button" 
-                          onClick={() => this.removeWIP()}
+                          onClick={() => { if (window.confirm('Are you sure you wish to delete this Work in Progress?')) this.removeWIP() }}
                   >
                     Remove Item
                   </Button>
@@ -220,7 +238,7 @@ class WIP extends Component {
                   <div className="wrapper">
                     {this.state.types.map((type) => {
                       return (
-                        <div className="small-field-text">
+                        <div className="small-field-text" key={type}>
                           {type}
                         </div>
                       )

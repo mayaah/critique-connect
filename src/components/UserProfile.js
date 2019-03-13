@@ -41,6 +41,7 @@ const TRAITS_LIST = [
   "Thorough", 
   "Timely"]
 
+const DELETED_STRING = "[deleted]"
 const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
 
 class UserProfile extends Component {
@@ -67,7 +68,7 @@ class UserProfile extends Component {
       reviews: [],
       traits: {},
       joinDate: "",
-      lastActive: "",
+      lastSignedIn: "",
       critiqueTolerance: "",
       critiqueStyle: "",
       goals: "",
@@ -84,13 +85,9 @@ class UserProfile extends Component {
     this.setUsersWIPsState = this.setUsersWIPsState.bind(this);
     this.setUsersReviewsState = this.setUsersReviewsState.bind(this);
     this.thereIsSomeUserInfo = this.thereIsSomeUserInfo.bind(this);
-    this.userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
-    this.usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
-    this.usersReviewsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Reviews`)
-
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadData(this.state.userId);
   }
 
@@ -126,7 +123,7 @@ class UserProfile extends Component {
       genresWrite: user.genresWrite ? user.genresWrite : [],
       traits: user.Traits ? user.Traits : {},
       joinDate: user.creationDate ? user.creationDate : "",
-      lastActive: user.lastLogin ? user.lastLogin : "",
+      lastSignedIn: user.lastLogin ? user.lastLogin : "",
       critiqueTolerance: user.critiqueTolerance ? user.critiqueTolerance : "",
       critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
       goals: user.goals ? user.goals : "",
@@ -172,21 +169,16 @@ class UserProfile extends Component {
         var review = snapshot.val()
         let reviewerName = ""
         let reviewerAvatar = ""
-        var reviewerRef = firebaseDB.database().ref(`/Users/${review.reviewerId}`)
-        reviewerRef.once('value', snapshot2 => {
-          let reviewer = snapshot2.val();
-          reviewerName = reviewer.displayName,
-          reviewerAvatar = reviewer.avatarURL
+        if (review.reviewerId == DELETED_STRING) {
           newState.push({
             id: snapshot.key,
             reviewMessage: review.reviewMessage,
-            reviewerId: review.reviewerId,
             reviewDate: review.reviewDate,
-            reviewerAvatar: reviewerAvatar,
-            reviewerName: reviewerName,
+            reviewerAvatar: defaultAvatarUrl,
+            reviewerName: DELETED_STRING,
             traits: review.traits || []
           });
-          var sortedArr = newState.sort(function(a, b){
+          var sortedArr = newState.sort(function(a, b) {
             var keyA = new Date(a.reviewDate),
                 keyB = new Date(b.reviewDate);
             // Compare the 2 dates
@@ -197,15 +189,45 @@ class UserProfile extends Component {
           this.setState({
             reviews: sortedArr,
           });
-        })
+        } else {
+          var reviewerRef = firebaseDB.database().ref(`/Users/${review.reviewerId}`)
+          reviewerRef.once('value', snapshot2 => {
+            let reviewer = snapshot2.val();
+            reviewerName = reviewer.displayName,
+            reviewerAvatar = reviewer.avatarURL
+            newState.push({
+              id: snapshot.key,
+              reviewMessage: review.reviewMessage,
+              reviewerId: review.reviewerId,
+              reviewDate: review.reviewDate,
+              reviewerAvatar: reviewerAvatar,
+              reviewerName: reviewerName,
+              traits: review.traits || []
+            });
+            var sortedArr = newState.sort(function(a, b) {
+              var keyA = new Date(a.reviewDate),
+                  keyB = new Date(b.reviewDate);
+              // Compare the 2 dates
+              if(keyA < keyB) return 1;
+              if(keyA > keyB) return -1;
+              return 0;
+            });
+            this.setState({
+              reviews: sortedArr,
+            });
+          })
+        }
       });
     });
   }
 
   loadData(userId) {
+    this.userRef = firebaseDB.database().ref(`/Users/${userId}`)
+    this.usersWIPsRef = firebaseDB.database().ref(`/Users/${userId}/WIPs`)
+    this.usersReviewsRef = firebaseDB.database().ref(`/Users/${userId}/Reviews`)
     this.userRef.on('value', snapshot => {
       this.setUserState(snapshot.val())
-    }, error => {console.log(error);});
+    });
     this.usersWIPsRef.on('value', snapshot => {
       this.setUsersWIPsState(snapshot.val());
     });
@@ -541,10 +563,10 @@ class UserProfile extends Component {
                       </div>
                       <div className="user-info-details">
                         <span className="user-info-detail-label">
-                          Last Active: 
+                          Last Signed In: 
                         </span>
                         <span className="user-info-detail">
-                          {this.state.lastActive}
+                          {this.state.lastSignedIn}
                         </span>
                       </div>
                     </Col>

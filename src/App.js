@@ -113,6 +113,9 @@ class App extends Component {
           <Header authenticated={this.state.authenticated} 
                   currentUserId={this.state.currentUserId}/>
           <Switch>
+            <Route exact path="/" render={(props) => {
+                return <HomePage authenticated={this.state.authenticated} {...props} />
+              }} />
             <Route exact path="/homepage" render={(props) => {
                 return <HomePage authenticated={this.state.authenticated} {...props} />
               }} />
@@ -148,7 +151,11 @@ class App extends Component {
                     component={Thread} 
                     currentUserId={this.state.currentUserId}/>
           </Switch>
-          {this.state.authenticated ? null :  (<Redirect to="/login" />)}
+          {this.state.authenticated ? (
+            null
+          ) : (
+            <Redirect to="/login" />
+          )}
           <Footer />
         </div>
       </BrowserRouter>

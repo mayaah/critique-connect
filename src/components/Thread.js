@@ -5,6 +5,9 @@ import { Grid, Row, Col, Image } from 'react-bootstrap';
 import Pagination from "react-js-pagination";
 import { firebaseDB, base } from '../base'
 
+const DELETED_STRING = "[deleted]"
+const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
+
 class Thread extends Component {
 	constructor(props){
     super(props)
@@ -48,20 +51,16 @@ class Thread extends Component {
           let postAuthorName = ""
           let postAuthorAvatar = ""
           let postAuthorId = ""
-          var postAuthorRef = firebaseDB.database().ref(`/Users/${post.author}`)
-          postAuthorRef.once('value', snapshot2 => {
-            let postAuthor = snapshot2.val();
-            postAuthorName = postAuthor.displayName,
-            postAuthorAvatar = postAuthor.avatarURL
+          if (post.author == DELETED_STRING) {
             newState.push({
               id: snapshot.key,
-              authorId: post.author,
-              author: postAuthorName,
-              authorAvatar: postAuthorAvatar,
+              authorId: DELETED_STRING,
+              author: DELETED_STRING,
+              authorAvatar: defaultAvatarUrl,
               comment: post.comment,
               date: post.date
             });
-            var sortedArr = newState.sort(function(a, b){
+            var sortedArr = newState.sort(function(a, b) {
               var keyA = new Date(a.date),
                   keyB = new Date(b.date);
               // Compare the 2 dates
@@ -74,7 +73,35 @@ class Thread extends Component {
               posts: sortedArr,
               currentPosts: sortedArr.slice(0, 20)
             });
-          })
+          } else {
+            var postAuthorRef = firebaseDB.database().ref(`/Users/${post.author}`)
+            postAuthorRef.once('value', snapshot2 => {
+              let postAuthor = snapshot2.val();
+              postAuthorName = postAuthor.displayName,
+              postAuthorAvatar = postAuthor.avatarURL
+              newState.push({
+                id: snapshot.key,
+                authorId: post.author,
+                author: postAuthorName,
+                authorAvatar: postAuthorAvatar,
+                comment: post.comment,
+                date: post.date
+              });
+              var sortedArr = newState.sort(function(a, b) {
+                var keyA = new Date(a.date),
+                    keyB = new Date(b.date);
+                // Compare the 2 dates
+                if(keyA < keyB) return -1;
+                if(keyA > keyB) return 1;
+                return 0;
+              });
+              console.log(sortedArr)
+              this.setState({
+                posts: sortedArr,
+                currentPosts: sortedArr.slice(0, 20)
+              });
+            })
+          }
         });
       });
     });

@@ -94,7 +94,7 @@ class UserSearchItem extends Component {
                 {this.state.lastLogin && (
   		          	<div className="user-search-result">
   		            	<span className="user-search-result-field">
-                      Last active:&nbsp;
+                      Last Signed In:&nbsp;
                     </span>
                     <span className="user-search-result-value">
                       {this.state.lastLogin}

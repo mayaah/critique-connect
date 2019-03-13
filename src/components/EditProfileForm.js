@@ -3,9 +3,10 @@ import { BrowserRouter, Redirect } from 'react-router-dom';
 import { Checkbox } from "@blueprintjs/core";
 import Select from 'react-select';
 import FileUploader from 'react-firebase-file-uploader';
-import { Grid, Row, Col, Label } from 'react-bootstrap';
+import { Grid, Row, Col, Label, Button } from 'react-bootstrap';
 import TextareaAutosize from 'react-autosize-textarea';
-import { firebaseDB, base } from '../base'
+import { firebaseDB, base } from '../base';
+import algoliasearch from 'algoliasearch';
 
 const GENRES = [
 	{ label: "Adventure", value: "adventure" },
@@ -37,6 +38,13 @@ const COMPENSATION_TYPES = [
 	{ label: "Critique Exchange", value: "Critique Exchange" },
 ]
 
+const algolia = algoliasearch(
+	process.env.REACT_APP_ALGOLIA_APP_ID,
+	process.env.REACT_APP_ALGOLIA_API_KEY,
+	{protocol: 'https:'}
+)
+const usersIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME)
+
 class EditProfileForm extends Component {
 	constructor(props) {
     super(props)
@@ -65,7 +73,8 @@ class EditProfileForm extends Component {
 	    critiqueStyle: "",
 	    goals: "",
 	    compensation: "",
-	    rates: ""
+	    rates: "",
+	    deleted: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -77,6 +86,13 @@ class EditProfileForm extends Component {
     this.handleUploadError = this.handleUploadError.bind(this);
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}`);
+    this.removeUsersWips = this.removeUsersWips.bind(this);
+    this.removeUsersFromThreads = this.removeUsersFromThreads.bind(this);
+    this.removeUsersFromPosts = this.removeUsersFromPosts.bind(this);
+    this.removeUsersFromReviews = this.removeUsersFromReviews.bind(this);
+    this.deleteUserIndexRecord = this.deleteUserIndexRecord.bind(this);
+    this.addOrUpdateIndexRecord = this.addOrUpdateIndexRecord.bind(this);
+    this.cleanUpUserFromOtherData = this.cleanUpUserFromOtherData.bind(this);
   }
 
   componentDidMount() {
@@ -189,12 +205,138 @@ class EditProfileForm extends Component {
 	    rates: this.state.rates
     });
     this.EditProfileForm.reset()
+    this.addOrUpdateIndexRecord(this.state.userId)
     this.setState({ redirect: true })
   }
+
+  removeUsersWips() {
+  	const usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
+  	usersWIPsRef.on('value', snapshot => {
+  		let usersWIPs = snapshot.val();
+	    let promises = [];
+	    for (let userWIP in usersWIPs) {
+	      var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
+	      WIPRef.remove();
+	    }
+    });
+  }
+
+  // Re-assign threads to deleted user
+  removeUsersFromThreads() {
+  	const usersThreadsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Threads`)
+  	usersThreadsRef.on('value', snapshot => {
+  		let usersThreads = snapshot.val();
+  		let promises = [];
+  		for (let usersThread in usersThreads) {
+	      var threadRef = firebaseDB.database().ref(`/Threads/${usersThread}`)
+	      threadRef.update({
+	      	author: "[deleted]"
+	      })
+	    }
+  	})
+  }
+
+	// Re-assign posts to deleted user
+  removeUsersFromPosts() {
+  	const usersPostsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Posts`)
+  	usersPostsRef.on('value', snapshot => {
+  		let usersPosts = snapshot.val();
+  		let promises = [];
+  		for (let usersPost in usersPosts) {
+	      var postRef = firebaseDB.database().ref(`/Posts/${usersPost}`)
+	      postRef.update({
+	      	author: "[deleted]"
+	      })
+	    }
+  	})
+  }
+
+  removeUsersFromReviews() {
+  	const usersReviewsGivenRef = firebaseDB.database().ref(`/Users/${this.state.userId}/ReviewsGiven`)
+  	usersReviewsGivenRef.on('value', snapshot => {
+  		let reviewsGiven = snapshot.val();
+  		let promises = [];
+  		for (let review in reviewsGiven) {
+	      var reviewRef = firebaseDB.database().ref(`/Reviews/${review}`)
+	      reviewRef.update({
+	      	reviewerId: "[deleted]"
+	      })
+	    }
+  	})
+  }
+
+  deleteAccount() {
+    this.cleanUpUserFromOtherData().then(() => {
+    	this.userRef.off();
+    	var userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
+    	this.setState({ deleted: true },
+    		() => {
+    			userRef.remove();
+    			firebaseDB.auth().currentUser.delete();
+  			}
+			)
+  		// userRef.remove().then(() => {
+  		// 	this.setState({ deleted: true },
+  		// 		() => {firebaseDB.auth().currentUser.delete();
+				// })
+  		// })
+		})
+  }
+
+  cleanUpUserFromOtherData() {
+  	return Promise.all([
+  		this.removeUsersWips(), 
+  		this.removeUsersFromThreads(),
+  		this.removeUsersFromPosts(),
+  		this.removeUsersFromReviews(),
+  		this.deleteUserIndexRecord(this.state.userId),
+		])
+  }
+
+  deleteUserIndexRecord(userId) {
+  	const userRef = firebaseDB.database().ref(`Users/${userId}`);
+  	userRef.on('value', snapshot => {
+	  	// Get Algolia's objectID from the Firebase object key
+		  const objectID = snapshot.key;
+		  // Remove the object from Algolia
+		  usersIndex
+		    .deleteObject(objectID)
+		    .then(() => {
+		      console.log('Firebase object deleted from Algolia', objectID);
+		    })
+		    .catch(error => {
+		      console.error('Error when deleting contact from Algolia', error);
+		      process.exit(1);
+		    });
+	  })
+	}
+
+	addOrUpdateIndexRecord(userId) {
+		const userRef = firebaseDB.database().ref(`Users/${userId}`);
+		userRef.on('value', snapshot => {
+		  // Get Firebase object
+		  const record = snapshot.val();
+		  // Specify Algolia's objectID using the Firebase object key
+		  record.objectID = snapshot.key;
+		  // Add or update object
+		  usersIndex
+		    .saveObject(record)
+		    .then(() => {
+		      console.log('Firebase object indexed in Algolia', record.objectID);
+		    })
+		    .catch(error => {
+		      console.error('Error when indexing contact into Algolia', error);
+		      process.exit(1);
+		    });
+	  })
+	}
 
   render() {
   	if (this.state.redirect === true) {
       return <Redirect to= {{pathname: '/user/' + this.state.currentUser.uid}} />
+    }
+    if (this.state.deleted === true) {
+      return <Redirect to= {{pathname: '/logout'}} />
     }
     return (
     	<div>
@@ -265,7 +407,7 @@ class EditProfileForm extends Component {
             		</span>
 		            <TextareaAutosize 
 		            	className="textarea-field" 
-		            	large={true} 
+		            	large="true"
 		            	value={this.state.bio} 
 		            	name="bio" 
 		            	onChange={this.handleChange} 
@@ -399,7 +541,7 @@ class EditProfileForm extends Component {
             		</span>
 		            <TextareaAutosize 
 		            	className="textarea-field"
-		            	large={true}
+		            	large="true"
 		            	value={this.state.goals}
 		            	name="goals"
 		            	onChange={this.handleChange}
@@ -414,7 +556,7 @@ class EditProfileForm extends Component {
 		            		</span>
 				            <TextareaAutosize 
 				            	className="textarea-field"
-				            	large={true}
+				            	large="true"
 				            	value={this.state.critiqueTolerance}
 				            	name="critiqueTolerance"
 				            	onChange={this.handleChange}
@@ -433,7 +575,7 @@ class EditProfileForm extends Component {
 		            		</span>
 				            <TextareaAutosize 
 				            	className="textarea-field"
-				            	large={true}
+				            	large="true"
 				            	value={this.state.critiqueStyle}
 				            	name="critiqueStyle"
 				            	onChange={this.handleChange}
@@ -466,7 +608,7 @@ class EditProfileForm extends Component {
 	            		</span>
 			            <TextareaAutosize 
 			            	className="textarea-field"
-			            	large={true}
+			            	large="true"
 			            	value={this.state.rates}
 			            	name="rates"
 			            	onChange={this.handleChange}
@@ -483,6 +625,11 @@ class EditProfileForm extends Component {
 	          	>
 	          	</input>
 		        </form>
+		        <Button className="black-bordered-button" 
+                    onClick={() => { if (window.confirm('Are you sure you wish to delete your account?')) this.deleteAccount() }}
+            >
+              Delete Account
+            </Button>
 		      </Grid>
 	      </BrowserRouter>
       </div>

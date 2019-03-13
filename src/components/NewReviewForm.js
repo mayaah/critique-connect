@@ -45,6 +45,7 @@ class NewReviewForm extends Component {
     this.revieweeRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}`)
     this.reviewerRef = firebaseDB.database().ref(`/Users/${this.state.reviewerId}`)
     this.revieweeReviewsRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Reviews`)
+    this.reviewerReviewsGivenRef = firebaseDB.database().ref(`/Users/${this.state.reviewerId}/ReviewsGiven`)
     this.revieweeTraitsRef = firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Traits`)
     this.handleChange = this.handleChange.bind(this);
     this.handleTraitsSelectChange = this.handleTraitsSelectChange.bind(this);
@@ -105,6 +106,7 @@ class NewReviewForm extends Component {
   	var newReviewRef = reviewsRef.push(review);
   	var reviewId = newReviewRef.key;
   	this.addReviewToReviewee(reviewId)
+    this.addReviewToReviewer(reviewId)
   	this.updateRevieweeTraits()
   	this.submitReviewForm.reset()
   	this.setState({
@@ -117,6 +119,12 @@ class NewReviewForm extends Component {
   	this.revieweeReviewsRef.update({
   		[reviewId]: true
   	})
+  }
+
+  addReviewToReviewer(reviewId) {
+    this.reviewerReviewsGivenRef.update({
+      [reviewId]: true
+    })
   }
 
   updateRevieweeTraits() {
