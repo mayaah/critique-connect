@@ -1,34 +1,8 @@
 import React, { Component } from 'react';
 import {Highlight} from 'react-instantsearch/dom';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import { Grid, Row, Col, Image, Label } from 'react-bootstrap';
-
-
-const genresHash = {
-  adventure: "Adventure",
-  cl: "Chick Lit",
-  cmrf: "Contemporary, Mainstream, & Realistic",
-  children: "Children's",
-  erotic: "Erotic",
-  fantasy: "Fantasy",
-  historical: "Historical",
-  hs: "Horror & Supernatural",
-  lgbt: "LGBT+",
-  literary: "Literary",
-  ma: "Memoir & Autobiography",
-  mg: "Middle Grade",
-  mts: "Mystery, Thriller, & Suspense",
-  na: "New Adult",
-  nonfiction: "Other Nonfiction",
-  rsna: "Religious, Spiritual, & New Age",
-  romance: "Romance",
-  shp: "Satire, Humor, & Parody",
-  sf: "Science Fiction",
-  wf: "Women's",
-  ya: "Young Adult"
-}
-
-const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
+import { Link } from 'react-router-dom';
+import { Row, Col, Image, Label } from 'react-bootstrap';
+import * as constants from '../constants';
 
 class UserSearchItem extends Component {
 	constructor(props){
@@ -43,7 +17,7 @@ class UserSearchItem extends Component {
       genresRead: this.props.hit.genresRead || [],
       lastLogin: this.props.hit.lastLogin,
       compensation: this.props.hit.compensation,
-      avatarURL: this.props.hit.avatarURL || defaultAvatarUrl
+      avatarURL: this.props.hit.avatarURL || constants.DEFAULT_AVATAR_URL
     }
   }
 
@@ -117,7 +91,7 @@ class UserSearchItem extends Component {
                       Genres I Write:&nbsp;
                     </span>
                     <span className="wip-genre-text">
-                      {this.state.genresWrite.map(genre => genresHash[genre]).join(', ')}
+                      {this.state.genresWrite.map(genre => constants.GENRES_HASH[genre]).join(', ')}
                     </span>
   		            </div>
                 )}
@@ -127,7 +101,7 @@ class UserSearchItem extends Component {
                       Genres I Read:&nbsp;
                     </span>
                     <span className="wip-genre-text">
-                      {this.state.genresRead.map(genre => genresHash[genre]).join(', ')}
+                      {this.state.genresRead.map(genre => constants.GENRES_HASH[genre]).join(', ')}
                     </span>
   		            </div>
                 )}

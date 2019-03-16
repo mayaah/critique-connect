@@ -2,33 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 import { Grid, Row, Col, Image } from 'react-bootstrap';
-import { firebaseDB, base } from './base'
-
-const genresHash = {
-  adventure: "Adventure",
-  cl: "Chick Lit",
-  cmrf: "Contemporary, Mainstream, & Realistic",
-  children: "Children's",
-  erotic: "Erotic",
-  fantasy: "Fantasy",
-  historical: "Historical",
-  hs: "Horror & Supernatural",
-  lgbt: "LGBT+",
-  literary: "Literary",
-  ma: "Memoir & Autobiography",
-  mg: "Middle Grade",
-  mts: "Mystery, Thriller, & Suspense",
-  na: "New Adult",
-  nonfiction: "Other Nonfiction",
-  rsna: "Religious, Spiritual, & New Age",
-  romance: "Romance",
-  shp: "Satire, Humor, & Parody",
-  sf: "Science Fiction",
-  wf: "Women's",
-  ya: "Young Adult"
-}
-
-const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
+import * as constants from './constants';
+import { firebaseDB } from './base'
 
 class HomePage extends Component {
   constructor() {
@@ -59,7 +34,7 @@ class HomePage extends Component {
           newState.push({
             id: snapshot.key,
             name: user.displayName,
-            avatarURL: user.avatarURL ? user.avatarURL : defaultAvatarUrl
+            avatarURL: user.avatarURL ? user.avatarURL : constants.DEFAULT_AVATAR_URL
           }); 
         });
         this.setState({
@@ -142,19 +117,22 @@ class HomePage extends Component {
                       {WIP.title}
                     </div>
                     {WIP.types[0] && (
-                      <div className="wip-types-text">
-                        {WIP.types.join(', ')} |&nbsp;
-                      </div>
+                      <span className="wip-types-text">
+                        {WIP.types.join(', ')} 
+                      </span>
+                    )}
+                    {(WIP.types[0] && WIP.wc > 0) && (
+                      <span>&nbsp;|&nbsp;</span>
                     )}
                     {WIP.wc > 0 && (
-                      <div className="wip-wc-text">
+                      <span className="wip-wc-text">
                         {WIP.wc} words
-                      </div>
+                      </span>
                     )}
                     {WIP.genres.map((genre) => {
                       return (
                         <div className="wip-genre-text" key={genre}>
-                          {genresHash[genre]}
+                          {constants.GENRES_HASH[genre]}
                         </div>
                       )
                     })}

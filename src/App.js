@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Spinner } from '@blueprintjs/core';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -15,17 +15,7 @@ import Search from './components/Search';
 import Forum from './components/Forum';
 import NewThreadForm from './components/NewThreadForm';
 import Thread from './components/Thread';
-import { firebaseDB, base } from './base'
-
-function AuthenticatedRoute({component: Component, authenticated, ...rest}) {
-  return (
-    <Route
-      {...rest}
-      render={(props) => authenticated === true
-          ? <Component {...props} {...rest} />
-          : <Redirect to={{pathname: '/login', state: {from: props.location}}} /> } />
-  )
-}
+import { firebaseDB } from './base'
 
 class App extends Component {
   constructor() {

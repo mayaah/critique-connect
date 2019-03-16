@@ -1,49 +1,8 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
-import { firebaseDB, base } from '../base';
-import algoliasearch from 'algoliasearch';
-
-const genresHash = {
-  adventure: "Adventure",
-  cl: "Chick Lit",
-  cmrf: "Contemporary, Mainstream, & Realistic",
-  children: "Children's",
-  erotic: "Erotic",
-  fantasy: "Fantasy",
-  historical: "Historical",
-  hs: "Horror & Supernatural",
-  lgbt: "LGBT+",
-  literary: "Literary",
-  ma: "Memoir & Autobiography",
-  mg: "Middle Grade",
-  mts: "Mystery, Thriller, & Suspense",
-  na: "New Adult",
-  nonfiction: "Other Nonfiction",
-  rsna: "Religious, Spiritual, & New Age",
-  romance: "Romance",
-  shp: "Satire, Humor, & Parody",
-  sf: "Science Fiction",
-  wf: "Women's",
-  ya: "Young Adult"
-}
-
-const typesHash = {
-  fiction: "Fiction",
-  nonfiction: "Nonfiction",
-  novella: "Novella",
-  poetry: "Poetry",
-  ss: "Short Story",
-  sp: "Screenplay",
-  anthology: "Anthology"
-}
-
-const algolia = algoliasearch(
-  process.env.REACT_APP_ALGOLIA_APP_ID,
-  process.env.REACT_APP_ALGOLIA_API_KEY,
-  {protocol: 'https:'}
-)
-const wipsIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME)
+import * as constants from '../constants';
+import { firebaseDB } from '../base';
 
 class WIP extends Component {
   constructor(props){
@@ -66,7 +25,6 @@ class WIP extends Component {
       blurb: "",
       additionalNotes: ""
     }
-    // this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.wipId}`);
     this.deleteWIPIndexRecord = this.deleteWIPIndexRecord.bind(this);
     this.loadData = this.loadData.bind(this);
     this.getWriterData = this.getWriterData.bind(this)
@@ -143,7 +101,7 @@ class WIP extends Component {
       // Get Algolia's objectID from the Firebase object key
       const objectID = snapshot.key;
       // Remove the object from Algolia
-      wipsIndex
+      constants.wipsIndex
         .deleteObject(objectID)
         .then(() => {
           console.log('Firebase object deleted from Algolia', objectID);
@@ -168,7 +126,7 @@ class WIP extends Component {
                 {this.state.title}
               </div>
               <div className="wip-buttons flex">
-                {this.state.writer == this.state.currentUserId && (
+                {this.state.writer === this.state.currentUserId && (
                   <Button className="black-bordered-button">
                     <Link className="flex" to={"/edit_wip/" + this.state.wipId}>
                       <span className="edit-wip-text">
@@ -177,7 +135,7 @@ class WIP extends Component {
                     </Link>
                   </Button>
                 )}
-                {this.state.writer == this.state.currentUserId && (
+                {this.state.writer === this.state.currentUserId && (
                   <Button className="black-bordered-button" 
                           onClick={() => { if (window.confirm('Are you sure you wish to delete this Work in Progress?')) this.removeWIP() }}
                   >
@@ -260,7 +218,7 @@ class WIP extends Component {
                       {this.state.genres.map((genre) => {
                         return (
                           <div className="small-field-text" key={genre}>
-                            {genresHash[genre]}
+                            {constants.GENRES_HASH[genre]}
                           </div>
                         )
                       })}

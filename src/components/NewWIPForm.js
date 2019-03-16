@@ -1,71 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Redirect } from 'react-router-dom';
-import { Checkbox, TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
 import TextareaAutosize from 'react-autosize-textarea';
 import { Grid } from 'react-bootstrap';
-import algoliasearch from 'algoliasearch'
-
-import { firebaseDB, base } from '../base'
-
-const GENRES = [
-	{ label: "Adventure", value: "adventure" },
-	{ label: "Chick Lit", value: "cl"},
-	{ label: "Contemporary, Mainstream, & Realistic", value: "cmrf" },
-	{ label: "Children's", value: "children" },
-	{ label: "Erotic", value: "erotic" },
-	{ label: "Fantasy", value: "fantasy" },
-	{ label: "Historical", value: "historical" },
-	{ label: "Horror & Supernatural", value: "hs" },
-	{ label: "LGBT+", value: "lgbt" },
-	{ label: "Literary", value: "literary" },
-	{ label: "Memoir & Autobiography", value: "ma" },
-	{ label: "Middle Grade", value: "mg" },
-	{ label: "Mystery, Thriller, & Suspense", value: "mts" },
-	{ label: "New Adult", value: "na" },
-	{ label: "Other Nonfiction", value: "nonfiction"},
-	{ label: "Religious, Spiritual, & New Age", value: "rsna" },
-	{ label: "Romance", value: "romance" },
-	{ label: "Satire, Humor, & Parody", value: "shp" },
-	{ label: "Science Fiction", value: "sf" },
-	{ label: "Women's", value: "wf" },
-	{ label: "Young Adult", value: "ya" }
-];
-
-const TYPES = [
-	{ label: "Fiction", value: "Fiction" },
-	{ label: "Nonfiction", value: "Nonfiction"},
-	{ label: "Novel", value: "Novel"},
-	{ label: "Novella", value: "Novella"},
-	{ label: "Poetry", value: "Poetry"},
-	{ label: "Short Story", value: "Short Story"},
-	{ label: "Screenplay", value: "Screenplay"},
-	{ label: "Anthology", value: "Anthology"}
-];
-
-const LANGUAGES = [
-	{ label: "English", value: "English" },
-	{ label: "Chinese", value: "Chinese"},
-	{ label: "German", value: "German" },
-	{ label: "Spanish", value: "Spanish" },
-	{ label: "Japanese", value: "Japanese" },
-	{ label: "Russian", value: "Russian" },
-	{ label: "French", value: "French" },
-	{ label: "Korean", value: "Korean" },
-	{ label: "Italian", value: "Italian" },
-	{ label: "Dutch", value: "Dutch" },
-	{ label: "Portuguese", value: "Portuguese" },
-	{ label: "Hindi", value: "Hindi"},
-	{ label: "Other", value: "Other"}
-]
-
-const algolia = algoliasearch(
-	process.env.REACT_APP_ALGOLIA_APP_ID,
-	process.env.REACT_APP_ALGOLIA_API_KEY,
-	{protocol: 'https:'}
-)
-const wipsIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME)
-
+import * as constants from '../constants';
+import { firebaseDB } from '../base'
 
 class NewWIPForm extends Component {
   constructor(props) {
@@ -174,7 +113,7 @@ addOrUpdateWIPIndexRecord(wipId) {
 	  // Specify Algolia's objectID using the Firebase object key
 	  record.objectID = snapshot.key;
 	  // Add or update object
-	  wipsIndex
+	  constants.wipsIndex
 	    .saveObject(record)
 	    .then(() => {
 	      console.log('Firebase object indexed in Algolia', record.objectID);
@@ -219,6 +158,9 @@ addOrUpdateWIPIndexRecord(wipId) {
 		            <span className="label-field-name">
 	            		Logline
             		</span>
+            		<span className="label-field-helper">
+                  &nbsp;- A one sentence summary.
+                </span>
 		            <input 
 		            	className="pt-input input-field" 
 		            	value={this.state.logline} 
@@ -245,6 +187,9 @@ addOrUpdateWIPIndexRecord(wipId) {
 		            <span className="label-field-name">
 		            	Draft
 	            	</span>
+	            	<span className="label-field-helper">
+                  &nbsp;- Is this the first draft? Second? Hundredth?
+                </span>
 		            <input 
 		            	className="pt-input input-field" 
 		            	value={this.state.draft} 
@@ -263,7 +208,7 @@ addOrUpdateWIPIndexRecord(wipId) {
 									closeOnSelect={false}
 									disabled={false}
 									onChange={this.handleLanguageChange}
-									options={LANGUAGES}
+									options={constants.LANGUAGES}
 									placeholder="Select the language"
 									simpleValue
 									value={this.state.language}
@@ -279,7 +224,7 @@ addOrUpdateWIPIndexRecord(wipId) {
 									disabled={false}
 									multi
 									onChange={this.handleTypeSelectChange}
-									options={TYPES}
+									options={constants.TYPES}
 									placeholder="Select the type(s) of literature"
 									simpleValue
 									value={this.state.types}
@@ -295,7 +240,7 @@ addOrUpdateWIPIndexRecord(wipId) {
 									disabled={false}
 									multi
 									onChange={this.handleGenreSelectChange}
-									options={GENRES}
+									options={constants.GENRES}
 									placeholder="Select your favorite(s)"
 									simpleValue
 									value={this.state.genres}
@@ -305,6 +250,9 @@ addOrUpdateWIPIndexRecord(wipId) {
 	            	<span className="label-field-name">
 	            		Disclaimers
             		</span>
+            		<span className="label-field-helper">
+                  &nbsp;- Violence? Nudity? Foul language?
+                </span>
 		            <TextareaAutosize 
 		            	className="textarea-field" 
 									large="true"
@@ -318,6 +266,9 @@ addOrUpdateWIPIndexRecord(wipId) {
 	            	<span className="label-field-name">
 	            		Blurb
             		</span>
+            		<span className="label-field-helper">
+                  &nbsp;- What would the back of this book say?
+                </span>
 		            <TextareaAutosize 
 		            	className="textarea-field" 
 		            	large="true"

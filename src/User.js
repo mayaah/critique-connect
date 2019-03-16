@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { firebaseDB } from './base'
 
 class User extends Component {

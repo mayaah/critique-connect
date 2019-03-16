@@ -1,48 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import WIP from './WIP.js';
 import NewReviewForm from './NewReviewForm'
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-import { Spinner } from '@blueprintjs/core';
-import { firebaseDB, base } from '../base'
-
-const genresHash = {
-  adventure: "Adventure",
-  cl: "Chick Lit",
-  cmrf: "Contemporary, Mainstream, & Realistic",
-  children: "Children's",
-  erotic: "Erotic",
-  fantasy: "Fantasy",
-  historical: "Historical",
-  hs: "Horror & Supernatural",
-  lgbt: "LGBT+",
-  literary: "Literary",
-  ma: "Memoir & Autobiography",
-  mg: "Middle Grade",
-  mts: "Mystery, Thriller, & Suspense",
-  na: "New Adult",
-  nonfiction: "Other Nonfiction",
-  rsna: "Religious, Spiritual, & New Age",
-  romance: "Romance",
-  shp: "Satire, Humor, & Parody",
-  sf: "Science Fiction",
-  wf: "Women's",
-  ya: "Young Adult"
-}
-
-const TRAITS_LIST = [
-  "Constructive", 
-  "Detailed", 
-  "Encouraging", 
-  "Honest", 
-  "Insightful", 
-  "Kind", 
-  "Respectful", 
-  "Thorough", 
-  "Timely"]
-
-const DELETED_STRING = "[deleted]"
-const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
+import * as constants from '../constants';
+import { firebaseDB } from '../base'
 
 class UserProfile extends Component {
   constructor(props){
@@ -118,7 +79,7 @@ class UserProfile extends Component {
       fbProfile: user.fbProfile ? user.fbProfile : "",
       twitterProfile: user.twitterProfile ? user.twitterProfile : "",
       email: user.email ? user.email : "",
-      avatarURL: user.avatarURL ? user.avatarURL : defaultAvatarUrl,
+      avatarURL: user.avatarURL ? user.avatarURL : constants.DEFAULT_AVATAR_URL,
       genresRead: user.genresRead ? user.genresRead : [],
       genresWrite: user.genresWrite ? user.genresWrite : [],
       traits: user.Traits ? user.Traits : {},
@@ -169,13 +130,13 @@ class UserProfile extends Component {
         var review = snapshot.val()
         let reviewerName = ""
         let reviewerAvatar = ""
-        if (review.reviewerId == DELETED_STRING) {
+        if (review.reviewerId === constants.DELETED_STRING) {
           newState.push({
             id: snapshot.key,
             reviewMessage: review.reviewMessage,
             reviewDate: review.reviewDate,
-            reviewerAvatar: defaultAvatarUrl,
-            reviewerName: DELETED_STRING,
+            reviewerAvatar: constants.DEFAULT_AVATAR_URL,
+            reviewerName: constants.DELETED_STRING,
             traits: review.traits || []
           });
           var sortedArr = newState.sort(function(a, b) {
@@ -193,7 +154,7 @@ class UserProfile extends Component {
           var reviewerRef = firebaseDB.database().ref(`/Users/${review.reviewerId}`)
           reviewerRef.once('value', snapshot2 => {
             let reviewer = snapshot2.val();
-            reviewerName = reviewer.displayName,
+            reviewerName = reviewer.displayName
             reviewerAvatar = reviewer.avatarURL
             newState.push({
               id: snapshot.key,
@@ -347,7 +308,7 @@ class UserProfile extends Component {
                           {this.state.genresRead.map((genre) => {
                             return (
                               <div className="small-field-text" key={genre}>
-                                {genresHash[genre]}
+                                {constants.GENRES_HASH[genre]}
                               </div>
                             )
                           })}
@@ -372,7 +333,7 @@ class UserProfile extends Component {
                           {this.state.genresWrite.map((genre) => {
                             return (
                               <div className="small-field-text" key={genre}>
-                                {genresHash[genre]}
+                                {constants.GENRES_HASH[genre]}
                               </div>
                             )
                           })}
@@ -398,7 +359,7 @@ class UserProfile extends Component {
                           <div className="small-field-text">
                             {this.state.compensation}
                           </div>
-                          {this.state.compensation == "Paid Services" ? (
+                          {this.state.compensation === "Paid Services" ? (
                             <div className="small-field-text">
                               {this.state.rates}
                             </div>
@@ -614,7 +575,7 @@ class UserProfile extends Component {
                     </Col>
                   </Row>
                   <div className="user-traits">
-                    {TRAITS_LIST.map((trait) => {
+                    {constants.TRAITS_LIST.map((trait) => {
                       return (
                         <span className="user-trait-count" key={trait}>
                           {trait} (+{this.state.traits[trait] ? this.state.traits[trait] : 0})
@@ -622,7 +583,7 @@ class UserProfile extends Component {
                       )
                     })}
                   </div>
-                  {this.state.userId == this.state.currentUserId ? (
+                  {this.state.userId === this.state.currentUserId ? (
                     <Button className="black-bordered-button">
                       <Link className="flex" to={"/edit_profile"} >
                         Edit Profile
@@ -659,7 +620,7 @@ class UserProfile extends Component {
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>
-                {this.state.userId == this.state.currentUserId ? (
+                {this.state.userId === this.state.currentUserId ? (
                   <Button className="black-bordered-button">
                     <Link className="flex" to={"/submit_wip/"+this.state.userId}>
                       Add a Work in Progress
@@ -679,8 +640,11 @@ class UserProfile extends Component {
                             </div>
                             {WIP.types[0].length > 0 && (
                               <div className="wip-types-text">
-                                {WIP.types.join(', ')} |&nbsp;
+                                {WIP.types.join(', ')}
                               </div>
+                            )}
+                            {(WIP.types[0].length > 0 && WIP.wc > 0) && (
+                              <span>&nbsp;|&nbsp;</span>
                             )}
                             {WIP.wc > 0 && (
                               <div className="wip-wc-text">
@@ -690,7 +654,7 @@ class UserProfile extends Component {
                             {WIP.genres.map((genre) => {
                               return (
                                 <div className="wip-genre-text" key={genre}>
-                                  {genresHash[genre]}
+                                  {constants.GENRES_HASH[genre]}
                                 </div>
                               )
                             })}

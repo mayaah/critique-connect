@@ -1,6 +1,6 @@
 import Rebase from 're-base'
 import firebase from 'firebase'
-import algoliasearch from 'algoliasearch'
+// import algoliasearch from 'algoliasearch'
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,

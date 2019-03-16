@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NewPostForm from './NewPostForm'
 import { Grid, Row, Col, Image } from 'react-bootstrap';
 import Pagination from "react-js-pagination";
-import { firebaseDB, base } from '../base'
-
-const DELETED_STRING = "[deleted]"
-const defaultAvatarUrl = "https://firebasestorage.googleapis.com/v0/b/critique-connect.appspot.com/o/images%2Fcc-default.jpg?alt=media&token=f77a0196-df38-4a46-8b95-24d611c967cd"
+import * as constants from '../constants';
+import { firebaseDB } from '../base'
 
 class Thread extends Component {
 	constructor(props){
@@ -50,13 +48,12 @@ class Thread extends Component {
           var post = snapshot.val()
           let postAuthorName = ""
           let postAuthorAvatar = ""
-          let postAuthorId = ""
-          if (post.author == DELETED_STRING) {
+          if (post.author === constants.DELETED_STRING) {
             newState.push({
               id: snapshot.key,
-              authorId: DELETED_STRING,
-              author: DELETED_STRING,
-              authorAvatar: defaultAvatarUrl,
+              authorId: constants.DELETED_STRING,
+              author: constants.DELETED_STRING,
+              authorAvatar: constants.DEFAULT_AVATAR_URL,
               comment: post.comment,
               date: post.date
             });
@@ -77,7 +74,7 @@ class Thread extends Component {
             var postAuthorRef = firebaseDB.database().ref(`/Users/${post.author}`)
             postAuthorRef.once('value', snapshot2 => {
               let postAuthor = snapshot2.val();
-              postAuthorName = postAuthor.displayName,
+              postAuthorName = postAuthor.displayName
               postAuthorAvatar = postAuthor.avatarURL
               newState.push({
                 id: snapshot.key,

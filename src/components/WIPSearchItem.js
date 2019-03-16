@@ -1,31 +1,7 @@
 import React, { Component } from 'react';
 import {Highlight} from 'react-instantsearch/dom';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-
-
-const genresHash = {
-  adventure: "Adventure",
-  cl: "Chick Lit",
-  cmrf: "Contemporary, Mainstream, & Realistic",
-  children: "Children's",
-  erotic: "Erotic",
-  fantasy: "Fantasy",
-  historical: "Historical",
-  hs: "Horror & Supernatural",
-  lgbt: "LGBT+",
-  literary: "Literary",
-  ma: "Memoir & Autobiography",
-  mg: "Middle Grade",
-  mts: "Mystery, Thriller, & Suspense",
-  na: "New Adult",
-  nonfiction: "Other Nonfiction",
-  rsna: "Religious, Spiritual, & New Age",
-  romance: "Romance",
-  shp: "Satire, Humor, & Parody",
-  sf: "Science Fiction",
-  wf: "Women's",
-  ya: "Young Adult"
-}
+import { Link } from 'react-router-dom';
+import * as constants from '../constants';
 
 class WIPSearchItem extends Component {
 	constructor(props){
@@ -69,8 +45,8 @@ class WIPSearchItem extends Component {
             )}
             {this.state.genres.map((genre) => {
               return (
-                <div className="wip-genre-text">
-                  {genresHash[genre]}
+                <div className="wip-genre-text" key={genre}>
+                  {constants.GENRES_HASH[genre]}
                 </div>
               )
             })}

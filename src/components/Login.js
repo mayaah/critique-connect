@@ -1,17 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Toaster, Intent } from "@blueprintjs/core";
+import { Intent } from "@blueprintjs/core";
 import { Grid, Row, Col, Image, Button } from 'react-bootstrap';
-import User from '../User';
-import algoliasearch from 'algoliasearch';
+import * as constants from '../constants';
 import { firebaseDB, facebookProvider, googleProvider, twitterProvider } from '../base'
-
-const algolia = algoliasearch(
-  process.env.REACT_APP_ALGOLIA_APP_ID,
-  process.env.REACT_APP_ALGOLIA_API_KEY,
-  {protocol: 'https:'}
-)
-const usersIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME)
 
 class Login extends Component {
   constructor() {
@@ -89,7 +81,7 @@ class Login extends Component {
       // Specify Algolia's objectID using the Firebase object key
       record.objectID = snapshot.key;
       // Add or update object
-      usersIndex
+      constants.usersIndex
         .saveObject(record)
         .then(() => {
           console.log('Firebase object indexed in Algolia', record.objectID);

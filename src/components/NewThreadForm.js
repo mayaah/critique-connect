@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
-import { Checkbox, TextArea } from "@blueprintjs/core";
-import Select from 'react-select';
-import TextareaAutosize from 'react-autosize-textarea';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-
-import { firebaseDB, base } from '../base'
+import { BrowserRouter, Redirect } from 'react-router-dom';
+import { TextArea } from "@blueprintjs/core";
+import { Grid } from 'react-bootstrap';
+import { firebaseDB } from '../base'
 
 class NewThreadForm extends Component {
   constructor(props) {

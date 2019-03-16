@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
-import { Checkbox, TextArea, RadioGroup, Radio } from "@blueprintjs/core";
+import { Link } from 'react-router-dom';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 import Pagination from "react-js-pagination";
-
-import { firebaseDB, base } from '../base'
+import { firebaseDB } from '../base'
 
 class Forum extends Component {
 	constructor() {
@@ -105,7 +103,7 @@ class Forum extends Component {
 	      	<Col sm={12}>
 	      		{this.state.currentThreads.map((thread) => {
               return (
-              	<Link to={"/thread/" + thread.id}>
+              	<Link to={"/thread/" + thread.id} key={thread.id}>
 	              	<Row className="forum-thread-row">
 	              		<Col sm={8}>
 	              			<div className="thread-row-topic">

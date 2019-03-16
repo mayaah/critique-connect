@@ -3,32 +3,9 @@ import UserSearchItem from './UserSearchItem';
 import WIPSearchItem from './WIPSearchItem';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Checkbox, RadioGroup, Radio } from "@blueprintjs/core";
-import {Index, InstantSearch, Hits, Highlight, SearchBox, RefinementList, ClearRefinements, CurrentRefinements, ToggleRefinement, PoweredBy, Pagination} from 'react-instantsearch/dom';
+import {Index, InstantSearch, Hits, SearchBox, RefinementList, ClearRefinements, PoweredBy, Pagination} from 'react-instantsearch/dom';
 import { connectToggleRefinement } from 'react-instantsearch/connectors';
-
-const genresHash = {
-	  adventure: "Adventure",
-	  cl: "Chick Lit",
-	  cmrf: "Contemporary, Mainstream, & Realistic",
-	  children: "Children's",
-	  erotic: "Erotic",
-	  fantasy: "Fantasy",
-	  historical: "Historical",
-	  hs: "Horror & Supernatural",
-	  lgbt: "LGBT+",
-	  literary: "Literary",
-	  ma: "Memoir & Autobiography",
-	  mg: "Middle Grade",
-	  mts: "Mystery, Thriller, & Suspense",
-	  na: "New Adult",
-	  nonfiction: "Other Nonfiction",
-	  rsna: "Religious, Spiritual, & New Age",
-	  romance: "Romance",
-	  shp: "Satire, Humor, & Parody",
-	  sf: "Science Fiction",
-	  wf: "Women's",
-	  ya: "Young Adult"
-	}
+import * as constants from '../constants';
 
 class UserSearch extends Component {
 
@@ -56,7 +33,7 @@ class UserSearch extends Component {
 	// }	
 	convertGenres(items) {
 		items.forEach(item => {
-			item.label = genresHash[item.label]
+			item.label = constants.GENRES_HASH[item.label]
 		}) 	
 		return items
 	}
@@ -89,7 +66,7 @@ class UserSearch extends Component {
       <InstantSearch
           appId={process.env.REACT_APP_ALGOLIA_APP_ID}
           apiKey={process.env.REACT_APP_ALGOLIA_API_KEY}
-          indexName={this.state.searchType == "users" ? process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME : process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME}
+          indexName={this.state.searchType === "users" ? process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME : process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME}
         >
   	  	<Grid style={{marginTop: "100px"}}>
           <Row className="search-row">
@@ -121,7 +98,7 @@ class UserSearch extends Component {
           </Row>
           <Row className="search-filters-and-results">
             <Col className="search-filters" sm={3}>
-              {this.state.searchType == "users" ? ( 
+              {this.state.searchType === "users" ? ( 
                 <div>
                   <ToggleRefinement
                     attribute="lfr"
@@ -202,7 +179,7 @@ class UserSearch extends Component {
               <PoweredBy />
             </Col>
             <Col className="search-results" sm={9}>
-              {this.state.searchType == "users" ? (
+              {this.state.searchType === "users" ? (
         	      <Index indexName={process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME}>
                 	<Hits hitComponent={UserSearchItem}/>
         	      </Index>

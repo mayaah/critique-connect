@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 class Footer extends Component {
   constructor(props) {

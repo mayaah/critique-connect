@@ -28,6 +28,10 @@ label.pt-label {
   margin-bottom: 10px;
 }
 
+.label-field-helper {
+	font-size: 12px;
+}
+
 .input-field {
 	width: 500px;
 	box-shadow: none;

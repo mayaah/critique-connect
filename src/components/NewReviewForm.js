@@ -1,32 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Checkbox, TextArea } from "@blueprintjs/core";
+import { TextArea } from "@blueprintjs/core";
 import Select from 'react-select';
-import { firebaseDB, base } from '../base'
-
-const TRAITS = [
-	{ label: "Constructive", value: "Constructive" },
-	{ label: "Detailed", value: "Detailed" },
-	{ label: "Encouraging", value: "Encouraging" },
-	{ label: "Honest", value: "Honest" },
-	{ label: "Insightful", value: "Insightful" },
-	{ label: "Kind", value: "Kind" },
-	{ label: "Respectful", value: "Respectful" },
-	{ label: "Thorough", value: "Thorough"},
-	{ label: "Timely", value: "Timely" }
-];
-
-const TRAITS_LIST = [
-  "Constructive", 
-  "Detailed", 
-  "Encouraging", 
-  "Honest", 
-  "Insightful", 
-  "Kind", 
-  "Respectful", 
-  "Thorough", 
-  "Timely"
-  ]
+import * as constants from '../constants';
+import { firebaseDB } from '../base'
 
 class NewReviewForm extends Component {
   constructor(props) {
@@ -129,8 +105,8 @@ class NewReviewForm extends Component {
 
   updateRevieweeTraits() {
   	let selectedTraitsArray = this.state.traits.split(",")
-  	for (let traitIndex in TRAITS_LIST) {
-  		let trait = TRAITS_LIST[traitIndex]
+  	for (let traitIndex in constants.TRAITS_LIST) {
+  		let trait = constants.TRAITS_LIST[traitIndex]
   		let newTraitCount = 0
   		firebaseDB.database().ref(`/Users/${this.state.revieweeId}/Traits/${trait}`).once("value",snapshot => {
     		const traitData = snapshot.val();
@@ -172,7 +148,7 @@ class NewReviewForm extends Component {
           disabled={false}
           multi
           onChange={this.handleTraitsSelectChange}
-          options={TRAITS}
+          options={constants.TRAITS}
           placeholder={this.state.revieweeName + ' is ...'}
           simpleValue
           value={this.state.traits}

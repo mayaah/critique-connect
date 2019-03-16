@@ -3,47 +3,10 @@ import { BrowserRouter, Redirect } from 'react-router-dom';
 import { Checkbox } from "@blueprintjs/core";
 import Select from 'react-select';
 import FileUploader from 'react-firebase-file-uploader';
-import { Grid, Row, Col, Label, Button } from 'react-bootstrap';
+import { Grid, Button } from 'react-bootstrap';
 import TextareaAutosize from 'react-autosize-textarea';
-import { firebaseDB, base } from '../base';
-import algoliasearch from 'algoliasearch';
-
-const GENRES = [
-	{ label: "Adventure", value: "adventure" },
-	{ label: "Chick Lit", value: "cl"},
-	{ label: "Contemporary, Mainstream, & Realistic", value: "cmrf" },
-	{ label: "Children's", value: "children" },
-	{ label: "Erotic", value: "erotic" },
-	{ label: "Fantasy", value: "fantasy" },
-	{ label: "Historical", value: "historical" },
-	{ label: "Horror & Supernatural", value: "hs" },
-	{ label: "LGBT+", value: "lgbt" },
-	{ label: "Literary", value: "literary" },
-	{ label: "Memoir & Autobiography", value: "ma" },
-	{ label: "Middle Grade", value: "mg" },
-	{ label: "Mystery, Thriller, & Suspense", value: "mts" },
-	{ label: "New Adult", value: "na" },
-	{ label: "Other Nonfiction", value: "nonfiction"},
-	{ label: "Religious, Spiritual, & New Age", value: "rsna" },
-	{ label: "Romance", value: "romance" },
-	{ label: "Satire, Humor, & Parody", value: "shp" },
-	{ label: "Science Fiction", value: "sf" },
-	{ label: "Women's", value: "wf" },
-	{ label: "Young Adult", value: "ya" }
-];
-
-const COMPENSATION_TYPES = [
-	{ label: "Volunteer", value: "Volunteer" },
-	{ label: "Paid Services", value: "Paid Services"},
-	{ label: "Critique Exchange", value: "Critique Exchange" },
-]
-
-const algolia = algoliasearch(
-	process.env.REACT_APP_ALGOLIA_APP_ID,
-	process.env.REACT_APP_ALGOLIA_API_KEY,
-	{protocol: 'https:'}
-)
-const usersIndex = algolia.initIndex(process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME)
+import * as constants from '../constants';
+import { firebaseDB } from '../base';
 
 class EditProfileForm extends Component {
 	constructor(props) {
@@ -213,7 +176,6 @@ class EditProfileForm extends Component {
   	const usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
   	usersWIPsRef.on('value', snapshot => {
   		let usersWIPs = snapshot.val();
-	    let promises = [];
 	    for (let userWIP in usersWIPs) {
 	      var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
 	      WIPRef.remove();
@@ -226,7 +188,6 @@ class EditProfileForm extends Component {
   	const usersThreadsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Threads`)
   	usersThreadsRef.on('value', snapshot => {
   		let usersThreads = snapshot.val();
-  		let promises = [];
   		for (let usersThread in usersThreads) {
 	      var threadRef = firebaseDB.database().ref(`/Threads/${usersThread}`)
 	      threadRef.update({
@@ -241,7 +202,6 @@ class EditProfileForm extends Component {
   	const usersPostsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Posts`)
   	usersPostsRef.on('value', snapshot => {
   		let usersPosts = snapshot.val();
-  		let promises = [];
   		for (let usersPost in usersPosts) {
 	      var postRef = firebaseDB.database().ref(`/Posts/${usersPost}`)
 	      postRef.update({
@@ -255,7 +215,6 @@ class EditProfileForm extends Component {
   	const usersReviewsGivenRef = firebaseDB.database().ref(`/Users/${this.state.userId}/ReviewsGiven`)
   	usersReviewsGivenRef.on('value', snapshot => {
   		let reviewsGiven = snapshot.val();
-  		let promises = [];
   		for (let review in reviewsGiven) {
 	      var reviewRef = firebaseDB.database().ref(`/Reviews/${review}`)
 	      reviewRef.update({
@@ -275,11 +234,6 @@ class EditProfileForm extends Component {
     			firebaseDB.auth().currentUser.delete();
   			}
 			)
-  		// userRef.remove().then(() => {
-  		// 	this.setState({ deleted: true },
-  		// 		() => {firebaseDB.auth().currentUser.delete();
-				// })
-  		// })
 		})
   }
 
@@ -299,7 +253,7 @@ class EditProfileForm extends Component {
 	  	// Get Algolia's objectID from the Firebase object key
 		  const objectID = snapshot.key;
 		  // Remove the object from Algolia
-		  usersIndex
+		  constants.usersIndex
 		    .deleteObject(objectID)
 		    .then(() => {
 		      console.log('Firebase object deleted from Algolia', objectID);
@@ -319,7 +273,7 @@ class EditProfileForm extends Component {
 		  // Specify Algolia's objectID using the Firebase object key
 		  record.objectID = snapshot.key;
 		  // Add or update object
-		  usersIndex
+		  constants.usersIndex
 		    .saveObject(record)
 		    .then(() => {
 		      console.log('Firebase object indexed in Algolia', record.objectID);
@@ -371,7 +325,7 @@ class EditProfileForm extends Component {
 			            <p>Progress: {this.state.progress}</p>
 			          )}
 			          {this.state.avatarURL && (
-			            <img className="field-avatar" src={this.state.avatarURL} />
+			            <img className="field-avatar" src={this.state.avatarURL} alt="user avatar"/>
 			          )}
 			          <FileUploader
 			          	className="avatar-upload-button"
@@ -515,7 +469,7 @@ class EditProfileForm extends Component {
 									disabled={false}
 									multi
 									onChange={this.handleGenreWriteSelectChange}
-									options={GENRES}
+									options={constants.GENRES}
 									placeholder="Select your favorite(s)"
 									simpleValue
 									value={this.state.genresWrite}
@@ -529,7 +483,7 @@ class EditProfileForm extends Component {
 									disabled={false}
 									multi
 									onChange={this.handleGenreReadSelectChange}
-									options={GENRES}
+									options={constants.GENRES}
 									placeholder="Select your favorite(s)"
 									simpleValue
 									value={this.state.genresRead}
@@ -591,7 +545,7 @@ class EditProfileForm extends Component {
 											closeOnSelect={false}
 											disabled={false}
 											onChange={this.handleCompensationChange}
-											options={COMPENSATION_TYPES}
+											options={constants.COMPENSATION_TYPES}
 											placeholder="Select compensation type"
 											simpleValue
 											value={this.state.compensation}
@@ -601,7 +555,7 @@ class EditProfileForm extends Component {
 							) : (
 								null
 							)}
-							{this.state.compensation == "Paid Services" ?  (
+							{this.state.compensation === "Paid Services" ?  (
 								<label className="pt-label form-field-box"> 
 		            	<span className="label-field-name">
 		            		Paid Services Rates

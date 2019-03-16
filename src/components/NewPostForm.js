@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Checkbox, TextArea } from "@blueprintjs/core";
-import { firebaseDB, base } from '../base'
+import { TextArea } from "@blueprintjs/core";
+import { firebaseDB } from '../base'
 
 class NewPostForm extends Component {
   constructor(props) {
