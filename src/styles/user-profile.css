@@ -103,6 +103,19 @@ button.black-bordered-button a {
 	text-decoration: none;
 	color: black;
 }
+button.black-bordered-button.btn.btn-default:active {
+	background: white;
+}
+button.black-bordered-button.btn.btn-default:target {
+	background: white;
+}
+button.black-bordered-button.btn.btn-default:visited {
+	background: white;
+}
+button.black-bordered-button.btn.btn-default:focus {
+	background: white;
+}
+
 
 .user-info .message-user-button, .edit-profile-button {
 	font-weight: 400;

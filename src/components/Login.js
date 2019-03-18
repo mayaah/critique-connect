@@ -28,6 +28,9 @@ class Login extends Component {
           this.createNewUser()
         }
       })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   authWithGoogle() {
@@ -44,6 +47,9 @@ class Login extends Component {
           this.createNewUser()
         }
       })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   authWithTwitter() {
@@ -58,6 +64,9 @@ class Login extends Component {
           this.createNewUser()
         }
       })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   createNewUser() {
@@ -65,11 +74,20 @@ class Login extends Component {
     console.log(user.displayName)
     console.log(this.simplifyDate(user.metadata.creationTime))
     console.log(this.simplifyDate(user.metadata.lastSignInTime))
-    firebaseDB.database().ref(`Users/${user.uid}`).update({
-      displayName: user.displayName.split(" ")[0],
+    var userRef = firebaseDB.database().ref(`Users/${user.uid}`)
+    userRef.update({
       creationDate: this.simplifyDate(user.metadata.creationTime),
       lastLogin: this.simplifyDate(user.metadata.lastSignInTime)
     });
+    // If we haven't already saved a displayName
+    userRef.once('value', snapshot => {
+      let userDB = snapshot.val();
+      if (!userDB.displayName) {
+        userRef.update({
+          displayName: user.displayName.split(" ")[0]
+        })
+      }
+    })
     this.addOrUpdateIndexRecord(user.uid)
   }
 
@@ -109,38 +127,38 @@ class Login extends Component {
     }
 
     return (
-    <div>
-      <div className="splash-page">
-        {this.props.authenticated ? (
-          null
-        ) : (
-          <Grid>
-            <Row>
-              <Col xs={12} sm={12} lg={12}>
-                <Image src={require('../images/landing.png')} responsive />
-              </Col>
-            </Row>
-            <Row className="login-styles">
-              <Col xs={4} sm={4} lg={4}>
-                <Button className="black-bordered-button" onClick={() => this.authWithGoogle()}>
-                  Continue with Google
-                </Button>
-              </Col>
-              <Col xs={4} sm={4} lg={4}>
-                <Button className="black-bordered-button" onClick={() => this.authWithFacebook()}>
-                  Continue with Facebook
-                </Button>
-              </Col>
-              <Col xs={4} sm={4} lg={4}>
-                <Button className="black-bordered-button" onClick={() => this.authWithTwitter()}>
-                  Continue with Twitter
-                </Button>
-              </Col>
-            </Row>
-          </Grid>
-        )}
+      <div>
+        <div className="splash-page">
+          {this.props.authenticated ? (
+            null
+          ) : (
+            <Grid>
+              <Row>
+                <Col xs={12} sm={12} lg={12}>
+                  <Image src={require('../images/landing.png')} responsive />
+                </Col>
+              </Row>
+              <Row className="login-styles">
+                <Col xs={4} sm={4} lg={4}>
+                  <Button type='button' className="black-bordered-button" onClick={() => this.authWithGoogle()}>
+                    Continue with Google
+                  </Button>
+                </Col>
+                <Col xs={4} sm={4} lg={4}>
+                  <Button type='button' className="black-bordered-button" onClick={() => this.authWithFacebook()}>
+                    Continue with Facebook
+                  </Button>
+                </Col>
+                <Col xs={4} sm={4} lg={4}>
+                  <Button type='button' className="black-bordered-button" onClick={() => this.authWithTwitter()}>
+                    Continue with Twitter
+                  </Button>
+                </Col>
+              </Row>
+            </Grid>
+          )}
+        </div>
       </div>
-    </div>
     )
   }
 }

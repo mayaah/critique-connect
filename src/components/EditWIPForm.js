@@ -24,7 +24,6 @@ class EditWIPForm extends Component {
       improvementAreas: "",
       blurb: "",
       additionalNotes: ""
-
     }
     this.WIPRef = firebaseDB.database().ref(`WIPs/${this.state.WIPId}`);
     this.genresRef = firebaseDB.database().ref(`/WIPs/${this.state.WIPId}/genres`);
@@ -36,6 +35,7 @@ class EditWIPForm extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0,0);
     this.WIPRef.on('value', snapshot => {
       let WIP = snapshot.val()
       this.setState({

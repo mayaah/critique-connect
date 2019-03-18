@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+const footerStyle = {
+  marginTop: "100px",
+  marginBottom: "25px",
+}
+
 class Footer extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +14,7 @@ class Footer extends Component {
 
   render() {
     return (
-      <Grid style={{ marginTop: "100px", marginBottom: "25px" }}>
+      <Grid style={footerStyle}>
         <Row>
           <Col sm={12}>
             <div>About</div>

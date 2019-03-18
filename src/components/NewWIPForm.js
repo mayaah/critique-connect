@@ -34,11 +34,12 @@ class NewWIPForm extends Component {
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
     this.createWIP = this.createWIP.bind(this);
     this.addOrUpdateWIPIndexRecord = this.addOrUpdateWIPIndexRecord.bind(this);
+    this.createWIP = this.createWIP.bind(this)
+    this.addWIPToUser = this.addWIPToUser.bind(this)
   }
 
-  componentWillMount() {
-  	this.createWIP = this.createWIP.bind(this)
-    this.addWIPToUser = this.addWIPToUser.bind(this)
+  componentDidMount() {
+  	window.scrollTo(0,0);
   }
 
   componentWillUnmount() {

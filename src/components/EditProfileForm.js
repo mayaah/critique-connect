@@ -59,6 +59,7 @@ class EditProfileForm extends Component {
   }
 
   componentDidMount() {
+  	window.scrollTo(0,0);
     this.userRef.on('value', snapshot => {
     	let currentUser = snapshot.val()
       this.setState({

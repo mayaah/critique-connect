@@ -2,7 +2,8 @@
 @import url('https://fonts.googleapis.com/css?family=Cardo:400,400i,700');
 
 html {
-	height: 100%;
+	height: 100vh;
+	overflow: auto;
 	font-family: 'Cardo', serif;
 }
 body {
@@ -10,7 +11,7 @@ body {
   padding: 0;
   font-family: 'Cardo', serif;
   font-weight: 400;
-  min-height: 100%;
+  height: 100vh;
 }
 
 :root {
@@ -20,15 +21,18 @@ body {
   --ccRed: #ed1c24;
 }
 
+.main-app {
+	font-family: 'Cardo', serif;
+  font-weight: 400;
+}
+
 .flex {
 	display: flex;
 }
 
-
-.splash-page {
-	position: absolute;
-	height: 100%;
-	width: 100%;
+.splash-page img {
+	width: 750px;
+	margin: 75px auto;
 }
 
 .cc-title {
@@ -91,7 +95,7 @@ a.pt-button.pt-minimal:hover {
 
 .login-styles {
 	font-family: 'Cardo', serif;
-	font-weight: 400;
+	font-weight: 700;
 	font-size: 20px;
 }
 

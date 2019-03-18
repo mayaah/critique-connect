@@ -59,14 +59,14 @@
 
 input.ais-ToggleRefinement-checkbox {
 	font-size: 20px;
-	color: red;
-	background-color: red;
+	color: black;
+	background-color: black;
 	margin-right: 13px;
 }
 
 input[type=checkbox]:checked {
-	color: red;
-	background-color: red;
+	color: black;
+	background-color: black;
 }
 
 .form-field-box {
