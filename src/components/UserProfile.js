@@ -35,6 +35,7 @@ class UserProfile extends Component {
       goals: "",
       compensation: "",
       rates: "",
+      contact: "",
       reviewsToShow: 5,
       doneExpanded: false
     }
@@ -89,7 +90,8 @@ class UserProfile extends Component {
       critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
       goals: user.goals ? user.goals : "",
       compensation: user.compensation ? user.compensation : "",
-      rates: user.rates ? user.rates : ""
+      rates: user.rates ? user.rates : "",
+      contact: user.contact ? user.contact : ""
     });
   } 
 
@@ -305,13 +307,13 @@ class UserProfile extends Component {
                     </div>
                      <div className="display-genres-read">
                       <div className="wrapper">
-                          {this.state.genresRead.map((genre) => {
-                            return (
-                              <div className="small-field-text" key={genre}>
-                                {constants.GENRES_HASH[genre]}
-                              </div>
-                            )
-                          })}
+                        {this.state.genresRead.map((genre) => {
+                          return (
+                            <div className="small-field-text" key={genre}>
+                              {constants.GENRES_HASH[genre]}
+                            </div>
+                          )
+                        })}
                       </div>
                     </div>
                   </div>
@@ -330,13 +332,13 @@ class UserProfile extends Component {
                     </div>
                      <div className="display-genres-write">
                       <div className="wrapper">
-                          {this.state.genresWrite.map((genre) => {
-                            return (
-                              <div className="small-field-text" key={genre}>
-                                {constants.GENRES_HASH[genre]}
-                              </div>
-                            )
-                          })}
+                        {this.state.genresWrite.map((genre) => {
+                          return (
+                            <div className="small-field-text" key={genre}>
+                              {constants.GENRES_HASH[genre]}
+                            </div>
+                          )
+                        })}
                       </div>
                     </div>
                   </div>
@@ -425,6 +427,27 @@ class UserProfile extends Component {
             ) : (
               null
             )}
+            <Row>
+              <Col sm={12}>
+                {this.state.contact.length > 0 && (
+                  <div className="user-profile-section">
+                    <div className="section-divider">
+                      <span className="section-divider-title small-section-divider-title">
+                        Best Way to Contact Me
+                      </span>
+                      <div className="section-divider-hr"></div>
+                    </div>
+                     <div className="display-genres-write">
+                      <div className="wrapper">
+                        <div className="small-field-text">
+                          {this.state.contact}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </Col>
+            </Row> 
             <Row>
               <Col sm={12}>
                 {this.state.goals.length > 0 && (
@@ -545,7 +568,7 @@ class UserProfile extends Component {
                         )}
                         {this.state.email.length > 0 && (
                           <OverlayTrigger placement="left" overlay={emailTooltip}>
-                            <a href={`mailto:${this.state.email}`} target="_top">
+                            <a href={`mailto:${this.state.email}?subject=Hi%20from%20Critique%20Connect!`} target="_top">
                               <Image className="social-icons" 
                                      src={require('../images/email-black.png')} 
                                      responsive

@@ -37,6 +37,7 @@ class EditProfileForm extends Component {
 	    goals: "",
 	    compensation: "",
 	    rates: "",
+	    contact: "",
 	    deleted: false
     }
 
@@ -81,7 +82,8 @@ class EditProfileForm extends Component {
 	      critiqueStyle: currentUser.critiqueStyle ? currentUser.critiqueStyle : "",
 	      goals: currentUser.goals ? currentUser.goals : "",
 	      compensation: currentUser.compensation ? currentUser.compensation : "",
-	      rates: currentUser.rates ? currentUser.rates : ""
+	      rates: currentUser.rates ? currentUser.rates : "",
+	      contact: currentUser.contact ? currentUser.contact : ""
       });
     });
   }
@@ -166,7 +168,8 @@ class EditProfileForm extends Component {
 	    critiqueTolerance: this.state.critiqueTolerance,
 	    goals: this.state.goals,
 	    compensation: this.state.compensation,
-	    rates: this.state.rates
+	    rates: this.state.rates,
+	    contact: this.state.contact
     });
     this.EditProfileForm.reset()
     this.addOrUpdateIndexRecord(this.state.userId)
@@ -180,6 +183,19 @@ class EditProfileForm extends Component {
 	    for (let userWIP in usersWIPs) {
 	      var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
 	      WIPRef.remove();
+				WIPRef.on('value', snapshot => {
+					// Get Algolia's objectID from the Firebase object key
+					const objectID = snapshot.key;
+					// Remove the object from Algolia
+					constants.wipsIndex
+					.deleteObject(objectID)
+					.then(() => {
+						console.log('Firebase object deleted from Algolia', objectID);
+					})
+					.catch(error => {
+						console.error('Error when deleting contact from Algolia', error);
+					});
+				})
 	    }
     });
   }
@@ -261,7 +277,6 @@ class EditProfileForm extends Component {
 		    })
 		    .catch(error => {
 		      console.error('Error when deleting contact from Algolia', error);
-		      process.exit(1);
 		    });
 	  })
 	}
@@ -272,17 +287,26 @@ class EditProfileForm extends Component {
 		  // Get Firebase object
 		  const record = snapshot.val();
 		  // Specify Algolia's objectID using the Firebase object key
-		  record.objectID = snapshot.key;
 		  // Add or update object
+		  const recordToSend = {
+		  	objectID: snapshot.key,
+		  	avatarURL: record.avatarURL,
+		  	ltr: record.ltr,
+		  	lfr: record.lfr,
+		  	displayName: record.displayName,
+		  	lastLogin: record.lastLogin,
+		  	compensation: record.compensation,
+		  	genresWrite: record.genresWrite,
+		  	genresRead: record.genresRead
+		  }
 		  constants.usersIndex
-		    .saveObject(record)
+		    .saveObject(recordToSend)
 		    .then(() => {
 		      console.log('Firebase object indexed in Algolia', record.objectID);
 		    })
 		    .catch(error => {
 		      console.error('Error when indexing contact into Algolia', error);
-		      process.exit(1);
-		    });
+  		    });
 	  })
 	}
 
@@ -460,6 +484,19 @@ class EditProfileForm extends Component {
 		            	type="url">
           			</input>
 		          </label>
+		          <label className="pt-label form-field-box"> 
+	            	<span className="label-field-name">
+	            		Best Way to Contact Me
+            		</span>
+		            <TextareaAutosize 
+		            	className="textarea-field"
+		            	large="true"
+		            	value={this.state.contact}
+		            	name="contact"
+		            	onChange={this.handleChange}
+		            	label="contact"
+								/>
+							</label>
 		          <label className="pt-label form-field-box">
 		          	<span className="label-field-name">
 		          		Genres I Write

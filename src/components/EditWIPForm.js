@@ -113,7 +113,7 @@ addOrUpdateWIPIndexRecord(wipId) {
     const record = snapshot.val();
     // Specify Algolia's objectID using the Firebase object key
     record.objectID = snapshot.key;
-    // Add or update object
+
     constants.wipsIndex
       .saveObject(record)
       .then(() => {

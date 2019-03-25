@@ -97,6 +97,8 @@ a.pt-button.pt-minimal:hover {
 	font-family: 'Cardo', serif;
 	font-weight: 700;
 	font-size: 20px;
+	border-bottom: 1px lightgray solid;
+	padding-bottom: 50px;
 }
 
 .login-styles button {
@@ -129,3 +131,25 @@ input::-webkit-input-placeholder {
 	font-size: 15px;
 	text-align: center;
 }
+
+.vertical-align {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.splash-section-title {
+	font-size: 35px;
+	margin-top: 50px;
+}
+
+img.splash-gif{
+	width: 600px;
+	border-bottom: 5px solid var(--ccRed);
+}
+
+.red {
+	color: var(--ccRed);
+}
+

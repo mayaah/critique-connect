@@ -97,10 +97,20 @@ class Login extends Component {
       // Get Firebase object
       const record = snapshot.val();
       // Specify Algolia's objectID using the Firebase object key
-      record.objectID = snapshot.key;
       // Add or update object
+      const recordToSend = {
+        objectID: snapshot.key,
+        avatarURL: record.avatarURL,
+        ltr: record.ltr,
+        lfr: record.lfr,
+        displayName: record.displayName,
+        lastLogin: record.lastLogin,
+        compensation: record.compensation,
+        genresWrite: record.genresWrite,
+        genresRead: record.genresRead
+      }
       constants.usersIndex
-        .saveObject(record)
+        .saveObject(recordToSend)
         .then(() => {
           console.log('Firebase object indexed in Algolia', record.objectID);
         })
@@ -154,6 +164,87 @@ class Login extends Component {
                     Continue with Twitter
                   </Button>
                 </Col>
+              </Row>
+              <div className="splash-section-title">As a <span className="red">writer</span>...</div>
+              <Row>
+                <div className="vertical-align">
+                  <Col xs={7} sm={7} lg={7}>
+                    <Image className="splash-gif" src={require('../images/new_wip.gif')} response />
+                  </Col>
+                  <Col xs={5} sm={5} lg={5}>
+                    <div>
+                      <div className="section-divider">
+                        <span className="section-divider-title">
+                          Add a Work in Progress
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                      With attributes like...
+                      <ul className="splash-bullets">
+                        <li>Word Count</li>
+                        <li>Genre(s)</li>
+                        <li>Blurb</li>
+                        <li>Improvement Areas</li>
+                        <li>And more...</li>
+                      </ul>
+                    </div>
+                  </Col>
+                </div>
+              </Row>
+              <Row>
+                <div className="vertical-align">
+                  <Col xs={5} sm={5} lg={5}>
+                    <div>
+                      <div className="section-divider">
+                        <span className="section-divider-title">
+                          Search for Beta Readers
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                      <ul className="splash-bullets">
+                        <li>Search for users who are looking to read</li>
+                        <li>Filter search by genres</li>
+                        <li>View potential beta reader's profiles</li>
+                        <li>Weigh in attributes like critique style and compensation</li>
+                        <li>Contact beta reader if it's a good fit!</li>
+                      </ul>
+                    </div>
+                  </Col>
+                  <Col xs={7} sm={7} lg={7}>
+                    <Image className="splash-gif" src={require('../images/find_reader.gif')} response />
+                  </Col>
+                </div>
+              </Row>
+              <div className="splash-section-title">As a <span className="red">beta reader</span>...</div>
+              <Row>
+                <div className="vertical-align">
+                  <Col xs={7} sm={7} lg={7}>
+                    <Image className="splash-gif" src={require('../images/find_wip.gif')} response />
+                  </Col>
+                  <Col xs={5} sm={5} lg={5}>
+                    <div>
+                      <div className="section-divider">
+                        <span className="section-divider-title">
+                          Search Works in Progresses
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                      With attributes like...
+                      <ul className="splash-bullets">
+                        <li>Genre(s)</li>
+                        <li>Type(s)</li>
+                        <li>Language</li>
+                      </ul>
+                      View more detailed WIP pages with
+                      <ul className="splash-bullets">
+                        <li>Word Count</li>
+                        <li>Blurb</li>
+                        <li>Discliamers</li>
+                      </ul>
+                      If you're interested in beta reading the book, contact the author!
+                    </div>
+                  </Col>
+                </div>
               </Row>
             </Grid>
           )}

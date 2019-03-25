@@ -223,10 +223,16 @@ button.black-bordered-button.btn.btn-default:focus {
 	margin: 10px 0;
 	font-size: 25px;
 	font-weight: 400;
-	background: var(--mainGradient);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+	color: var(--ccRed);
 	letter-spacing: 0.1em;
+	max-width: 100%;
+	width: 100%;
+	height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: block;
 }
 
 .wip-wc-text {
@@ -288,6 +294,7 @@ button.black-bordered-button.btn.btn-default:focus {
 	color: white;
 	border-radius: 3px;
 	letter-spacing: 0.1em;
+	font-size: 10px;
 }
 
 .reviewer-avatar-container {

@@ -16,9 +16,14 @@ class Footer extends Component {
     return (
       <Grid style={footerStyle}>
         <Row>
-          <Col sm={12}>
+          <Col sm={3}>
             <div>About</div>
             <div>Contact</div>
+            <div>Donate</div>
+          </Col>
+          <Col sm={3}></Col>
+          <Col sm={3}></Col>
+          <Col sm={3}>
             © {this.state.year} Critique Connect
           </Col>
         </Row>

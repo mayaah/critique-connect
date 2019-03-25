@@ -43,7 +43,7 @@ class WIP extends Component {
 
   componentWillUnmount() {
     this.WIPRef.off();
-    this.writerRef.off();
+    // this.writerRef.off();
   }
 
   loadData(wipId) {
