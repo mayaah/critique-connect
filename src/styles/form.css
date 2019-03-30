@@ -125,6 +125,7 @@ input.black-bordered-button {
 	text-decoration: none;
 	border-radius: 0;
 	font-size: 15px;
+	background: white;
 }
 input.black-bordered-button:hover {
 	cursor: pointer;

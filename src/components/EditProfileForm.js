@@ -617,8 +617,9 @@ class EditProfileForm extends Component {
 	          	>
 	          	</input>
 		        </form>
-		        <Button className="black-bordered-button" 
-                    onClick={() => { if (window.confirm('Are you sure you wish to delete your account?')) this.deleteAccount() }}
+		        <Button 
+		        	className="black-bordered-button red" 
+              onClick={() => { if (window.confirm('Are you sure you wish to delete your account?')) this.deleteAccount() }}
             >
               Delete Account
             </Button>

@@ -18,7 +18,7 @@ class Footer extends Component {
       <Grid style={footerStyle}>
         <Row>
           <Col sm={3}>
-            <Link to={"/about"} onClick={this.forceUpdate} >About</Link>
+            <Link to={"/about"} onClick={()=>{window.location.href = '/about';}}>About</Link>
             <div><a href="mailto:mayaah@berkeley.edu.com">Contact</a></div>
           </Col>
           <Col sm={3}></Col>
