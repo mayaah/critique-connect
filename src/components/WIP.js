@@ -23,7 +23,8 @@ class WIP extends Component {
       disclaimers: "",
       improvementAreas: "",
       blurb: "",
-      additionalNotes: ""
+      additionalNotes: "",
+      doesNotExist: false
     }
     this.deleteWIPIndexRecord = this.deleteWIPIndexRecord.bind(this);
     this.loadData = this.loadData.bind(this);
@@ -43,7 +44,6 @@ class WIP extends Component {
 
   componentWillUnmount() {
     this.WIPRef.off();
-    // this.writerRef.off();
   }
 
   loadData(wipId) {
@@ -77,6 +77,8 @@ class WIP extends Component {
           )
         });
       }
+      else
+        this.setState({doesNotExist: true})
     })
   }
 
@@ -116,6 +118,9 @@ class WIP extends Component {
   render() {
     if (this.state.redirect === true) {
       return <Redirect to= {{pathname: '/user/' + this.state.writer}} />
+    }
+    if (this.state.doesNotExist === true) {
+      return <Redirect to= {{pathname: '/not_found'}} />
     }
     return (
       <Grid className="wip-page" style={{ marginTop: "100px" }}>

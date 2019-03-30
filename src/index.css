@@ -21,6 +21,14 @@ body {
   --ccRed: #ed1c24;
 }
 
+a {
+	color: var(--ccRed);
+}
+
+a:hover {
+	color: var(--ccRed);
+}
+
 .main-app {
 	font-family: 'Cardo', serif;
   font-weight: 400;

@@ -150,17 +150,29 @@ class Login extends Component {
               </Row>
               <Row className="login-styles">
                 <Col xs={4} sm={4} lg={4}>
-                  <Button type='button' className="black-bordered-button" onClick={() => this.authWithGoogle()}>
+                  <Button 
+                    type='button'
+                    className="black-bordered-button"
+                    onClick={() => this.authWithGoogle()}
+                  >
                     Continue with Google
                   </Button>
                 </Col>
                 <Col xs={4} sm={4} lg={4}>
-                  <Button type='button' className="black-bordered-button" onClick={() => this.authWithFacebook()}>
+                  <Button 
+                    type='button'
+                    className="black-bordered-button"
+                    onClick={() => this.authWithFacebook()}
+                  >
                     Continue with Facebook
                   </Button>
                 </Col>
                 <Col xs={4} sm={4} lg={4}>
-                  <Button type='button' className="black-bordered-button" onClick={() => this.authWithTwitter()}>
+                  <Button 
+                    type='button'
+                    className="black-bordered-button"
+                    onClick={() => this.authWithTwitter()}
+                  >
                     Continue with Twitter
                   </Button>
                 </Col>
@@ -207,6 +219,7 @@ class Login extends Component {
                         <li>View potential beta reader's profiles</li>
                         <li>Weigh in attributes like critique style and compensation</li>
                         <li>Contact beta reader if it's a good fit!</li>
+                        <li>Leave reviews for beta readers</li>
                       </ul>
                     </div>
                   </Col>

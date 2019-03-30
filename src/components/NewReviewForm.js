@@ -31,16 +31,20 @@ class NewReviewForm extends Component {
   componentWillMount() {
 		this.revieweeRef.on('value', snapshot => {
 			let reviewee = snapshot.val()
-			this.setState({
-				revieweeName: reviewee.displayName,
-			})
+      if (reviewee) {
+  			this.setState({
+  				revieweeName: reviewee.displayName,
+  			})
+      }
 		})
 		this.reviewerRef.on('value', snapshot => {
 			let reviewer = snapshot.val()
-			this.setState({
-				reviewerAvatar: reviewer.avatarURL,
-				reviewerName: reviewer.displayName
-			})
+      if (reviewer) {
+  			this.setState({
+  				reviewerAvatar: reviewer.avatarURL,
+  				reviewerName: reviewer.displayName
+  			})
+      }
 		})
   }
 

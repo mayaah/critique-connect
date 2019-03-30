@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import NewReviewForm from './NewReviewForm'
 import { Grid, Row, Col, Image, Button, Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 import * as constants from '../constants';
@@ -37,6 +37,7 @@ class UserProfile extends Component {
       rates: "",
       contact: "",
       reviewsToShow: 5,
+      doesNotExist: false,
       doneExpanded: false
     }
     this.handleChange = this.handleChange.bind(this);
@@ -188,16 +189,21 @@ class UserProfile extends Component {
     this.userRef = firebaseDB.database().ref(`/Users/${userId}`)
     this.usersWIPsRef = firebaseDB.database().ref(`/Users/${userId}/WIPs`)
     this.usersReviewsRef = firebaseDB.database().ref(`/Users/${userId}/Reviews`)
-    this.userRef.on('value', snapshot => {
-      this.setUserState(snapshot.val())
-    });
-    this.usersWIPsRef.on('value', snapshot => {
-      this.setUsersWIPsState(snapshot.val());
-    });
-    this.usersReviewsRef.on('value', snapshot => {
-      this.setUsersReviewsState(snapshot.val());
-    });
-  }
+    this.userRef.once('value', snapshot => {
+      if (!snapshot.val())
+        this.setState({doesNotExist: true})
+      else
+        this.userRef.on('value', snapshot => {
+          this.setUserState(snapshot.val())
+        });
+        this.usersWIPsRef.on('value', snapshot => {
+          this.setUsersWIPsState(snapshot.val());
+        });
+        this.usersReviewsRef.on('value', snapshot => {
+          this.setUsersReviewsState(snapshot.val());
+        });
+      })
+    }
 
   removeWIP(WIPId) {
     const WIPRef = firebaseDB.database().ref(`/WIPs/${WIPId}`);
@@ -280,6 +286,10 @@ class UserProfile extends Component {
         Education
       </Tooltip>
     );
+
+    if (this.state.doesNotExist === true) {
+      return <Redirect to= {{pathname: '/not_found'}} />
+    }
 
     return (
       <Grid className="profile-page" style={{ marginTop: "100px" }}>

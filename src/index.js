@@ -12,6 +12,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'normalize.css/normalize.css';
 import '@blueprintjs/core/dist/blueprint.css';
 
+import { BrowserRouter } from 'react-router-dom';
+
 import './index.css';
 import './styles/user-profile.css';
 import './styles/wip.css';
@@ -21,5 +23,5 @@ import './styles/forum.css';
 import './HomePage.css';
 
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import NewPostForm from './NewPostForm'
 import { Grid, Row, Col, Image } from 'react-bootstrap';
 import Pagination from "react-js-pagination";
@@ -15,12 +15,14 @@ class Thread extends Component {
       topic: "",
       posts: [],
       currentPosts: [],
-      activePage: 1
+      activePage: 1,
+      doesNotExist: false
     }
     this.threadRef = firebaseDB.database().ref(`Threads/${this.state.threadId}`);
     this.postsRef = firebaseDB.database().ref(`Threads/${this.state.threadId}/Posts`)
     this.simplifyDate = this.simplifyDate.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.loadPosts = this.loadPosts.bind(this);
   }
 
   componentWillUnmount() {
@@ -31,10 +33,22 @@ class Thread extends Component {
   componentDidMount() {
     this.threadRef.on('value', snapshot => {
       let thread = snapshot.val()
-      this.setState({
-        topic: thread.topic ? thread.topic : "",
-      });
+      if (thread) {
+        this.setState({
+          topic: thread.topic ? thread.topic : "",
+        });
+        this.loadPosts();
+      } else {
+        this.setState({doesNotExist: true})
+      }
     })
+  }
+
+  componentDidUpdate(nextProps) {
+    window.scrollTo(0,0);
+  }
+
+  loadPosts() {
     this.postsRef.on('value', snapshot => {
       let posts = snapshot.val();
       let newState = [];
@@ -51,7 +65,7 @@ class Thread extends Component {
           if (post.author === constants.DELETED_STRING) {
             newState.push({
               id: snapshot.key,
-              authorId: constants.DELETED_STRING,
+              authorId: null,
               author: constants.DELETED_STRING,
               authorAvatar: constants.DEFAULT_AVATAR_URL,
               comment: post.comment,
@@ -104,10 +118,6 @@ class Thread extends Component {
     });
   }
 
-  componentDidUpdate(nextProps) {
-    window.scrollTo(0,0);
-  }
-
   simplifyDate(date) {
     let dateArray = date.split(" ")
     let dateOnly = dateArray.slice(1, 4)
@@ -123,6 +133,9 @@ class Thread extends Component {
   }
 
 	render() {
+    if (this.state.doesNotExist === true) {
+      return <Redirect to= {{pathname: '/not_found'}} />
+    }
     
     return (
 	  	<Grid style={{marginTop: "100px"}}>

@@ -15,7 +15,14 @@ import Search from './components/Search';
 import Forum from './components/Forum';
 import NewThreadForm from './components/NewThreadForm';
 import Thread from './components/Thread';
+import NoMatch from './NoMatch';
+import About from './About';
 import { firebaseDB } from './base'
+
+const PrivateRoute = ({ isLoggedIn, ...props }) =>
+  isLoggedIn
+    ? <Route { ...props } />
+    : <Redirect to="/login" />
 
 class App extends Component {
   constructor() {
@@ -100,51 +107,106 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="main-app">
-          <Header authenticated={this.state.authenticated} 
-                  currentUserId={this.state.currentUserId}/>
-          {this.state.authenticated ? (
-            null
-          ) : (
-            <Redirect to="/login" />
-          )}
+          <Header 
+            authenticated={this.state.authenticated} 
+            currentUserId={this.state.currentUserId}
+          />
           <Switch>
-            <Route exact path="/" render={(props) => {
+            <PrivateRoute 
+              isLoggedIn={this.state.authenticated} 
+              exact path="/" 
+              render={(props) => {
                 return <HomePage authenticated={this.state.authenticated} {...props} />
-              }} />
-            <Route exact path="/homepage" render={(props) => {
+              }}
+            />
+            <PrivateRoute 
+              isLoggedIn={this.state.authenticated}
+              exact path="/homepage"
+              render={(props) => {
                 return <HomePage authenticated={this.state.authenticated} {...props} />
-              }} />
-            <Route exact path="/login" render={(props) => {
-                return <Login setCurrentUser={this.setCurrentUser} 
-                              setCurrentUserId = {this.setCurrentUserId} 
-                              authenticated={this.state.authenticated} {...props} />
-              }} />
-            <Route exact path="/logout" component={Logout}/>
-            <Route exact path="/search" component={Search}/>
-            <Route exact path="/forum" component={Forum}/>
-            <Route exact path="/user/:id" 
-                   component={UserProfile}
-                   currentUserId={this.state.currentUserId}/>
-            <Route path="/wip/:wipId" component={WIP} currentUserId={this.state.currentUserId}/>
-            <Route exact path="/submit_wip/:userId" render={(props) => {
-              return <NewWIPForm authenticated={this.state.authenticated} 
-                                 currentUserId={this.state.currentUserId} {...props} />
-            }} />
-            <Route exact path="/edit_profile" render={(props) => {
-              return <EditProfileForm authenticated={this.state.authenticated} 
-                                      currentUserId={this.state.currentUserId} {...props} />
-            }} />
-            <Route path="/edit_wip/:wipId" render={(props) => {
-              return <EditWIPForm authenticated={this.state.authenticated} 
-                                  currentUserId={this.state.currentUserId} {...props} />
-            }} />
-            <Route exact path="/submit_thread" render={(props) => {
-              return <NewThreadForm authenticated={this.state.authenticated} 
-                                    currentUserId={this.state.currentUserId} {...props} />
-            }} />
-             <Route path="/thread/:threadId" 
-                    component={Thread} 
-                    currentUserId={this.state.currentUserId}/>
+              }}
+            />
+            <Route 
+              exact path="/login" 
+              render={(props) => {
+                return <Login 
+                        setCurrentUser={this.setCurrentUser} 
+                        setCurrentUserId = {this.setCurrentUserId} 
+                        authenticated={this.state.authenticated} {...props} />
+              }}
+            />
+            <Route 
+              exact path="/logout" 
+              component={Logout} 
+            />
+            <PrivateRoute 
+              isLoggedIn={this.state.authenticated}
+              exact path="/search"
+              component={Search}
+            />
+            <PrivateRoute 
+              isLoggedIn={this.state.authenticated}
+              exact path="/forum"
+              component={Forum}/>
+            <PrivateRoute 
+              isLoggedIn={this.state.authenticated} 
+              exact path="/user/:id" 
+              component={UserProfile}
+              currentUserId={this.state.currentUserId}
+            />
+            <PrivateRoute
+              isLoggedIn={this.state.authenticated} 
+              path="/wip/:wipId" 
+              component={WIP}
+              currentUserId={this.state.currentUserId}
+            />
+            <PrivateRoute
+              isLoggedIn={this.state.authenticated}
+              exact path="/submit_wip/:userId"
+              render={(props) => {
+                return <NewWIPForm 
+                         authenticated={this.state.authenticated} 
+                         currentUserId={this.state.currentUserId} {...props} />
+              }}
+            />
+            <PrivateRoute
+              isLoggedIn={this.state.authenticated}
+              exact path="/edit_profile" 
+              render={(props) => {
+                return <EditProfileForm 
+                         authenticated={this.state.authenticated} 
+                         currentUserId={this.state.currentUserId} {...props} />
+              }}
+            />
+            <PrivateRoute
+              isLoggedIn={this.state.authenticated}
+              path="/edit_wip/:wipId" 
+              render={(props) => {
+                return <EditWIPForm 
+                         authenticated={this.state.authenticated} 
+                         currentUserId={this.state.currentUserId} {...props} />
+              }}
+            />
+            <PrivateRoute
+              isLoggedIn={this.state.authenticated}
+              exact path="/submit_thread" 
+              render={(props) => {
+                return <NewThreadForm 
+                         authenticated={this.state.authenticated} 
+                         currentUserId={this.state.currentUserId} {...props} />
+              }}
+            />
+            <PrivateRoute
+              isLoggedIn={this.state.authenticated} 
+              path="/thread/:threadId" 
+              component={Thread} 
+              currentUserId={this.state.currentUserId}
+            />
+            <Route
+              exact path="/about"
+              component={About}
+            />
+            <Route component={NoMatch} />
           </Switch>
           <Footer />
         </div>
