@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
 import { Spinner } from '@blueprintjs/core';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -17,7 +17,18 @@ import NewThreadForm from './components/NewThreadForm';
 import Thread from './components/Thread';
 import NoMatch from './NoMatch';
 import About from './About';
-import { firebaseDB } from './base'
+import { firebaseDB } from './base';
+import ReactGA from 'react-ga';
+import { createBrowserHistory } from 'history';
+
+var history = createBrowserHistory();
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID);
+
+
+history.listen(function (location) {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+});
 
 const PrivateRoute = ({ isLoggedIn, ...props }) =>
   isLoggedIn
@@ -105,7 +116,7 @@ class App extends Component {
     }
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <div className="main-app">
           <Header 
             authenticated={this.state.authenticated} 
@@ -210,7 +221,7 @@ class App extends Component {
           </Switch>
           <Footer />
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }

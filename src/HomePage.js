@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './HomePage.css';
 import { Grid, Row, Col, Image } from 'react-bootstrap';
 import * as constants from './constants';
-import { firebaseDB } from './base'
+import { firebaseDB } from './base';
 
 class HomePage extends Component {
   constructor() {
