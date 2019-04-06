@@ -45,7 +45,9 @@ class Thread extends Component {
   }
 
   componentDidUpdate(nextProps) {
-    window.scrollTo(0,0);
+    if (nextProps.match.params.threadId !== this.props.match.params.threadId) {
+      window.scrollTo(0,0);
+    }
   }
 
   loadPosts() {
