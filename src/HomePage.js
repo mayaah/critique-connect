@@ -14,7 +14,7 @@ class HomePage extends Component {
       wips: [],
       threads: []
     }
-    this.usersRef = firebaseDB.database().ref(`/Users`).orderByChild('creationDate').limitToLast(6)
+    this.usersRef = firebaseDB.database().ref(`/Users`).orderByChild('lastLoginUnix').limitToLast(6)
     this.wipsRef = firebaseDB.database().ref(`/WIPs`).orderByChild('creationDate').limitToLast(4)
     this.threadsRef = firebaseDB.database().ref(`/Threads`).orderByChild('date').limitToLast(6)
   } 
@@ -149,7 +149,7 @@ class HomePage extends Component {
           <Col sm={6} md={6} lg={6}>
             <div className="section-divider">
               <span className="section-divider-title">
-                Newest Users
+                Most Recently Active Users
               </span>
               <div className="section-divider-hr"></div>
             </div>

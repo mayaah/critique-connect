@@ -71,13 +71,11 @@ class Login extends Component {
 
   createNewUser() {
     var user = firebaseDB.auth().currentUser;
-    console.log(user.displayName)
-    console.log(this.simplifyDate(user.metadata.creationTime))
-    console.log(this.simplifyDate(user.metadata.lastSignInTime))
     var userRef = firebaseDB.database().ref(`Users/${user.uid}`)
     userRef.update({
       creationDate: this.simplifyDate(user.metadata.creationTime),
-      lastLogin: this.simplifyDate(user.metadata.lastSignInTime)
+      lastLogin: this.simplifyDate(user.metadata.lastSignInTime),
+      lastLoginUnix: new Date(user.metadata.lastSignInTime).getTime()
     });
     // If we haven't already saved a displayName
     userRef.once('value', snapshot => {
