@@ -570,7 +570,7 @@ class UserProfile extends Component {
                           <OverlayTrigger placement="left" overlay={websiteTooltip}>
                             <a href={this.state.website} target="_blank">
                               <Image className="social-icons" 
-                                     src={require('../images/website-black.png')} 
+                                     src={require('../images/website-red.png')} 
                                      responsive
                               />
                             </a>
@@ -580,7 +580,7 @@ class UserProfile extends Component {
                           <OverlayTrigger placement="left" overlay={emailTooltip}>
                             <a href={`mailto:${this.state.email}?subject=Hi%20from%20Critique%20Connect!`} target="_top">
                               <Image className="social-icons" 
-                                     src={require('../images/email-black.png')} 
+                                     src={require('../images/email-red.png')} 
                                      responsive
                               />
                             </a>
@@ -590,7 +590,7 @@ class UserProfile extends Component {
                           <OverlayTrigger placement="left" overlay={fbTooltip}>
                             <a href={this.state.fbProfile} target="_blank">
                               <Image className="social-icons" 
-                                     src={require('../images/fb-icon.png')} 
+                                     src={require('../images/fb-icon-red.png')} 
                                      responsive/>
                             </a>
                           </OverlayTrigger>
@@ -599,7 +599,7 @@ class UserProfile extends Component {
                           <OverlayTrigger placement="left" overlay={twitterTooltip}>
                             <a href={this.state.twitterProfile} target="_blank">
                               <Image className="social-icons" 
-                                     src={require('../images/twitter-icon.png')} 
+                                     src={require('../images/twitter-icon-red.png')} 
                                      responsive/>
                             </a>
                           </OverlayTrigger>

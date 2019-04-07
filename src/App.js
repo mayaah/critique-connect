@@ -17,18 +17,13 @@ import NewThreadForm from './components/NewThreadForm';
 import Thread from './components/Thread';
 import NoMatch from './NoMatch';
 import About from './About';
+import CookiePolicy from './CookiePolicy';
 import { firebaseDB } from './base';
 import ReactGA from 'react-ga';
 import { createBrowserHistory } from 'history';
+import CookieConsent from "react-cookie-consent";
 
 var history = createBrowserHistory();
-
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID);
-
-
-history.listen(function (location) {
-  ReactGA.pageview(window.location.pathname + window.location.search);
-});
 
 const PrivateRoute = ({ isLoggedIn, ...props }) =>
   isLoggedIn
@@ -40,6 +35,7 @@ class App extends Component {
     super();
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.setCurrentUserId = this.setCurrentUserId.bind(this);
+    this.enableGACookies = this.enableGACookies.bind(this);
     this.state = {
       authenticated: false,
       loading: true,
@@ -103,6 +99,14 @@ class App extends Component {
         currentUserId: firebaseDB.auth().currentUser.uid
       })
     }
+  }
+
+  enableGACookies() {
+    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID);
+
+    history.listen(function (location) {
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    });
   }
 
   render() {
@@ -217,8 +221,45 @@ class App extends Component {
               exact path="/about"
               component={About}
             />
+            <Route
+              exact path="/cookie_policy"
+              component={CookiePolicy}
+            />
             <Route component={NoMatch} />
           </Switch>
+          <CookieConsent
+            location="bottom"
+            buttonText="Accept All Cookies"
+            cookieName="cc_cookie_notice"
+            style={
+              { 
+                background: "rgba(0,0,0,0.8)", 
+                letterSpacing: "0.1em",
+                paddingLeft: "10px", 
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }
+            }
+            contentStyle={
+              {
+                flex: "none"
+              }
+            }
+            buttonStyle={
+              { 
+                color: "black", 
+                backgroundColor: "white", 
+                fontSize: "13px",
+                padding: "10px"
+              }
+            }
+            expires={150}
+            onAccept={() => {this.enableGACookies()}}
+          >
+            This website uses cookies to enhance the user experience.{" "}
+            <a href="">Read more about cookies here.</a>
+          </CookieConsent>
           <Footer />
         </div>
       </Router>
