@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import { Router, Route, Redirect, Switch, Link } from 'react-router-dom';
 import { Spinner } from '@blueprintjs/core';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -258,7 +258,7 @@ class App extends Component {
             onAccept={() => {this.enableGACookies()}}
           >
             This website uses cookies to enhance the user experience.{" "}
-            <a href="">Read more about cookies here.</a>
+            <Link to={"/cookie_policy"}>Read more about cookies here.</Link>
           </CookieConsent>
           <Footer />
         </div>
