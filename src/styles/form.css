@@ -115,7 +115,7 @@ label.pt-label {
 
 input.black-bordered-button {
 	display: block;
-	flex: 1 1 auto;
+	/*flex: 1 1 auto;*/
 	padding: 10px 30px;
 	text-align: center;
 	position: relative;
@@ -125,7 +125,7 @@ input.black-bordered-button {
 	text-decoration: none;
 	border-radius: 0;
 	font-size: 15px;
-	background: white;
+	/*background: white;*/
 }
 input.black-bordered-button:hover {
 	cursor: pointer;

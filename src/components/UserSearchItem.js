@@ -16,9 +16,17 @@ class UserSearchItem extends Component {
       genresWrite: this.props.hit.genresWrite || [],
       genresRead: this.props.hit.genresRead || [],
       lastLogin: this.props.hit.lastLogin,
+      lastActive: this.props.hit.lastActive,
       compensation: this.props.hit.compensation,
       avatarURL: this.props.hit.avatarURL || constants.DEFAULT_AVATAR_URL
     }
+    this.simplifyDate = this.simplifyDate.bind(this);
+  }
+
+  simplifyDate(date) {
+    let dateArray = date.split(" ")
+    let dateOnly = dateArray.slice(1, 4)
+    return dateOnly.join(" ")
   }
 
   render() {
@@ -65,16 +73,6 @@ class UserSearchItem extends Component {
                     null 
                   )}
 		          	</div>
-                {this.state.lastLogin && (
-  		          	<div className="user-search-result">
-  		            	<span className="user-search-result-field">
-                      Last Signed In:&nbsp;
-                    </span>
-                    <span className="user-search-result-value">
-                      {this.state.lastLogin}
-                    </span> 
-  		            </div>
-                )}
                 {this.state.compensation && (
   		            <div className="user-search-result">
   		            	<span className="user-search-result-field">

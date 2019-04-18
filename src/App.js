@@ -52,6 +52,22 @@ class App extends Component {
           currentUser: user,
           loading: false
         })
+        var userRef = firebaseDB.database().ref(`Users/${user.uid}`)
+        var amOnline = firebaseDB.database().ref(`.info/connected`);
+        amOnline.on('value', function(snapshot) {
+          if (snapshot.val()) {
+            userRef.update({
+              lastActive: Date.now()
+            })
+          }
+        });
+        setTimeout(
+          function() {
+              firebaseDB.auth().signOut()
+          }
+          .bind(this),
+          864000
+        );
       } else {
         this.setState({
           authenticated: false,

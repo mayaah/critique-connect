@@ -5,7 +5,7 @@ class CookiePolicy extends Component {
 
   render() {
     return (
-      <Grid style={{ marginTop: "75px" }}>
+      <Grid style={{ marginTop: "75px", height: "500px" }}>
       	<div className="splash-section-title">Cookie Policy</div>
       	<Row style={{ marginTop: "75px" }}>
       		<Col sm={2} md={2} lg={2}></Col>
@@ -19,8 +19,8 @@ class CookiePolicy extends Component {
               browsing experience better our use is minimal and does not identify you as an 
               individual. However, you may prefer to disable cookies on this site and on others. 
               The most effective way to do this is to disable cookies in your browser. We 
-              suggest consulting the Help section of your browser or taking a look at the  
-              <a href="http://www.aboutcookies.org/"> About Cookies website</a> which offers 
+              suggest consulting the Help section of your browser or taking a look at the&nbsp; 
+              <a href="http://www.aboutcookies.org/">About Cookies website</a> which offers 
               guidance for all modern browsers.</p>
       			</div>
       		</Col>

@@ -3,9 +3,65 @@ import UserSearchItem from './UserSearchItem';
 import WIPSearchItem from './WIPSearchItem';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Checkbox, RadioGroup, Radio } from "@blueprintjs/core";
-import {Index, InstantSearch, Hits, SearchBox, RefinementList, ClearRefinements, PoweredBy, Pagination} from 'react-instantsearch/dom';
-import { connectToggleRefinement } from 'react-instantsearch/connectors';
+import {
+  Index, 
+  InstantSearch, 
+  Hits, 
+  SearchBox, 
+  RefinementList, 
+  ClearRefinements, 
+  PoweredBy, 
+  Pagination
+} from 'react-instantsearch/dom';
+import { 
+  connectToggleRefinement, 
+  connectStateResults
+} from 'react-instantsearch/connectors';
 import * as constants from '../constants';
+
+const UserContent = connectStateResults(
+  ({ searchState, searchResults }) =>
+    searchResults && searchResults.nbHits !== 0 ? (
+      <Hits hitComponent={UserSearchItem}/>
+    ) : (
+      <div style={
+        { 
+          marginTop: "75px", 
+          textAlign: "center", 
+          fontSize: "25px", 
+          height: "250px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center" 
+        }
+      } 
+      className="red">
+      No results found.
+    </div>
+    )
+);
+
+const WIPContent = connectStateResults(
+  ({ searchState, searchResults }) =>
+    searchResults && searchResults.nbHits !== 0 ? (
+      <Hits hitComponent={WIPSearchItem}/>
+    ) : (
+      <div style={
+        { 
+          marginTop: "75px", 
+          textAlign: "center", 
+          fontSize: "25px", 
+          height: "250px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center" 
+        }
+      } 
+      className="red">
+      No results found.
+    </div>
+    )
+);
 
 class UserSearch extends Component {
 
@@ -87,12 +143,20 @@ class UserSearch extends Component {
                 />
               </RadioGroup>
             </Col>
-            <Col sm={11}>
+            <Col sm={9}>
               <SearchBox 
                 translations={{
                   placeholder: 'Search users or WIPs',
                 }}
                 submit={<div>Search</div>}
+              />
+            </Col>
+            <Col sm={2}>
+              <ClearRefinements
+                clearsQuery
+                translations={{
+                  reset: 'Clear Search'
+                }}
               />
             </Col>
           </Row>
@@ -160,7 +224,7 @@ class UserSearch extends Component {
                   />
                   <div className="section-divider">
                     <span className="section-divider-title small-section-divider-title">
-                      Language
+                      Languages
                     </span>
                     <div className="section-divider-hr"></div>
                   </div>
@@ -170,22 +234,16 @@ class UserSearch extends Component {
                   />
                 </div>
               )}
-              <ClearRefinements
-                clearsQuery
-                translations={{
-                  reset: 'Clear Search'
-                }}
-              />
               <PoweredBy />
             </Col>
             <Col className="search-results" sm={9}>
               {this.state.searchType === "users" ? (
         	      <Index indexName={process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME}>
-                	<Hits hitComponent={UserSearchItem}/>
+                  <UserContent />
         	      </Index>
               ) : (
         	      <Index indexName={process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME}>
-                	<Hits hitComponent={WIPSearchItem}/>
+                	<WIPContent />
         	      </Index>
               )}
               <Pagination />

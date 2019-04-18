@@ -147,6 +147,15 @@ class WIP extends Component {
                     Remove Item
                   </Button>
                 )}
+                {this.state.writer !== this.state.currentUserId && (
+                  <Button className="black-bordered-button">
+                    <Link className="flex" to={"/user/" + this.state.writer}>
+                      <span className="edit-wip-text">
+                        Contact Writer
+                      </span>
+                    </Link>
+                  </Button>
+                )}
               </div>
             </div>
             <Link to={"/user/" + this.state.writer}>
@@ -180,7 +189,7 @@ class WIP extends Component {
               <div className="wip-section">
                 <div className="section-divider small-section-divider">
                   <span className="section-divider-title small-section-divider-title">
-                    Language
+                    Language(s)
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>

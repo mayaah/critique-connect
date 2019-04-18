@@ -39,14 +39,15 @@ class Forum extends Component {
 	        newState.push({
 	          id: snapshot.key,
 	          author: thread.author,
+            dateUnix: thread.date,
 	          date: this.simplifyDate(new Date(thread.date).toUTCString()),
 	          topic: thread.topic,
 	          postsCount: postsCount
 	        });
 	      });
 	      var sortedArr = newState.sort(function(a, b){
-	        var keyA = new Date(a.date),
-	            keyB = new Date(b.date);
+	        var keyA = new Date(a.dateUnix),
+	            keyB = new Date(b.dateUnix);
 	        // Compare the 2 dates
 	        if(keyA < keyB) return 1;
 	        if(keyA > keyB) return -1;

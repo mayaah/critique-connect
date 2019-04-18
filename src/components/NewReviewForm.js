@@ -74,6 +74,10 @@ class NewReviewForm extends Component {
 
   submitReview(event) {
   	event.preventDefault()
+    if (this.state.reviewMessage.length == 0 && this.state.traits.length == 0) {
+      alert("Cannot submit empty review.")
+      return false
+    }
   	const reviewsRef = firebaseDB.database().ref('Reviews');
   	const review = {
   		reviewMessage: this.state.reviewMessage,
@@ -157,12 +161,12 @@ class NewReviewForm extends Component {
           simpleValue
           value={this.state.traits}
         />
-        <input 
+        <button 
           type="submit" 
           className="black-bordered-button" 
-          value="Submit Review"
         >
-        </input>
+          Submit Review
+        </button>
       </form>
     )
   }

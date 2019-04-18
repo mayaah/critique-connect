@@ -86,6 +86,10 @@ class EditWIPForm extends Component {
 
   updateWIP(event) {
     event.preventDefault()
+    if (this.state.title.length == 0) {
+      alert("Title cannot be blank.")
+      return false
+    }
     this.WIPRef.update({
       title: this.state.title,
       wc: this.state.wordCount,
@@ -306,12 +310,12 @@ addOrUpdateWIPIndexRecord(wipId) {
                   label="Additional Notes"
                 />
               </label>
-              <input 
+              <button 
                 type="submit" 
                 className="black-bordered-button" 
-                value="Save"
               >
-              </input>
+                Save
+              </button>
             </form>
           </Grid>
         </BrowserRouter>

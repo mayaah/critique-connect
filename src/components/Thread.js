@@ -31,6 +31,7 @@ class Thread extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0,0);
     this.threadRef.on('value', snapshot => {
       let thread = snapshot.val()
       if (thread) {

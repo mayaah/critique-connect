@@ -30,6 +30,7 @@ class UserProfile extends Component {
       traits: {},
       joinDate: "",
       lastSignedIn: "",
+      lastActive: "",
       critiqueTolerance: "",
       critiqueStyle: "",
       goals: "",
@@ -51,6 +52,7 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0,0);
     this.loadData(this.state.userId);
   }
 
@@ -58,8 +60,8 @@ class UserProfile extends Component {
     if (nextProps.match.params.id !== this.props.match.params.id) {
       this.setState({ userId: this.props.match.params.id });
       this.loadData(this.props.match.params.id);
+      window.scrollTo(0,0);
     }
-    window.scrollTo(0,0);
   }
 
   componentWillUnmount() {
@@ -87,6 +89,7 @@ class UserProfile extends Component {
       traits: user.Traits ? user.Traits : {},
       joinDate: user.creationDate ? user.creationDate : "",
       lastSignedIn: user.lastLogin ? user.lastLogin : "",
+      lastActive: user.lastActive ? user.lastActive : "",
       critiqueTolerance: user.critiqueTolerance ? user.critiqueTolerance : "",
       critiqueStyle: user.critiqueStyle ? user.critiqueStyle : "",
       goals: user.goals ? user.goals : "",
@@ -555,14 +558,16 @@ class UserProfile extends Component {
                           {this.state.joinDate}
                         </span>
                       </div>
-                      <div className="user-info-details">
-                        <span className="user-info-detail-label">
-                          Last Signed In: 
-                        </span>
-                        <span className="user-info-detail">
-                          {this.state.lastSignedIn}
-                        </span>
-                      </div>
+                      {this.state.lastActive && (
+                        <div className="user-info-details">
+                          <span className="user-info-detail-label">
+                            Last Active: 
+                          </span>
+                          <span className="user-info-detail">
+                            {this.simplifyDate(new Date(this.state.lastActive).toUTCString())}
+                          </span>
+                        </div>
+                      )}
                     </Col>
                     <Col sm={4}>
                       <div className="social-links">
@@ -611,7 +616,11 @@ class UserProfile extends Component {
                     {constants.TRAITS_LIST.map((trait) => {
                       return (
                         <span className="user-trait-count" key={trait}>
-                          {trait} (+{this.state.traits[trait] ? this.state.traits[trait] : 0})
+                        {this.state.traits[trait] ? (
+                          <span>{trait} (+{this.state.traits[trait]})</span>
+                        ) : (
+                          null
+                        )}
                         </span>
                       )
                     })}
@@ -721,12 +730,14 @@ class UserProfile extends Component {
                     return (
                       <div className="review-summary" key={review.id}>
                         <div className="review-message">
-                          "{review.reviewMessage}"
+                          {review.reviewMessage.length > 0 && (
+                            <div>"{review.reviewMessage}"</div>
+                          )}
                         </div>
                         {review.traits.map((trait) => {
                           return (
                             <span className="review-trait" key={trait}>
-                              {trait}(+1)
+                              {trait}
                             </span>
                             )
                         })}

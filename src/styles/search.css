@@ -1,5 +1,5 @@
 .ais-SearchBox-input {
-	width: 85%;
+	width: 84%;
 	padding: 10px;
 	border: none;
 	border-bottom: 1px solid black;
@@ -61,13 +61,14 @@
 input.ais-ToggleRefinement-checkbox {
 	font-size: 20px;
 	color: black;
-	background-color: black;
+	background-color: var(--ccRed);
 	margin-right: 13px;
+	content: '✔';
 }
 
 input[type=checkbox]:checked {
-	color: black;
-	background-color: black;
+	color: var(--ccRed);
+	background-color: var(--ccRed);
 }
 
 .form-field-box {
@@ -91,12 +92,13 @@ label {
 
 .ais-RefinementList-item {
 	 list-style-type: none;
-	 margin: 5px 0;
+	 margin: 15px 0;
 }
 
 input.ais-RefinementList-checkbox {
 	font-size: 20px;
 	margin-right: 13px;
+	margin-top: 0;
 }
 
 input[type='checkbox']{
@@ -114,12 +116,18 @@ input[type='checkbox']{
 	cursor: pointer;
 }
 
+.ais-RefinementList-label {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+}
+
 .ais-RefinementList-labelText {
 	font-size: 12px;
 }
 
 .ais-RefinementList-item--selected {
-	color: var(--ccRed);
+	color: black;
 }
 
 .ais-RefinementList-count {

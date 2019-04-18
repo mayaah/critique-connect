@@ -38,6 +38,10 @@ class NewPostForm extends Component {
 
   submitPost(event) {
   	event.preventDefault()
+    if (this.state.comment.length == 0) {
+      alert("Post cannot be blank.")
+      return false
+    }
     const post = {
       comment: this.state.comment,
       author: this.state.authorId,
@@ -74,10 +78,12 @@ class NewPostForm extends Component {
                   onChange={this.handleChange} 
                   label="comment"
         />
-        <input type="submit" 
-               className="black-bordered-button" 
-               value="Submit Post">
-        </input>
+        <button 
+          type="submit" 
+          className="black-bordered-button" 
+        >
+          Submit Post
+        </button>
       </form>
     )
   }

@@ -14,7 +14,7 @@ class HomePage extends Component {
       wips: [],
       threads: []
     }
-    this.usersRef = firebaseDB.database().ref(`/Users`).orderByChild('lastLoginUnix').limitToLast(6)
+    this.usersRef = firebaseDB.database().ref(`/Users`).orderByChild('lastActive').limitToLast(6)
     this.wipsRef = firebaseDB.database().ref(`/WIPs`).orderByChild('creationDate').limitToLast(4)
     this.threadsRef = firebaseDB.database().ref(`/Threads`).orderByChild('date').limitToLast(6)
   } 

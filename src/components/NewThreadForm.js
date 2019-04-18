@@ -9,6 +9,7 @@ class NewThreadForm extends Component {
     super(props)
     this.state = {
       redirect: false,
+      threadId: "",
       topic: "",
       comment: "",
       author: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
@@ -41,6 +42,18 @@ class NewThreadForm extends Component {
 
   submitThread(event) {
   	event.preventDefault()
+    if (this.state.topic.length == 0 && this.state.comment.length == 0) {
+      alert("Topic and comment cannot be blank.")
+      return false
+    }
+    if (this.state.topic.length == 0) {
+      alert("Topic cannot be blank.")
+      return false
+    }
+    if (this.state.comment.length == 0) {
+      alert("Comment cannot be blank.")
+      return false
+    }
   	const thread = {
   		topic: this.state.topic,
   		author: this.state.author,
@@ -48,6 +61,7 @@ class NewThreadForm extends Component {
   	}
   	var newThreadRef = this.threadsRef.push(thread);
   	var threadId = newThreadRef.key;
+    this.setState({ threadId: threadId })
   	this.addThreadToUser(threadId)
   	const post = {
   		comment: this.state.comment,
@@ -79,7 +93,7 @@ class NewThreadForm extends Component {
 
   render() {
   	if (this.state.redirect === true) {
-      return <Redirect to= {{pathname: '/forum/'}} />
+      return <Redirect to= {{pathname: '/thread/' + this.state.threadId}} />
     }
     return (
     	<div>
@@ -119,12 +133,12 @@ class NewThreadForm extends Component {
                   label="comment"
                 />
 		          </label>	
-		          <input 
+		          <button 
                 type="submit" 
                 className="black-bordered-button" 
-                value="Submit Thread"
               >
-              </input>
+                Submit Thread
+              </button>
 		        </form>
 		      </Grid>
 	      </BrowserRouter>

@@ -103,6 +103,7 @@ class Login extends Component {
         lfr: record.lfr,
         displayName: record.displayName,
         lastLogin: record.lastLogin,
+        lastActive: record.lastActive,
         compensation: record.compensation,
         genresWrite: record.genresWrite,
         genresRead: record.genresRead
@@ -236,7 +237,7 @@ class Login extends Component {
                     <div>
                       <div className="section-divider">
                         <span className="section-divider-title">
-                          Search Works in Progresses
+                          Search Works in Progress
                         </span>
                         <div className="section-divider-hr"></div>
                       </div>

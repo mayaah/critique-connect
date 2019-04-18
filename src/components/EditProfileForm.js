@@ -149,6 +149,10 @@ class EditProfileForm extends Component {
 
   updateUserProfile(event) {
     event.preventDefault()
+    if (this.state.displayName.length == 0) {
+      alert("Name cannot be blank.")
+      return false
+    }
 	  this.userRef.update({
       displayName: this.state.displayName,
 	    lfr: this.state.lfr,
@@ -295,6 +299,7 @@ class EditProfileForm extends Component {
 		  	lfr: record.lfr,
 		  	displayName: record.displayName,
 		  	lastLogin: record.lastLogin,
+		  	lastActive: record.lastActive,
 		  	compensation: record.compensation,
 		  	genresWrite: record.genresWrite,
 		  	genresRead: record.genresRead
@@ -610,12 +615,12 @@ class EditProfileForm extends Component {
 							) : (
 								null
 							)}
-		          <input 
+		          <button 
 		          	type="submit" 
 		          	className="black-bordered-button" 
-		          	value="Save"
 	          	>
-	          	</input>
+	          		Save
+	          	</button>
 		        </form>
 		        <Button 
 		        	className="black-bordered-button red" 
