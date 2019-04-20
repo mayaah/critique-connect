@@ -34,14 +34,14 @@ class Footer extends Component {
           </Col>
           <Col sm={3} style={{ display: "flex" }}>
             <div style={{ margin: "0 auto", display: "flex", flexDirection: "row" }}>
-              <a href="https://www.facebook.com/critiqueconnect" target="_blank">
+              <a href="https://www.facebook.com/critiqueconnect" target="_blank" rel="noopener noreferrer">
                 <Image 
                   className="social-icons" 
                   src={require('../images/fb-icon-red.png')} 
                   responsive
                 />
               </a>
-              <a href="https://twitter.com/critiqueconnect" target="_blank">
+              <a href="https://twitter.com/critiqueconnect" target="_blank" rel="noopener noreferrer">
                 <Image 
                   className="social-icons" 
                   src={require('../images/twitter-icon-red.png')} 

@@ -86,11 +86,11 @@ class EditWIPForm extends Component {
 
   updateWIP(event) {
     event.preventDefault()
-    if (this.state.title.length == 0 && this.state.logline.length > 141) {
+    if (this.state.title.length === 0 && this.state.logline.length > 141) {
       alert("Title cannot be blank and logline cannot be more than 140 characters.")
       return false
     }
-    if (this.state.title.length == 0) {
+    if (this.state.title.length === 0) {
       alert("Title cannot be blank.")
       return false
     }

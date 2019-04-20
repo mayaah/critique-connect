@@ -149,7 +149,7 @@ class EditProfileForm extends Component {
 
   updateUserProfile(event) {
     event.preventDefault()
-    if (this.state.displayName.length == 0) {
+    if (this.state.displayName.length === 0) {
       alert("Name cannot be blank.")
       return false
     }

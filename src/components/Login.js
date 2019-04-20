@@ -42,8 +42,6 @@ class Login extends Component {
           this.props.setCurrentUser(user)
           this.props.setCurrentUserId()
           this.setState({ redirect: true })
-          console.log(user)
-          console.log(firebaseDB.auth().currentUser)
           this.createNewUser()
         }
       })

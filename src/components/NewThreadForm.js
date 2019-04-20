@@ -42,15 +42,15 @@ class NewThreadForm extends Component {
 
   submitThread(event) {
   	event.preventDefault()
-    if (this.state.topic.length == 0 && this.state.comment.length == 0) {
+    if (this.state.topic.length === 0 && this.state.comment.length === 0) {
       alert("Topic and comment cannot be blank.")
       return false
     }
-    if (this.state.topic.length == 0) {
+    if (this.state.topic.length === 0) {
       alert("Topic cannot be blank.")
       return false
     }
-    if (this.state.comment.length == 0) {
+    if (this.state.comment.length === 0) {
       alert("Comment cannot be blank.")
       return false
     }

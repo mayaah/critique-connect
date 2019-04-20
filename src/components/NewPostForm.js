@@ -38,7 +38,7 @@ class NewPostForm extends Component {
 
   submitPost(event) {
   	event.preventDefault()
-    if (this.state.comment.length == 0) {
+    if (this.state.comment.length === 0) {
       alert("Post cannot be blank.")
       return false
     }

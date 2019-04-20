@@ -74,7 +74,7 @@ class NewReviewForm extends Component {
 
   submitReview(event) {
   	event.preventDefault()
-    if (this.state.reviewMessage.length == 0 && this.state.traits.length == 0) {
+    if (this.state.reviewMessage.length === 0 && this.state.traits.length === 0) {
       alert("Cannot submit empty review.")
       return false
     }

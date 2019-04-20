@@ -73,7 +73,7 @@ class NewWIPForm extends Component {
 
   createWIP(event) {
     event.preventDefault()
-    if (this.state.title.length == 0) {
+    if (this.state.title.length === 0) {
       alert("Title cannot be blank.")
       return false
     }
