@@ -149,9 +149,17 @@ class EditProfileForm extends Component {
 
   updateUserProfile(event) {
     event.preventDefault()
+    if (this.state.displayName.length === 0 && this.state.contact.length === 0) {
+    	alert("Name and contact information cannot be blank.")
+    	return false
+    }
     if (this.state.displayName.length === 0) {
       alert("Name cannot be blank.")
       return false
+    }
+    if (this.state.contact.length === 0) {
+    	alert("Contact information cannot be blank.")
+    	return false
     }
 	  this.userRef.update({
       displayName: this.state.displayName,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import Pagination from "react-js-pagination";
 import { firebaseDB } from '../base'
 
@@ -23,6 +23,7 @@ class Forum extends Component {
   	this.threadsRef.on('value', snapshot => {
       let threads = snapshot.val();
       let newState = [];
+      let pinnedThreads = [];
       let promises = [];
       for (let thread in threads) {
       	var threadRef = firebaseDB.database().ref(`/Threads/${thread}`)
@@ -36,14 +37,27 @@ class Forum extends Component {
           threadRef.child("Posts").on("value", function(snapshot2) {
 					  postsCount = snapshot2.numChildren()
 					})
-	        newState.push({
-	          id: snapshot.key,
-	          author: thread.author,
-            dateUnix: thread.date,
-	          date: this.simplifyDate(new Date(thread.date).toUTCString()),
-	          topic: thread.topic,
-	          postsCount: postsCount
-	        });
+          if (thread.pinned) {
+            pinnedThreads.push({
+              id: snapshot.key,
+              author: thread.author,
+              dateUnix: thread.date,
+              date: this.simplifyDate(new Date(thread.date).toUTCString()),
+              topic: thread.topic,
+              pinned: thread.pinned,
+              postsCount: postsCount
+            })
+          } else {
+            newState.push({
+              id: snapshot.key,
+              author: thread.author,
+              dateUnix: thread.date,
+              date: this.simplifyDate(new Date(thread.date).toUTCString()),
+              topic: thread.topic,
+              pinned: thread.pinned,
+              postsCount: postsCount
+            });
+          }
 	      });
 	      var sortedArr = newState.sort(function(a, b){
 	        var keyA = new Date(a.dateUnix),
@@ -53,9 +67,10 @@ class Forum extends Component {
 	        if(keyA > keyB) return -1;
 	        return 0;
 	      });
+        var allThreads = pinnedThreads.concat(sortedArr)
 	      this.setState({
-          threads: sortedArr,
-          currentThreads: sortedArr.slice(0, 20)
+          threads: allThreads,
+          currentThreads: allThreads.slice(0, 20)
         });
       })
     })
@@ -108,6 +123,12 @@ class Forum extends Component {
 	              	<Row className="forum-thread-row">
 	              		<Col sm={8}>
 	              			<div className="thread-row-topic">
+                        {thread.pinned && (
+                          <Image 
+                            className="social-icons" 
+                            src={require('../images/pin-red.png')} 
+                          />
+                        )}
                         {thread.topic}
                       </div>
 	              		</Col>

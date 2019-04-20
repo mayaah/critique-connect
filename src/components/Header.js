@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Tooltip, OverlayTrigger, Label } from 'react-bootstrap';
 
 const headerStyle = {
   display: "flex",
@@ -10,6 +11,13 @@ const headerStyle = {
 class Header extends Component {
 
   render() {
+    const betaTooltip = (
+      <Tooltip id="tooltip">
+        Much like your WIPs, this website is in beta! Please bear with us
+        as we smooth out all the kinks and submit any feedback
+        or bugs you find with the links at the bottom of the page!
+      </Tooltip>
+    );
     return (
       <nav className="pt-navbar pt-fixed-top">
         {this.props.authenticated ? (
@@ -21,6 +29,14 @@ class Header extends Component {
               >
                 Critique Connect
               </Link>
+              <OverlayTrigger placement="right" overlay={betaTooltip}>
+                <Label 
+                  className="looking-labels-small"
+                  id="beta-tag"
+                >
+                  Beta
+                </Label>
+              </OverlayTrigger>
             </div>
             <div className="pt-navbar-group pt-align-right">
             <span className="pt-navbar-divider"></span>
@@ -52,6 +68,14 @@ class Header extends Component {
             >
               Critique Connect
             </Link>
+            <OverlayTrigger placement="right" overlay={betaTooltip}>
+              <Label 
+                className="looking-labels-small" 
+                id="beta-tag"
+              >
+                Beta
+              </Label>
+            </OverlayTrigger>
           </div>
         )}
       </nav>

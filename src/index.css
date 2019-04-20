@@ -102,6 +102,10 @@ a.pt-button.pt-minimal:hover {
 	color: black;
 }
 
+#beta-tag {
+	margin: 0;
+}
+
 .login-styles {
 	font-family: 'Cardo', serif;
 	font-weight: 700;

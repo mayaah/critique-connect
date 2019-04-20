@@ -206,7 +206,7 @@ class Login extends Component {
                     <div>
                       <div className="section-divider">
                         <span className="section-divider-title">
-                          Search for Beta Readers
+                          Find Beta Readers
                         </span>
                         <div className="section-divider-hr"></div>
                       </div>
@@ -214,7 +214,7 @@ class Login extends Component {
                         <li>Search for users who are looking to read</li>
                         <li>Filter search by genres</li>
                         <li>View potential beta reader's profiles</li>
-                        <li>Weigh in attributes like critique style and compensation</li>
+                        <li>Weigh in attributes like critique style, compensation, and reviews</li>
                         <li>Contact beta reader if it's a good fit!</li>
                         <li>Leave reviews for beta readers</li>
                       </ul>
@@ -235,7 +235,7 @@ class Login extends Component {
                     <div>
                       <div className="section-divider">
                         <span className="section-divider-title">
-                          Search Works in Progress
+                          Find Works in Progress
                         </span>
                         <div className="section-divider-hr"></div>
                       </div>
@@ -245,11 +245,11 @@ class Login extends Component {
                         <li>Type(s)</li>
                         <li>Language</li>
                       </ul>
-                      View more detailed WIP pages with
+                      View more detailed WIP pages with...
                       <ul className="splash-bullets">
                         <li>Word Count</li>
                         <li>Blurb</li>
-                        <li>Discliamers</li>
+                        <li>Disclaimers</li>
                       </ul>
                       If you're interested in beta reading the book, contact the author!
                     </div>

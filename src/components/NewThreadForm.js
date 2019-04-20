@@ -11,6 +11,7 @@ class NewThreadForm extends Component {
       redirect: false,
       threadId: "",
       topic: "",
+      pinned: false,
       comment: "",
       author: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       date: ""
@@ -57,7 +58,8 @@ class NewThreadForm extends Component {
   	const thread = {
   		topic: this.state.topic,
   		author: this.state.author,
-  		date: Date.now()
+  		date: Date.now(),
+      pinned: false
   	}
   	var newThreadRef = this.threadsRef.push(thread);
   	var threadId = newThreadRef.key;
