@@ -178,7 +178,7 @@ class Login extends Component {
               <Row>
                 <div className="vertical-align">
                   <Col xs={7} sm={7} lg={7}>
-                    <Image className="splash-gif" src={require('../images/new_wip.gif')} responsive />
+                    <Image className="splash-gif" src={require('../images/new_wip_v2.gif')} responsive />
                   </Col>
                   <Col xs={5} sm={5} lg={5}>
                     <div>
@@ -221,7 +221,7 @@ class Login extends Component {
                     </div>
                   </Col>
                   <Col xs={7} sm={7} lg={7}>
-                    <Image className="splash-gif" src={require('../images/find_reader.gif')} responsive />
+                    <Image className="splash-gif" src={require('../images/find_reader_v2.gif')} responsive />
                   </Col>
                 </div>
               </Row>
@@ -229,7 +229,7 @@ class Login extends Component {
               <Row>
                 <div className="vertical-align">
                   <Col xs={7} sm={7} lg={7}>
-                    <Image className="splash-gif" src={require('../images/find_wip.gif')} responsive />
+                    <Image className="splash-gif" src={require('../images/find_wip_v2.gif')} responsive />
                   </Col>
                   <Col xs={5} sm={5} lg={5}>
                     <div>

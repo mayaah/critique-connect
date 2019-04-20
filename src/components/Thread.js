@@ -14,6 +14,7 @@ class Thread extends Component {
       threadId: this.props.match.params.threadId,
       topic: "",
       posts: [],
+      pinned: false,
       currentPosts: [],
       activePage: 1,
       doesNotExist: false
