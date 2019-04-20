@@ -310,6 +310,27 @@ class UserProfile extends Component {
             </Row>
             <Row>
               <Col sm={12}>
+                {this.state.contact.length > 0 && (
+                  <div className="user-profile-section">
+                    <div className="section-divider">
+                      <span className="section-divider-title small-section-divider-title">
+                        Best Way to Contact Me
+                      </span>
+                      <div className="section-divider-hr"></div>
+                    </div>
+                     <div className="display-genres-write">
+                      <div className="wrapper">
+                        <div className="small-field-text">
+                          {this.state.contact}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </Col>
+            </Row> 
+            <Row>
+              <Col sm={12}>
                 {this.state.genresRead.length > 0 && (
                   <div className="user-profile-section">
                     <div className="section-divider">
@@ -440,27 +461,6 @@ class UserProfile extends Component {
             ) : (
               null
             )}
-            <Row>
-              <Col sm={12}>
-                {this.state.contact.length > 0 && (
-                  <div className="user-profile-section">
-                    <div className="section-divider">
-                      <span className="section-divider-title small-section-divider-title">
-                        Best Way to Contact Me
-                      </span>
-                      <div className="section-divider-hr"></div>
-                    </div>
-                     <div className="display-genres-write">
-                      <div className="wrapper">
-                        <div className="small-field-text">
-                          {this.state.contact}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </Col>
-            </Row> 
             <Row>
               <Col sm={12}>
                 {this.state.goals.length > 0 && (
@@ -675,8 +675,8 @@ class UserProfile extends Component {
                   <div className="display-WIPs">
                     {this.state.WIPs.map((WIP) => {
                       return (
-                        <Link to={"/wip/" + WIP.id} key={WIP.id}>
-                          <div className="wip-summary">
+                        <div className="wip-summary">
+                          <Link to={"/wip/" + WIP.id} key={WIP.id}>
                             <div className="wip-name-text">
                               {WIP.title}
                             </div>
@@ -703,8 +703,8 @@ class UserProfile extends Component {
                             <div className="wip-logline-text">
                               {WIP.logline}
                             </div>
-                          </div>
-                        </Link>
+                          </Link>
+                        </div>
                       )
                     })}
                   </div>

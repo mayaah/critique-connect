@@ -12,6 +12,7 @@
 .thread-row-topic {
 	font-size: 18px;
 	font-weight: 400;
+	overflow: auto;
 }
 
 .thread-row-postCount, .thread-row-date {
@@ -40,6 +41,7 @@
 	font-size: 15px;
 	line-height: 2em;
 	margin: 0 0 10px 0;
+	overflow: auto;
 }
 
 .post-author-avatar-container {
@@ -62,6 +64,7 @@
 .post-author-name {
 	font-size: 18px;
 	color: black;
+	overflow: auto;
 }
 
 .post-date {

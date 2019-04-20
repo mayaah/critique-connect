@@ -185,6 +185,12 @@ input[type='checkbox']{
 	text-decoration: none;
 }
 
+.wip-summary-search {
+	font-weight: 400;
+	padding: 20px 0;
+	border-bottom: 1px lightgray solid;
+}
+
 .search-name {
 	margin: 10px 0;
 	font-size: 25px;
@@ -194,6 +200,7 @@ input[type='checkbox']{
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	letter-spacing: 0.1em;
+	overflow: auto;
 }
 
 .user-search-summary {

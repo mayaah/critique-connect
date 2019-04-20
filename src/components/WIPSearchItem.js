@@ -23,8 +23,8 @@ class WIPSearchItem extends Component {
     return (
 
       <div style={{marginTop: '10px'}}>
-      	<Link to={"/wip/" + this.state.objectId}>
-	        <div className="wip-summary">
+        <div className="wip-summary-search">
+          <Link to={"/wip/" + this.state.objectId}>
 	        	<div className="wip-name">
 	          	<Highlight 
                 className="wip-name-text" 
@@ -53,8 +53,8 @@ class WIPSearchItem extends Component {
             <div className="wip-logline-text">
               {this.state.logline}
             </div>
-          </div>
-	      </Link>
+          </Link>
+        </div>
       </div>
     );
   }

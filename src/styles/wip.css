@@ -6,6 +6,10 @@
 	text-decoration: none;
 }
 
+.wip-section {
+	width: 90%;
+}
+
 .wip-title {
 	display: inline-block;
 	background: var(--mainGradient);
@@ -13,6 +17,7 @@
 	-webkit-text-fill-color: transparent;
 	letter-spacing: 0.1em;
 	font-size: 50px;
+	overflow: auto;
 }
 
 .wip-writer {
@@ -34,6 +39,7 @@
 .wip-logline {
 	font-weight: 400;
 	font-size: 15px;
+	overflow: auto;
 }
 
 .wip-left-col {
