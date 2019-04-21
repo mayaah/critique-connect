@@ -115,7 +115,7 @@ a.pt-button.pt-minimal:hover {
 }
 
 .login-styles button {
-	margin: 0 auto;
+	margin: 10px auto;
 }
 
 .splash-page label.pt-label .pt-input, label.pt-label .pt-select {

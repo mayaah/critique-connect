@@ -146,7 +146,7 @@ class HomePage extends Component {
           </Col>
         </Row>
         <Row className="homepage-section">
-          <Col sm={6} md={6} lg={6}>
+          <Col xs={12} sm={6} md={6} lg={6}>
             <div className="section-divider">
               <span className="section-divider-title">
                 Most Recently Active Users
@@ -156,7 +156,7 @@ class HomePage extends Component {
             {this.state.users.map((user) => {
               return (
                 <Link to={"/user/" + user.id} key={user.id}>
-                  <Col sm={4} className="homepage-user flex">
+                  <Col xs={6} sm={6} md={4} lg={4} className="homepage-user flex">
                     <div className="homepage-avatar-url-container">
                       <Image className="homepage-avatar-url" 
                              src={user.avatarURL} 
@@ -171,7 +171,7 @@ class HomePage extends Component {
               )
             })}
           </Col>
-          <Col sm={6} md={6} lg={6}>
+          <Col xs={12} sm={6} md={6} lg={6}>
             <div className="section-divider">
               <span className="section-divider-title">
                 Newest Discussions

@@ -146,7 +146,7 @@ class Login extends Component {
                 </Col>
               </Row>
               <Row className="login-styles">
-                <Col xs={4} sm={4} lg={4}>
+                <Col xs={12} sm={4} lg={4}>
                   <Button 
                     type='button'
                     className="black-bordered-button"
@@ -155,7 +155,7 @@ class Login extends Component {
                     Continue with Google
                   </Button>
                 </Col>
-                <Col xs={4} sm={4} lg={4}>
+                <Col xs={12} sm={4} lg={4}>
                   <Button 
                     type='button'
                     className="black-bordered-button"
@@ -164,7 +164,7 @@ class Login extends Component {
                     Continue with Facebook
                   </Button>
                 </Col>
-                <Col xs={4} sm={4} lg={4}>
+                <Col xs={12} sm={4} lg={4}>
                   <Button 
                     type='button'
                     className="black-bordered-button"
@@ -177,10 +177,10 @@ class Login extends Component {
               <div className="splash-section-title">As a <span className="red">writer</span>...</div>
               <Row>
                 <div className="vertical-align">
-                  <Col xs={7} sm={7} lg={7}>
+                  <Col xs={12} sm={7} lg={7}>
                     <Image className="splash-gif" src={require('../images/new_wip_v2.gif')} responsive />
                   </Col>
-                  <Col xs={5} sm={5} lg={5}>
+                  <Col xs={12} sm={5} lg={5}>
                     <div>
                       <div className="section-divider">
                         <span className="section-divider-title">
@@ -202,7 +202,7 @@ class Login extends Component {
               </Row>
               <Row>
                 <div className="vertical-align">
-                  <Col xs={5} sm={5} lg={5}>
+                  <Col xs={12} sm={5} lg={5}>
                     <div>
                       <div className="section-divider">
                         <span className="section-divider-title">
@@ -220,7 +220,7 @@ class Login extends Component {
                       </ul>
                     </div>
                   </Col>
-                  <Col xs={7} sm={7} lg={7}>
+                  <Col xs={12} sm={7} lg={7}>
                     <Image className="splash-gif" src={require('../images/find_reader_v2.gif')} responsive />
                   </Col>
                 </div>
@@ -228,10 +228,10 @@ class Login extends Component {
               <div className="splash-section-title">As a <span className="red">beta reader</span>...</div>
               <Row>
                 <div className="vertical-align">
-                  <Col xs={7} sm={7} lg={7}>
+                  <Col xs={12} sm={7} lg={7}>
                     <Image className="splash-gif" src={require('../images/find_wip_v2.gif')} responsive />
                   </Col>
-                  <Col xs={5} sm={5} lg={5}>
+                  <Col xs={12} sm={5} lg={5}>
                     <div>
                       <div className="section-divider">
                         <span className="section-divider-title">

@@ -39,7 +39,6 @@ class Header extends Component {
               </OverlayTrigger>
             </div>
             <div className="pt-navbar-group pt-align-right">
-            <span className="pt-navbar-divider"></span>
               <Link className="pt-button pt-minimal" to={"/search"}>
                 Search
               </Link>

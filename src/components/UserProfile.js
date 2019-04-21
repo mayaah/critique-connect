@@ -309,6 +309,159 @@ class UserProfile extends Component {
               </Col>
             </Row>
             <Row>
+            <Row className="user-header-mobile">
+              <Col xs={12} sm={12}>
+                <div className="user-info">
+                  <div className="user-name-and-labels">
+                    <span className="user-name">
+                      {this.state.displayName}
+                    </span>
+                    {this.state.lfr ? (
+                      <Label className="looking-labels" id="lfr-label">
+                        Is Looking for a Reader
+                      </Label>
+                    ) : ( 
+                      null
+                    )}
+                    {this.state.ltr ? (
+                      <Label className="looking-labels" id="ltr-label">
+                        Is Looking to Read
+                      </Label>
+                    ) : ( 
+                      null
+                    )}
+                  </div>
+                  <Row>
+                    {this.thereIsSomeUserInfo() && (
+                      <Col sm={4}>
+                        {this.state.location.length > 0 && (
+                          <div className="user-info-details">
+                            <OverlayTrigger placement="left" overlay={locationTooltip}>
+                              <Image className="user-info-icons" 
+                                     src={require('../images/location-black.png')} 
+                                     responsive
+                              />
+                            </OverlayTrigger>
+                            <span className="user-info-detail">
+                              {this.state.location}
+                            </span>
+                          </div>
+                        )}
+                        {this.state.occupation.length > 0 && (
+                          <div className="user-info-details">
+                            <OverlayTrigger placement="left" overlay={occupationTooltip}>
+                              <Image className="user-info-icons" 
+                                     src={require('../images/work-black.png')} 
+                                     responsive/>
+                            </OverlayTrigger>
+                            <span className="user-info-detail">
+                              {this.state.occupation}
+                            </span>
+                          </div>
+                        )}
+                        {this.state.education.length > 0 && (
+                          <div className="user-info-details">
+                            <OverlayTrigger placement="left" overlay={educationTooltip}>
+                              <Image className="user-info-icons" 
+                                     src={require('../images/education-black.png')} 
+                                     responsive
+                              />
+                            </OverlayTrigger>
+                            <span className="user-info-detail">
+                              {this.state.education}
+                            </span>
+                          </div>
+                        )}
+                      </Col>
+                    )}
+                    <Col sm={4}>
+                      <div className="user-info-details">
+                        <span className="user-info-detail-label">
+                          Joined: 
+                        </span>
+                        <span className="user-info-detail">
+                          {this.state.joinDate}
+                        </span>
+                      </div>
+                      {this.state.lastActive && (
+                        <div className="user-info-details">
+                          <span className="user-info-detail-label">
+                            Last Active: 
+                          </span>
+                          <span className="user-info-detail">
+                            {this.simplifyDate(new Date(this.state.lastActive).toUTCString())}
+                          </span>
+                        </div>
+                      )}
+                    </Col>
+                    <Col sm={4}>
+                      <div className="social-links">
+                        {this.state.website.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={websiteTooltip}>
+                            <a href={this.state.website} target="_blank">
+                              <Image className="social-icons" 
+                                     src={require('../images/website-red.png')} 
+                                     responsive
+                              />
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                        {this.state.email.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={emailTooltip}>
+                            <a href={`mailto:${this.state.email}?subject=Hi%20from%20Critique%20Connect!`} target="_top">
+                              <Image className="social-icons" 
+                                     src={require('../images/email-red.png')} 
+                                     responsive
+                              />
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                        {this.state.fbProfile.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={fbTooltip}>
+                            <a href={this.state.fbProfile} target="_blank">
+                              <Image className="social-icons" 
+                                     src={require('../images/fb-icon-red.png')} 
+                                     responsive/>
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                        {this.state.twitterProfile.length > 0 && (
+                          <OverlayTrigger placement="left" overlay={twitterTooltip}>
+                            <a href={this.state.twitterProfile} target="_blank">
+                              <Image className="social-icons" 
+                                     src={require('../images/twitter-icon-red.png')} 
+                                     responsive/>
+                            </a>
+                          </OverlayTrigger>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="user-traits">
+                    {constants.TRAITS_LIST.map((trait) => {
+                      return (
+                        <span className="user-trait-count" key={trait}>
+                        {this.state.traits[trait] ? (
+                          <span>{trait} (+{this.state.traits[trait]})</span>
+                        ) : (
+                          null
+                        )}
+                        </span>
+                      )
+                    })}
+                  </div>
+                  {this.state.userId === this.state.currentUserId ? (
+                    <Button className="black-bordered-button">
+                      <Link className="flex" to={"/edit_profile"} >
+                        Edit Profile
+                      </Link>
+                    </Button>
+                  ) : (
+                    null
+                  )}
+                </div>
+              </Col>
+            </Row>
               <Col sm={12}>
                 {this.state.contact.length > 0 && (
                   <div className="user-profile-section">
@@ -484,8 +637,8 @@ class UserProfile extends Component {
             </Row> 
           </Col>
           <Col sm={9} className="user-info-col">
-            <Row className="user-header">
-              <Col sm={12}>
+            <Row className="user-header-desktop">
+              <Col xs={12} sm={12}>
                 <div className="user-info">
                   <div className="user-name-and-labels">
                     <span className="user-name">

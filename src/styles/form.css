@@ -182,3 +182,9 @@ input.black-bordered-button a {
     background-color: var(--ccRed) !important;
     color: white;
 }
+
+@media only screen and (max-width: 600px) {
+	.multiselect-field {
+		width: 300px;
+	}
+} 
