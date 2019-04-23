@@ -22,6 +22,7 @@ import { firebaseDB } from './base';
 import ReactGA from 'react-ga';
 import { createBrowserHistory } from 'history';
 import CookieConsent from "react-cookie-consent";
+import Cookies from 'universal-cookie';
 
 var history = createBrowserHistory();
 
@@ -29,6 +30,8 @@ const PrivateRoute = ({ isLoggedIn, ...props }) =>
   isLoggedIn
     ? <Route { ...props } />
     : <Redirect to="/login" />
+
+const cookies = new Cookies();
 
 class App extends Component {
   constructor() {
@@ -75,6 +78,9 @@ class App extends Component {
         })
       }
     })
+    if (cookies.get('cc_cookie_notice')) {
+      this.enableGACookies();
+    }
   }
 
   componentDidMount() {
