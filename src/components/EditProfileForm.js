@@ -501,6 +501,9 @@ class EditProfileForm extends Component {
 	            	<span className="label-field-name">
 	            		Best Way to Contact Me
             		</span>
+            		<span className="label-field-helper">
+	                  &nbsp;- So other users know how to reach out to you! Or N/A if not right now.
+	                </span>
 		            <TextareaAutosize 
 		            	className="textarea-field"
 		            	large="true"

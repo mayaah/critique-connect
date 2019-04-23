@@ -28,6 +28,13 @@ class NewReviewForm extends Component {
     this.submitReview = this.submitReview.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      revieweeId: this.props.revieweeId,
+      revieweeName: this.props.revieweeName,
+    })
+  }
+
   componentWillMount() {
 		this.revieweeRef.on('value', snapshot => {
 			let reviewee = snapshot.val()

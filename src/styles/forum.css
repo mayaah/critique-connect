@@ -12,7 +12,9 @@
 .thread-row-topic {
 	font-size: 18px;
 	font-weight: 400;
-	overflow: auto;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .thread-row-postCount, .thread-row-date {

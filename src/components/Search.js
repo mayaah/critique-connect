@@ -121,7 +121,7 @@ class UserSearch extends Component {
 	  return (
       <InstantSearch
           appId={process.env.REACT_APP_ALGOLIA_APP_ID}
-          apiKey={process.env.REACT_APP_ALGOLIA_API_KEY}
+          apiKey={process.env.REACT_APP_ALGOLIA_SEARCH_KEY}
           indexName={this.state.searchType === "users" ? process.env.REACT_APP_ALGOLIA_USERS_INDEX_NAME : process.env.REACT_APP_ALGOLIA_WIPS_INDEX_NAME}
         >
   	  	<Grid style={{marginTop: "100px"}}>

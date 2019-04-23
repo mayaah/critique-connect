@@ -71,12 +71,14 @@ class NewPostForm extends Component {
       <form onSubmit={(event) => this.submitPost(event)} 
             ref={(form) => this.submitPostForm = form}
       >
-        <TextArea className="thread-textarea" 
-                  large={true} 
-                  value={this.state.comment} 
-                  name="comment" 
-                  onChange={this.handleChange} 
-                  label="comment"
+        <TextArea 
+          className="thread-textarea" 
+          large={true} 
+          value={this.state.comment} 
+          name="comment" 
+          onChange={this.handleChange} 
+          label="comment"
+          placeholder={'Add a comment...'}
         />
         <button 
           type="submit" 

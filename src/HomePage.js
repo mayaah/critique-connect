@@ -113,11 +113,11 @@ class HomePage extends Component {
               return (
                 <Link to={"/wip/" + WIP.id} key={WIP.id}>
                   <Col sm={3} className="hompage-wip">
-                    <div className="wip-name-text">
+                    <div className="homepage-wip-name">
                       {WIP.title}
                     </div>
                     {WIP.types[0] && (
-                      <span className="wip-types-text">
+                      <span className="homepage-wip-types-text">
                         {WIP.types.join(', ')} 
                       </span>
                     )}
