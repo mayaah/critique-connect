@@ -82,7 +82,7 @@ export const LANGUAGES = [
 export const COMPENSATION_TYPES = [
   { label: "Volunteer", value: "Volunteer" },
   { label: "Paid Services", value: "Paid Services"},
-  { label: "Critique Exchange", value: "Critique Exchange" },
+  { label: "Critique Swap", value: "Critique Swap" },
 ];
 
 export const TRAITS = [
