@@ -38,6 +38,7 @@ class EditProfileForm extends Component {
 	    compensation: "",
 	    rates: "",
 	    contact: "",
+	    openToPaying: false,
 	    deleted: false
     }
 
@@ -83,7 +84,8 @@ class EditProfileForm extends Component {
 	      goals: currentUser.goals ? currentUser.goals : "",
 	      compensation: currentUser.compensation ? currentUser.compensation : "",
 	      rates: currentUser.rates ? currentUser.rates : "",
-	      contact: currentUser.contact ? currentUser.contact : ""
+	      contact: currentUser.contact ? currentUser.contact : "",
+	      openToPaying: currentUser.openToPaying ? currentUser.openToPaying : false
       });
     });
   }
@@ -181,7 +183,8 @@ class EditProfileForm extends Component {
 	    goals: this.state.goals,
 	    compensation: this.state.compensation,
 	    rates: this.state.rates,
-	    contact: this.state.contact
+	    contact: this.state.contact,
+	    openToPaying: this.state.openToPaying
     });
     this.EditProfileForm.reset()
     this.addOrUpdateIndexRecord(this.state.userId)
@@ -310,7 +313,8 @@ class EditProfileForm extends Component {
 		  	lastActive: record.lastActive,
 		  	compensation: record.compensation,
 		  	genresWrite: record.genresWrite,
-		  	genresRead: record.genresRead
+		  	genresRead: record.genresRead,
+		  	openToPaying: record.openToPaying
 		  }
 		  constants.usersIndex
 		    .saveObject(recordToSend)
@@ -571,6 +575,14 @@ class EditProfileForm extends Component {
 				            	label="critiqueTolerance"
   									/>
 									</label>
+									<Checkbox 
+			            	className="input-checkbox form-field-box" 
+			            	checked={this.state.openToPaying} 
+			            	value={this.state.openToPaying} 
+			            	name="openToPaying" 
+			            	onChange={this.handleChange} 
+			            	label="I'm open to paying for critiques on my WIPs."
+		    					/>
 								</div>
 							) : (
 								null

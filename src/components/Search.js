@@ -175,7 +175,13 @@ class UserSearch extends Component {
                     label="Looking to Read"
                     value={true}
                     defaultRefinement={false}
-                  /> 
+                  />
+                  <ToggleRefinement
+                    attribute="openToPaying"
+                    label="Open to Paying For Critiques"
+                    value={true}
+                    defaultRefinement={false}
+                  />
                   <div className="section-divider">
                     <span className="section-divider-title small-section-divider-title">
                       Critique Compensation

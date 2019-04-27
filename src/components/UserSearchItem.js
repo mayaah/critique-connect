@@ -18,7 +18,8 @@ class UserSearchItem extends Component {
       lastLogin: this.props.hit.lastLogin,
       lastActive: this.props.hit.lastActive,
       compensation: this.props.hit.compensation,
-      avatarURL: this.props.hit.avatarURL || constants.DEFAULT_AVATAR_URL
+      avatarURL: this.props.hit.avatarURL || constants.DEFAULT_AVATAR_URL,
+      openToPaying: this.props.hit.openToPaying || false
     }
     this.simplifyDate = this.simplifyDate.bind(this);
   }
@@ -57,7 +58,7 @@ class UserSearchItem extends Component {
                       className="looking-labels-small" 
                       id="lfr-label"
                     >
-                      Is Looking for a Reader
+                      Looking for a Reader
                     </Label>
                   ) : (
                     null 
@@ -67,7 +68,7 @@ class UserSearchItem extends Component {
                       className="looking-labels-small" 
                       id="ltr-label"
                     >
-                      Is Looking to Read
+                      Looking to Read
                     </Label>
                   ) : (
                     null 
@@ -76,12 +77,19 @@ class UserSearchItem extends Component {
                 {this.state.compensation && (
   		            <div className="user-search-result">
   		            	<span className="user-search-result-field">
-                      Critique compensation type:&nbsp;
+                      Critique Compensation:&nbsp;
                     </span>
                     <span className="user-search-result-value">
                       {this.state.compensation}
                     </span>
   		            </div>
+                )}
+                {this.state.openToPaying && (
+                  <div className="user-search-result">
+                    <span className="user-search-result-field">
+                      I'm Open to Paying for Critiques
+                    </span>
+                  </div>
                 )}
                 {this.state.genresWrite[0] && (
   		            <div className="user-search-result">

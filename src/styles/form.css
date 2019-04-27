@@ -91,6 +91,10 @@ label.pt-label {
 	font-size: 12px;
 }
 
+label.pt-control.pt-checkbox.input-checkbox.form-field-box {
+	font-size: 14px;
+}
+
 .pt-control:hover input:checked ~ .pt-control-indicator, .pt-control:hover .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox .pt-control:hover input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox:hover input:indeterminate ~ .pt-control-indicator {
 	background-color: var(--ccRed);
 }
