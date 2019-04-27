@@ -38,6 +38,7 @@ class UserProfile extends Component {
       rates: "",
       contact: "",
       openToPaying: false,
+      timeline: "",
       reviewsToShow: 5,
       doesNotExist: false,
       doneExpanded: false
@@ -97,7 +98,8 @@ class UserProfile extends Component {
       compensation: user.compensation ? user.compensation : "",
       rates: user.rates ? user.rates : "",
       contact: user.contact ? user.contact : "",
-      openToPaying: user.openToPaying ? user.openToPaying : false
+      openToPaying: user.openToPaying ? user.openToPaying : false,
+      timeline: user.timeline ? user.timeline : ""
     });
   } 
 
@@ -590,6 +592,31 @@ class UserProfile extends Component {
                         <div className="wrapper">
                           <div className="small-field-text">
                             {this.state.critiqueStyle}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Col>
+              </Row>
+            ) : (
+              null
+            )}
+            {this.state.ltr ? (
+              <Row>
+                <Col sm={12}>
+                  {this.state.timeline.length > 0 && (
+                    <div className="user-profile-section">
+                      <div className="section-divider">
+                        <span className="section-divider-title small-section-divider-title">
+                          Timeline/Turnaround Time
+                        </span>
+                        <div className="section-divider-hr"></div>
+                      </div>
+                       <div className="display-genres-write">
+                        <div className="wrapper">
+                          <div className="small-field-text">
+                            {this.state.timeline}
                           </div>
                         </div>
                       </div>

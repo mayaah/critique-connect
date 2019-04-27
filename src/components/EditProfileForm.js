@@ -39,6 +39,7 @@ class EditProfileForm extends Component {
 	    rates: "",
 	    contact: "",
 	    openToPaying: false,
+	    timeline: "",
 	    deleted: false
     }
 
@@ -85,7 +86,8 @@ class EditProfileForm extends Component {
 	      compensation: currentUser.compensation ? currentUser.compensation : "",
 	      rates: currentUser.rates ? currentUser.rates : "",
 	      contact: currentUser.contact ? currentUser.contact : "",
-	      openToPaying: currentUser.openToPaying ? currentUser.openToPaying : false
+	      openToPaying: currentUser.openToPaying ? currentUser.openToPaying : false,
+	      timeline: currentUser.timeline ? currentUser.timeline : ""
       });
     });
   }
@@ -184,7 +186,8 @@ class EditProfileForm extends Component {
 	    compensation: this.state.compensation,
 	    rates: this.state.rates,
 	    contact: this.state.contact,
-	    openToPaying: this.state.openToPaying
+	    openToPaying: this.state.openToPaying,
+	    timeline: this.state.timeline
     });
     this.EditProfileForm.reset()
     this.addOrUpdateIndexRecord(this.state.userId)
@@ -601,6 +604,22 @@ class EditProfileForm extends Component {
 				            	onChange={this.handleChange}
 				            	label="critiqueStyle"
   									/>
+									</label>
+									<label className="pt-label form-field-box"> 
+			            	<span className="label-field-name">
+			            		Timeline/Turnaround Time
+		            		</span>
+		            		<span className="label-field-helper">
+		                  &nbsp;- How long will it take you to finish your critiques?
+		                </span>
+				            <TextareaAutosize 
+				            	className="textarea-field"
+				            	large="true"
+				            	value={this.state.timeline}
+				            	name="timeline"
+				            	onChange={this.handleChange}
+				            	label="timeline"
+										/>
 									</label>
 									<label className="pt-label form-field-box">
 				          	<span className="label-field-name">

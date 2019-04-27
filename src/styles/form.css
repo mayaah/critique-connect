@@ -13,7 +13,7 @@
 }
 
 label.pt-label {
-	margin: 0 0 30px;
+	margin: 0 0 50px;
 }
 
 .label-field-name {
@@ -93,6 +93,7 @@ label.pt-label {
 
 label.pt-control.pt-checkbox.input-checkbox.form-field-box {
 	font-size: 14px;
+	margin-bottom: 50px;
 }
 
 .pt-control:hover input:checked ~ .pt-control-indicator, .pt-control:hover .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox .pt-control:hover input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox:hover input:indeterminate ~ .pt-control-indicator {
