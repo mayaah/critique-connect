@@ -178,6 +178,16 @@ class UserSearch extends Component {
                   /> 
                   <div className="section-divider">
                     <span className="section-divider-title small-section-divider-title">
+                      Critique Compensation
+                    </span>
+                    <div className="section-divider-hr"></div>
+                  </div>
+                  <RefinementList
+                    attribute="compensation"
+                    operator="or"
+                  />
+                  <div className="section-divider">
+                    <span className="section-divider-title small-section-divider-title">
                       Genres User Reads
                     </span>
                     <div className="section-divider-hr"></div>
