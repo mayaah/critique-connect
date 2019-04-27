@@ -161,7 +161,7 @@ class UserProfile extends Component {
           reviewerRef.once('value', snapshot2 => {
             let reviewer = snapshot2.val();
             reviewerName = reviewer.displayName
-            reviewerAvatar = reviewer.avatarURL
+            reviewerAvatar = reviewer.avatarURL ?  reviewer.avatarURL : constants.DEFAULT_AVATAR_URL
             newState.push({
               id: snapshot.key,
               reviewMessage: review.reviewMessage,

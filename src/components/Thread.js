@@ -93,7 +93,7 @@ class Thread extends Component {
             postAuthorRef.once('value', snapshot2 => {
               let postAuthor = snapshot2.val();
               postAuthorName = postAuthor.displayName
-              postAuthorAvatar = postAuthor.avatarURL
+              postAuthorAvatar = postAuthor.avatarURL ? postAuthor.avatarURL : constants.DEFAULT_AVATAR_URL
               newState.push({
                 id: snapshot.key,
                 authorId: post.author,
