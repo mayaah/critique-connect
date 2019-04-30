@@ -48,26 +48,32 @@
 
 .user-info-detail-label {
 	font-weight: 400;
-	font-size: 18px;
+	font-size: 15px;
 	font-style: italic;
 
 }
 
 .user-info-detail {
 	font-weight: 400;
-	font-size: 18px;
+	font-size: 15px;
 	margin-left: 5px;
 }
 
 .social-links {
 	margin-top: 10px;
-	display: flex;
+/*	display: flex;
 	align-items: center;
+	flex-direction: row;*/
+	font-size: 15px;
+}
+
+.social-link {
+	margin-bottom: 10px;
 }
 
 .social-icons {
 	width: 20px;
-	align-self: center;
+/*	align-self: center;*/
 	margin-right: 15px;
 }
 
@@ -289,7 +295,7 @@ button.black-bordered-button.btn.btn-default:focus {
 .user-trait-count {
 	font-weight: 700;
 	margin-right: 5px;
-	font-size: 15px;
+	font-size: 14px;
 }
 
 .review-summary {
