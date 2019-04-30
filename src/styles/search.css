@@ -1,5 +1,5 @@
 .ais-SearchBox-input {
-	width: 84%;
+	width: 83%;
 	padding: 10px;
 	border: none;
 	border-bottom: 1px solid black;
@@ -16,7 +16,7 @@
 	border: 2px solid black;
 	text-decoration: none;
 	border-radius: 0;
-	font-size: 15px;
+	font-size: 18px;
 	margin-left: 30px;
 	background: white;
 }
@@ -50,8 +50,9 @@
 }
 
 .search-type-radio {
-	font-size: 14px;
+	font-size: 18px;
 	letter-spacing: 0.1em;
+	padding-bottom: 10px;
 }
 
 .search-filters-and-results {
@@ -123,7 +124,7 @@ input[type='checkbox']{
 }
 
 .ais-RefinementList-labelText {
-	font-size: 12px;
+	font-size: 15px;
 }
 
 .ais-RefinementList-item--selected {
@@ -149,7 +150,7 @@ input[type='checkbox']{
 	border: 2px solid black;
 	text-decoration: none;
 	border-radius: 0;
-	font-size: 15px;
+	font-size: 18px;
 	background: white;
 }
 .ais-ClearRefinements-button:hover {
@@ -193,7 +194,7 @@ input[type='checkbox']{
 
 .search-name {
 	margin: 10px 0;
-	font-size: 25px;
+	font-size: 30px;
 	font-weight: 400;
 	color: var(--ccRed);
 	letter-spacing: 0.1em;
@@ -216,7 +217,7 @@ input[type='checkbox']{
 	margin: 0 10px 0 20px;
 	padding: 5px 10px;
 	text-transform: uppercase;
-	font-size: 10px;
+	font-size: 11px;
 	letter-spacing: 0.1em;
 	border-radius: 8px;
 	background-color: var(--ccRed);
@@ -228,11 +229,11 @@ input[type='checkbox']{
 
 .user-search-result-field {
 	font-weight: 700;
-	font-size: 13px;
+	font-size: 15px;
 }
 
 .user-search-result-value {
-	font-size: 13px;
+	font-size: 15px;
 }
 
 .user-search-result .wip-genre-text{

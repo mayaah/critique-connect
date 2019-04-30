@@ -17,7 +17,7 @@ label.pt-label {
 }
 
 .label-field-name {
-	font-size: 15px;
+	font-size: 20px;
 	background-color: white;
 	padding-bottom: 2px;
   background: var(--mainGradient) 
@@ -30,7 +30,7 @@ label.pt-label {
 }
 
 .label-field-helper {
-	font-size: 12px;
+	font-size: 15px;
 }
 
 .input-field {
@@ -39,6 +39,7 @@ label.pt-label {
 	border-bottom: 1px solid black;
 	padding: 0;
 	border-radius: 0;
+	font-size: 18px;
 }
 
 .center-form {
@@ -65,7 +66,7 @@ label.pt-label {
 	border-radius: 0;
 	border: none;
 	border-bottom:1px solid black;
-	font-size: 14px;
+	font-size: 18px;
 	margin-top: 5px;
 	line-height: 2em;
 	font-weight: 300;
@@ -92,8 +93,8 @@ label.pt-label {
 }
 
 label.pt-control.pt-checkbox.input-checkbox.form-field-box {
-	font-size: 14px;
-	margin-bottom: 50px;
+	font-size: 15px;
+	margin-bottom: 25px;
 }
 
 .pt-control:hover input:checked ~ .pt-control-indicator, .pt-control:hover .pt-control.pt-checkbox input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox .pt-control:hover input:indeterminate ~ .pt-control-indicator, .pt-control.pt-checkbox:hover input:indeterminate ~ .pt-control-indicator {
@@ -113,7 +114,7 @@ label.pt-control.pt-checkbox.input-checkbox.form-field-box {
 }
 
 .avatar-upload-button {
-	font-size: 12px;
+	font-size: 13px;
 	font-family: 'Lato', sans-serif;
 	font-weight: 400;
 	margin: 10px 0;
@@ -159,13 +160,13 @@ input.black-bordered-button a {
 }
 
 .Select, .Select div, .Select input, .Select span {
-	font-size: 12px;
+	font-size: 15px;
 }
 
 .Select--multi .Select-value {
 	background-color: var(--ccRed);
 	color: white;
-	font-size: 12px;
+	font-size: 15px;
 	letter-spacing: 0.1em;
 }
 

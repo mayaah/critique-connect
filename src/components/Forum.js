@@ -108,11 +108,11 @@ class Forum extends Component {
 		      	<div className="page-name">
               Forum
             </div>
-		      	<Button className="black-bordered-button">
-		      		<Link className="flex" to={"/submit_thread"}>
+            <Link className="flex" to={"/submit_thread"}>
+  		      	<Button className="black-bordered-button">
                 New Thread
-              </Link>
-		      	</Button>
+  		      	</Button>
+            </Link>
 		      </Col>
 	      </Row>
 	      <Row className="forum-grid">

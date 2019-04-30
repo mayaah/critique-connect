@@ -455,11 +455,11 @@ class UserProfile extends Component {
                       })}
                     </div>
                     {this.state.userId === this.state.currentUserId ? (
-                      <Button className="black-bordered-button">
-                        <Link className="flex" to={"/edit_profile"} >
+                      <Link className="flex" to={"/edit_profile"}>
+                        <Button className="black-bordered-button">
                           Edit Profile
-                        </Link>
-                      </Button>
+                        </Button>
+                      </Link>
                     ) : (
                       null
                     )}
@@ -817,11 +817,11 @@ class UserProfile extends Component {
                     })}
                   </div>
                   {this.state.userId === this.state.currentUserId ? (
-                    <Button className="black-bordered-button">
-                      <Link className="flex" to={"/edit_profile"} >
+                    <Link className="flex" to={"/edit_profile"} >
+                      <Button className="black-bordered-button">
                         Edit Profile
-                      </Link>
-                    </Button>
+                      </Button>
+                    </Link>
                   ) : (
                     null
                   )}
@@ -854,11 +854,11 @@ class UserProfile extends Component {
                   <div className="section-divider-hr"></div>
                 </div>
                 {this.state.userId === this.state.currentUserId ? (
-                  <Button className="black-bordered-button">
-                    <Link className="flex" to={"/submit_wip/"+this.state.userId}>
+                  <Link className="flex" to={"/submit_wip/"+this.state.userId}>
+                    <Button className="black-bordered-button">
                       Add a Work in Progress
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 ) : (
                   null
                 )}

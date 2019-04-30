@@ -19,7 +19,7 @@
 
 .homepage-user-name {
 	color: black;
-	font-size: 18px;
+	font-size: 20px;
 	letter-spacing: 0.1em;
 	font-weight: 400;
 	margin-bottom: 10px;
@@ -45,7 +45,7 @@
 
 .homepage-wip-name {
 	margin: 0px 0;
-	font-size: 20px;
+	font-size: 25px;
 	font-weight: 400;
 	color: var(--ccRed);
 	letter-spacing: 0.1em;

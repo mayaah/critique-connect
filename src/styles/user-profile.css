@@ -32,7 +32,6 @@
 	color: var(--ccRed);
 	letter-spacing: 0.1em;
 	font-size: 50px;
-	overflow: auto;
 }
 
 .user-info-details {
@@ -49,14 +48,14 @@
 
 .user-info-detail-label {
 	font-weight: 400;
-	font-size: 14px;
+	font-size: 18px;
 	font-style: italic;
 
 }
 
 .user-info-detail {
 	font-weight: 400;
-	font-size: 14px;
+	font-size: 18px;
 	margin-left: 5px;
 }
 
@@ -77,22 +76,24 @@ button.black-bordered-button {
 	padding: 10px 30px;
 	text-align: center;
 	position: relative;
-	overflow: hidden;
 	transition: .3s;
 	border: 2px solid black;
 	text-decoration: none;
 	border-radius: 0;
-	font-size: 15px;
+	font-size: 20px;
+	text-transform: none;
 }
 button.black-bordered-button:hover {
 	cursor: pointer;
 	background: white;
 	border: 2px black solid;
 	color: black;
+	text-transform: none;
 }
 button.black-bordered-button:hover:after {
 	width: 100%;
 	left: 0;
+	text-transform: none;
 }
 button.black-bordered-button:after {
 	position: absolute;
@@ -103,22 +104,28 @@ button.black-bordered-button:after {
 	bottom: 0;
 	height: 3px;
 	background: black;
+	text-transform: none;
 }
 button.black-bordered-button a {
 	text-decoration: none;
 	color: black;
+	text-transform: none;
 }
 button.black-bordered-button.btn.btn-default:active {
 	background: white;
+	text-transform: none;
 }
 button.black-bordered-button.btn.btn-default:target {
 	background: white;
+	text-transform: none;
 }
 button.black-bordered-button.btn.btn-default:visited {
 	background: white;
+	text-transform: none;
 }
 button.black-bordered-button.btn.btn-default:focus {
 	background: white;
+	text-transform: none;
 }
 
 
@@ -153,6 +160,7 @@ button.black-bordered-button.btn.btn-default:focus {
 .user-name-and-labels {
 	display: flex;
 	align-items: center;
+	margin-bottom: 15px;
 }
 
 .looking-labels {
@@ -161,7 +169,7 @@ button.black-bordered-button.btn.btn-default:focus {
 	margin: 0 0 0 50px;
 	padding: 10px 20px;
 	text-transform: uppercase;
-	font-size: 10px;
+	font-size: 14px;
 	letter-spacing: 0.2em;
 	background: var(--ccRed);
 }
@@ -174,7 +182,7 @@ button.black-bordered-button.btn.btn-default:focus {
 
 .section-divider-title {
 	font-weight: 400;
-	font-size: 22px;
+	font-size: 27px;
 	white-space: nowrap;
 	margin-right: 15px;
 	color: black;
@@ -188,7 +196,7 @@ button.black-bordered-button.btn.btn-default:focus {
 }
 
 .small-section-divider-title {
-	font-size: 15px;
+	font-size: 20px;
 }
 
 .section-divider-hr {
@@ -199,7 +207,7 @@ button.black-bordered-button.btn.btn-default:focus {
 
 .section-long-text {
 	font-weight: 400;
-	font-size: 15px;
+	font-size: 18px;
 	white-space: pre-wrap;
 	line-height: 2em;
 	text-align: justify;
@@ -208,7 +216,7 @@ button.black-bordered-button.btn.btn-default:focus {
 
 .small-field-text {
 	font-weight: 400;
-	font-size: 13px;
+	font-size: 16px;
 	margin: 5px 0;
 	overflow: auto;
 }
@@ -232,7 +240,7 @@ button.black-bordered-button.btn.btn-default:focus {
 
 .wip-name-text {
 	margin: 10px 0;
-	font-size: 25px;
+	font-size: 30px;
 	font-weight: 400;
 	color: var(--ccRed);
 	letter-spacing: 0.1em;
@@ -249,39 +257,39 @@ button.black-bordered-button.btn.btn-default:focus {
 	display: inline-block;
 	margin: 5px 0;
 	font-weight: 400;
-	font-size: 16px;
+	font-size: 18px;
 	color: black;
 }
 
 .wip-genre-text {
 	margin: 5px 0;
-	font-size: 12px;
+	font-size: 15px;
 	color: black;
 	font-weight: 700;
 }
 
 .wip-types-text {
 	display: inline-block;
-	font-size: 16px;
+	font-size: 18px;
 	color: black;
 }
 
 .wip-logline-text {
 	font-weight: 400;
-	font-size: 14px;
+	font-size: 17px;
 	color: black;
 	line-height: 2em;
 	overflow: auto;
 }
 
 .user-traits {
-	margin: 5px 0 10px;
+	margin: 15px 0 10px;
 }
 
 .user-trait-count {
 	font-weight: 700;
 	margin-right: 5px;
-	font-size: 12px;
+	font-size: 15px;
 }
 
 .review-summary {
@@ -292,7 +300,7 @@ button.black-bordered-button.btn.btn-default:focus {
 
 .review-message {
 	font-weight: 400;
-	font-size: 14px;
+	font-size: 17px;
 	line-height: 2em;
 	margin: 0 0 10px 0;
 	white-space: pre-wrap;
@@ -306,7 +314,7 @@ button.black-bordered-button.btn.btn-default:focus {
 	color: white;
 	border-radius: 3px;
 	letter-spacing: 0.1em;
-	font-size: 10px;
+	font-size: 14px;
 }
 
 .reviewer-avatar-container {
@@ -336,9 +344,13 @@ button.black-bordered-button.btn.btn-default:focus {
 .reviewer-name {
 	display: inline-block;
 	margin-left: 10px;
-	font-size: 16px;
+	font-size: 19px;
 	font-weight: 400;
 	color: black;
+}
+
+.review-date {
+	font-size: 19px;
 }
 
 .no-data {

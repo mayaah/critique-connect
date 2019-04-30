@@ -10,7 +10,7 @@
 }
 
 .thread-row-topic {
-	font-size: 18px;
+	font-size: 20px;
 	font-weight: 400;
 	text-overflow: ellipsis;
     white-space: nowrap;
@@ -18,7 +18,7 @@
 }
 
 .thread-row-postCount, .thread-row-date {
-	font-size: 14px;
+	font-size: 16px;
 	text-align: right;
 }
 
@@ -40,7 +40,7 @@
 
 .post-comment {
 	font-weight: 400;
-	font-size: 15px;
+	font-size: 18px;
 	line-height: 2em;
 	margin: 0 0 10px 0;
 	overflow: auto;
@@ -64,13 +64,13 @@
 }
 
 .post-author-name {
-	font-size: 18px;
+	font-size: 20px;
 	color: black;
 	overflow: auto;
 }
 
 .post-date {
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: 400;
 }
 
