@@ -28,7 +28,7 @@ a {
 
 a:hover {
 	color: var(--ccRed);
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 .main-app {

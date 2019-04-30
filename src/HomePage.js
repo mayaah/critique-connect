@@ -101,7 +101,7 @@ class HomePage extends Component {
   render() {
     return (
       <Grid style={{ marginTop: "75px" }}>
-        <Row className="display-WIPs homepage-section">
+        <Row className="display-WIPs homepage-section display-flex">
           <Col sm={12} md={12} lg={12}>
             <div className="section-divider">
               <span className="section-divider-title">
@@ -109,41 +109,43 @@ class HomePage extends Component {
               </span>
               <div className="section-divider-hr"></div>
             </div>
-            {this.state.wips.map((WIP) => {
-              return (
-                <Link to={"/wip/" + WIP.id} key={WIP.id}>
-                  <Col sm={3} className="hompage-wip">
-                    <div className="homepage-wip-name">
-                      {WIP.title}
-                    </div>
-                    {WIP.types[0] && (
-                      <span className="homepage-wip-types-text">
-                        {WIP.types.join(', ')} 
-                      </span>
-                    )}
-                    {(WIP.types[0] && WIP.wc > 0) && (
-                      <span>&nbsp;|&nbsp;</span>
-                    )}
-                    {WIP.wc > 0 && (
-                      <span className="wip-wc-text">
-                        {WIP.wc} words
-                      </span>
-                    )}
-                    {WIP.genres.map((genre) => {
-                      return (
-                        <div className="wip-genre-text" key={genre}>
-                          {constants.GENRES_HASH[genre]}
-                        </div>
-                      )
-                    })}
-                    <div className="wip-logline-text">
-                      {WIP.logline}
-                    </div>
-                  </Col>
-                </Link>
-              )
-            })}
           </Col>
+        </Row>
+        <Row className="row-display-flex">
+          {this.state.wips.map((WIP) => {
+            return (
+              <Col sm={3} md={6} className="hompage-wip">
+                <Link to={"/wip/" + WIP.id} key={WIP.id}>
+                  <div className="homepage-wip-name">
+                    {WIP.title}
+                  </div>
+                  {WIP.types[0] && (
+                    <span className="homepage-wip-types-text">
+                      {WIP.types.join(', ')} 
+                    </span>
+                  )}
+                  {(WIP.types[0] && WIP.wc > 0) && (
+                    <span>&nbsp;|&nbsp;</span>
+                  )}
+                  {WIP.wc > 0 && (
+                    <span className="wip-wc-text">
+                      {WIP.wc} words
+                    </span>
+                  )}
+                  {WIP.genres.map((genre) => {
+                    return (
+                      <div className="wip-genre-text" key={genre}>
+                        {constants.GENRES_HASH[genre]}
+                      </div>
+                    )
+                  })}
+                  <div className="wip-logline-text">
+                    {WIP.logline}
+                  </div>
+                </Link>
+              </Col>
+            )
+          })}
         </Row>
         <Row className="homepage-section">
           <Col xs={12} sm={6} md={6} lg={6}>
