@@ -6,6 +6,7 @@ import { TextArea } from "@blueprintjs/core";
 import Pagination from "react-js-pagination";
 import * as constants from '../constants';
 import { firebaseDB } from '../base'
+import update from 'immutability-helper';
 
 class Thread extends Component {
 	constructor(props){

@@ -12,6 +12,7 @@
     "dotenv": "^4.0.0",
     "history": "^4.9.0",
     "hoek": "^6.1.2",
+    "immutability-helper": "^3.0.0",
     "re-base": "^3.2.3",
     "react": "^16.8.4",
     "react-addons-css-transition-group": "^15.6.2",
