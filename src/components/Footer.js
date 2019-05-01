@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+
 
 const footerStyle = {
   marginTop: "100px",
@@ -32,25 +34,30 @@ class Footer extends Component {
               <div><a href="https://forms.gle/WrscevVDScaHDmtFA">Product Feedback</a></div>
             </div>
           </Col>
-          <Col sm={3} style={{ display: "flex" }}>
-            <div style={{ margin: "0 auto", display: "flex", flexDirection: "row" }}>
+          <Col sm={3}>
+            <div style={{ alignItems: "center", display: "flex", flexDirection: "column" }}>
               <a href="https://www.facebook.com/critiqueconnect" target="_blank" rel="noopener noreferrer">
                 <Image 
                   className="social-icons" 
                   src={require('../images/fb-icon-red.png')} 
-                  responsive
                 />
+                facebook.com/critiqueconnect
               </a>
               <a href="https://twitter.com/critiqueconnect" target="_blank" rel="noopener noreferrer">
                 <Image 
                   className="social-icons" 
                   src={require('../images/twitter-icon-red.png')} 
-                  responsive
                 />
+                twitter.com/critiqueconnect
               </a>
             </div>
           </Col>
           <Col sm={3}>
+            <TwitterTimelineEmbed
+              sourceType="profile"
+              screenName="critiqueconnect"
+              options={{height: 200, width: 300}}
+            />
             <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
               © {this.state.year} Critique Connect
             </div>
