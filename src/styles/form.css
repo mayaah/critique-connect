@@ -57,6 +57,18 @@ label.pt-label {
 	margin-top: 10px;
 }
 
+textarea {
+	min-width: 100%;
+	min-height: 200px;
+	box-shadow: none;
+	padding: 0;
+	border-radius: 0;
+	border: 1px solid black;
+	font-size: 16px;
+	margin-top: 5px;
+	line-height: 2em;
+}
+
 .textarea-field {
 	width: 500px;
 	max-width: 500px;

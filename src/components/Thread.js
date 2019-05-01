@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import NewPostForm from './NewPostForm'
-import { Grid, Row, Col, Image } from 'react-bootstrap';
+import { Grid, Row, Col, Image, Button } from 'react-bootstrap';
+import { TextArea } from "@blueprintjs/core";
 import Pagination from "react-js-pagination";
 import * as constants from '../constants';
 import { firebaseDB } from '../base'
@@ -11,6 +12,7 @@ class Thread extends Component {
     super(props)
     this.state = {
       redirect: false,
+      currentUserId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       threadId: this.props.match.params.threadId,
       topic: "",
       posts: [],
@@ -24,6 +26,8 @@ class Thread extends Component {
     this.simplifyDate = this.simplifyDate.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.loadPosts = this.loadPosts.bind(this);
+    this.editPost = this.editPost.bind(this);
+    this.savePost = this.savePost.bind(this);
   }
 
   componentWillUnmount() {
@@ -73,7 +77,9 @@ class Thread extends Component {
               author: constants.DELETED_STRING,
               authorAvatar: constants.DEFAULT_AVATAR_URL,
               comment: post.comment,
-              date: post.date
+              date: post.date,
+              editing: false,
+              editedPostDate: post.editedPostDate ? post.editedPostDate : ""
             });
             var sortedArr = newState.sort(function(a, b) {
               var keyA = new Date(a.date),
@@ -100,7 +106,9 @@ class Thread extends Component {
                 author: postAuthorName,
                 authorAvatar: postAuthorAvatar,
                 comment: post.comment,
-                date: post.date
+                date: post.date,
+                editing: false,
+                editedPostDate: post.editedPostDate ? post.editedPostDate : ""
               });
               var sortedArr = newState.sort(function(a, b) {
                 var keyA = new Date(a.date),
@@ -134,6 +142,41 @@ class Thread extends Component {
       activePage: pageNumber,
       currentPosts: this.state.posts.slice((pageNumber - 1) * 20, (pageNumber - 1) * 20 + 20)
     });
+  }
+
+  editPost(postId) {
+    var existingPosts = this.state.currentPosts
+    var postIndex = existingPosts.findIndex(function(p) { 
+        return p.id === postId;
+    });
+    var updatedPost = update(existingPosts[postIndex], {editing: {$set: true}});
+    var newData = update(existingPosts, {
+        $splice: [[postIndex, 1, updatedPost]]
+    });
+    this.setState({currentPosts: newData}); 
+  }
+
+  savePost(postId) {
+    var existingPosts = this.state.currentPosts
+    // var stringPostId = postId.replace(/[^a-zA-Z ]/g, "")
+    var ref = 'newPost' + postId
+    var newComment = this.refs[ref].value;
+    if (newComment.length < 1) {
+      alert("Comment cannot be blank.")
+      return false
+    }
+    var postIndex = existingPosts.findIndex(function(p) { 
+        return p.id === postId;
+    });
+    var updatedPost = update(existingPosts[postIndex], {editing: {$set: false}, comment: {$set: newComment}});
+    var newData = update(existingPosts, {
+        $splice: [[postIndex, 1, updatedPost]]
+    });
+    firebaseDB.database().ref(`/Posts/${postId}`).update({
+      comment: newComment,
+      editedPostDate: Date.now()
+    })
+    this.setState({currentPosts: newData});
   }
 
 	render() {
@@ -170,11 +213,40 @@ class Thread extends Component {
                   <div className="post-date">
                     {this.simplifyDate(new Date(post.date).toUTCString())}
                   </div>
+                  {post.editedPostDate && (
+                    <div className="post-date">
+                      Edited: {this.simplifyDate(new Date(post.editedPostDate).toUTCString())}
+                    </div>
+                  )}
                 </Col>
                 <Col sm={10}>
-                  <div className="post-comment">
-                    {post.comment}
-                  </div>
+                  {post.editing ? (
+                    <div>
+                      <textarea ref={"newPost" + post.id} defaultValue={post.comment}></textarea>
+                      <Button 
+                          type='button'
+                          className="black-bordered-button"
+                          onClick={() => this.savePost(post.id)}
+                        >
+                          Save Post
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="post-comment">
+                        {post.comment}
+                      </div>
+                      {post.authorId === this.state.currentUserId && (
+                        <Button 
+                          type='button'
+                          className="black-bordered-button"
+                          onClick={() => this.editPost(post.id)}
+                        >
+                          Edit Post
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </Col>
               </Row>
             )

@@ -76,7 +76,7 @@ class NewPostForm extends Component {
           large={true} 
           value={this.state.comment} 
           name="comment" 
-          onChange={this.handleChange} 
+          onChange={this.handleChange}
           label="comment"
           placeholder={'Add a comment...'}
         />
