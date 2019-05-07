@@ -56,6 +56,7 @@ class Footer extends Component {
             <TwitterTimelineEmbed
               sourceType="profile"
               screenName="critiqueconnect"
+              linkColor="#ed1c24"
               options={{height: 200, width: 300}}
             />
             <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>

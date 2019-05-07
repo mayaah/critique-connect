@@ -922,7 +922,7 @@ class UserProfile extends Component {
               <Col sm={12}>
                 <div className="section-divider">
                   <span className="section-divider-title">
-                    Reviews
+                    Testimonials
                   </span>
                   <div className="section-divider-hr"></div>
                 </div>

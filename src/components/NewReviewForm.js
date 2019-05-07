@@ -155,7 +155,7 @@ class NewReviewForm extends Component {
           name="reviewMessage" 
           onChange={this.handleChange} 
           label="reviewMessage" 
-          placeholder={'Write a review for ' + this.state.revieweeName}
+          placeholder={'Write a testimonial for ' + this.state.revieweeName}
         />
         <Select
           className="multiselect-field"
@@ -172,7 +172,7 @@ class NewReviewForm extends Component {
           type="submit" 
           className="black-bordered-button" 
         >
-          Submit Review
+          Submit Testimonial
         </button>
       </form>
     )
