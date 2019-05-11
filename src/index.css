@@ -107,16 +107,28 @@ a.pt-button.pt-minimal:hover {
 	margin: 0;
 }
 
+.email-auth button, .reset-password button {
+	width: 75%;
+	margin: 0 auto;
+}
+
+.email-auth input, .reset-password input {
+	width: 75%;
+	margin: 0 auto;
+}
+
 .login-styles {
 	font-family: 'Cardo', serif;
 	font-weight: 700;
 	font-size: 25px;
-	border-bottom: 1px lightgray solid;
-	padding-bottom: 50px;
+	border-top: 1px lightgray solid;
+	padding-top: 50px;
+	margin-top: 50px;
 }
 
 .login-styles button {
 	margin: 10px auto;
+	width: 75%;
 }
 
 .splash-page label.pt-label .pt-input, label.pt-label .pt-select {

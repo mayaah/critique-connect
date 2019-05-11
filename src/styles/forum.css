@@ -30,6 +30,10 @@
 	white-space: pre-wrap;
 }
 
+.edit-post-textarea {
+	height: 200px;
+}
+
 .post:last-child {
 	border-bottom: 0;
 }

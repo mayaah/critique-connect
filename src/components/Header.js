@@ -51,6 +51,10 @@ class Header extends Component {
                 My Profile
               </Link>
               <span className="pt-navbar-divider"></span>
+              <Link className="pt-button pt-minimal" to={"/settings"}>
+                Settings
+              </Link>
+              <span className="pt-navbar-divider"></span>
               <Link className="pt-button pt-minimal log-out-link" 
                     aria-label="Log Out" 
                     to="/logout"

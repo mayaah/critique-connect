@@ -40,7 +40,6 @@ class EditProfileForm extends Component {
 	    contact: "",
 	    openToPaying: false,
 	    timeline: "",
-	    deleted: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -52,13 +51,8 @@ class EditProfileForm extends Component {
     this.handleUploadError = this.handleUploadError.bind(this);
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.currentUser.uid}`);
-    this.removeUsersWips = this.removeUsersWips.bind(this);
-    this.removeUsersFromThreads = this.removeUsersFromThreads.bind(this);
-    this.removeUsersFromPosts = this.removeUsersFromPosts.bind(this);
-    this.removeUsersFromReviews = this.removeUsersFromReviews.bind(this);
-    this.deleteUserIndexRecord = this.deleteUserIndexRecord.bind(this);
     this.addOrUpdateIndexRecord = this.addOrUpdateIndexRecord.bind(this);
-    this.cleanUpUserFromOtherData = this.cleanUpUserFromOtherData.bind(this);
+    
   }
 
   componentDidMount() {
@@ -154,7 +148,7 @@ class EditProfileForm extends Component {
   updateUserProfile(event) {
     event.preventDefault()
     if (this.state.displayName.length === 0 && this.state.contact.length === 0) {
-    	alert("Name and contact information cannot be blank.")
+    	alert("Name and best way to contact information cannot be blank.")
     	return false
     }
     if (this.state.displayName.length === 0) {
@@ -162,7 +156,7 @@ class EditProfileForm extends Component {
       return false
     }
     if (this.state.contact.length === 0) {
-    	alert("Contact information cannot be blank.")
+    	alert("Best way to contact information cannot be blank.")
     	return false
     }
 	  this.userRef.update({
@@ -194,148 +188,40 @@ class EditProfileForm extends Component {
     this.setState({ redirect: true })
   }
 
-  removeUsersWips() {
-  	const usersWIPsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/WIPs`)
-  	usersWIPsRef.on('value', snapshot => {
-  		let usersWIPs = snapshot.val();
-	    for (let userWIP in usersWIPs) {
-	      var WIPRef = firebaseDB.database().ref(`/WIPs/${userWIP}`)
-	      WIPRef.remove();
-				WIPRef.on('value', snapshot => {
-					// Get Algolia's objectID from the Firebase object key
-					const objectID = snapshot.key;
-					// Remove the object from Algolia
-					constants.wipsIndex
-					.deleteObject(objectID)
-					.then(() => {
-						console.log('Firebase object deleted from Algolia', objectID);
-					})
-					.catch(error => {
-						console.error('Error when deleting contact from Algolia', error);
-					});
-				})
-	    }
-    });
-  }
-
-  // Re-assign threads to deleted user
-  removeUsersFromThreads() {
-  	const usersThreadsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Threads`)
-  	usersThreadsRef.on('value', snapshot => {
-  		let usersThreads = snapshot.val();
-  		for (let usersThread in usersThreads) {
-	      var threadRef = firebaseDB.database().ref(`/Threads/${usersThread}`)
-	      threadRef.update({
-	      	author: "[deleted]"
-	      })
-	    }
-  	})
-  }
-
-	// Re-assign posts to deleted user
-  removeUsersFromPosts() {
-  	const usersPostsRef = firebaseDB.database().ref(`/Users/${this.state.userId}/Posts`)
-  	usersPostsRef.on('value', snapshot => {
-  		let usersPosts = snapshot.val();
-  		for (let usersPost in usersPosts) {
-	      var postRef = firebaseDB.database().ref(`/Posts/${usersPost}`)
-	      postRef.update({
-	      	author: "[deleted]"
-	      })
-	    }
-  	})
-  }
-
-  removeUsersFromReviews() {
-  	const usersReviewsGivenRef = firebaseDB.database().ref(`/Users/${this.state.userId}/ReviewsGiven`)
-  	usersReviewsGivenRef.on('value', snapshot => {
-  		let reviewsGiven = snapshot.val();
-  		for (let review in reviewsGiven) {
-	      var reviewRef = firebaseDB.database().ref(`/Reviews/${review}`)
-	      reviewRef.update({
-	      	reviewerId: "[deleted]"
-	      })
-	    }
-  	})
-  }
-
-  deleteAccount() {
-    this.cleanUpUserFromOtherData().then(() => {
-    	this.userRef.off();
-    	var userRef = firebaseDB.database().ref(`/Users/${this.state.userId}`)
-    	this.setState({ deleted: true },
-    		() => {
-    			userRef.remove();
-    			firebaseDB.auth().currentUser.delete();
-  			}
-			)
-		})
-  }
-
-  cleanUpUserFromOtherData() {
-  	return Promise.all([
-  		this.removeUsersWips(), 
-  		this.removeUsersFromThreads(),
-  		this.removeUsersFromPosts(),
-  		this.removeUsersFromReviews(),
-  		this.deleteUserIndexRecord(this.state.userId),
-		])
-  }
-
-  deleteUserIndexRecord(userId) {
-  	const userRef = firebaseDB.database().ref(`Users/${userId}`);
-  	userRef.on('value', snapshot => {
-	  	// Get Algolia's objectID from the Firebase object key
-		  const objectID = snapshot.key;
-		  // Remove the object from Algolia
-		  constants.usersIndex
-		    .deleteObject(objectID)
-		    .then(() => {
-		      console.log('Firebase object deleted from Algolia', objectID);
-		    })
-		    .catch(error => {
-		      console.error('Error when deleting contact from Algolia', error);
+addOrUpdateIndexRecord(userId) {
+	const userRef = firebaseDB.database().ref(`Users/${userId}`);
+	userRef.on('value', snapshot => {
+	  // Get Firebase object
+	  const record = snapshot.val();
+	  // Specify Algolia's objectID using the Firebase object key
+	  // Add or update object
+	  const recordToSend = {
+	  	objectID: snapshot.key,
+	  	avatarURL: record.avatarURL,
+	  	ltr: record.ltr,
+	  	lfr: record.lfr,
+	  	displayName: record.displayName,
+	  	lastLogin: record.lastLogin,
+	  	lastActive: record.lastActive,
+	  	compensation: record.compensation,
+	  	genresWrite: record.genresWrite,
+	  	genresRead: record.genresRead,
+	  	openToPaying: record.openToPaying
+	  }
+	  constants.usersIndex
+	    .saveObject(recordToSend)
+	    .then(() => {
+	      console.log('Firebase object indexed in Algolia', record.objectID);
+	    })
+	    .catch(error => {
+	      console.error('Error when indexing contact into Algolia', error);
 		    });
-	  })
-	}
-
-	addOrUpdateIndexRecord(userId) {
-		const userRef = firebaseDB.database().ref(`Users/${userId}`);
-		userRef.on('value', snapshot => {
-		  // Get Firebase object
-		  const record = snapshot.val();
-		  // Specify Algolia's objectID using the Firebase object key
-		  // Add or update object
-		  const recordToSend = {
-		  	objectID: snapshot.key,
-		  	avatarURL: record.avatarURL,
-		  	ltr: record.ltr,
-		  	lfr: record.lfr,
-		  	displayName: record.displayName,
-		  	lastLogin: record.lastLogin,
-		  	lastActive: record.lastActive,
-		  	compensation: record.compensation,
-		  	genresWrite: record.genresWrite,
-		  	genresRead: record.genresRead,
-		  	openToPaying: record.openToPaying
-		  }
-		  constants.usersIndex
-		    .saveObject(recordToSend)
-		    .then(() => {
-		      console.log('Firebase object indexed in Algolia', record.objectID);
-		    })
-		    .catch(error => {
-		      console.error('Error when indexing contact into Algolia', error);
-  		    });
-	  })
-	}
+  })
+}
 
   render() {
   	if (this.state.redirect === true) {
       return <Redirect to= {{pathname: '/user/' + this.state.currentUser.uid}} />
-    }
-    if (this.state.deleted === true) {
-      return <Redirect to= {{pathname: '/logout'}} />
     }
     return (
     	<div>
@@ -664,12 +550,6 @@ class EditProfileForm extends Component {
 	          		Save
 	          	</button>
 		        </form>
-		        <Button 
-		        	className="black-bordered-button red" 
-              onClick={() => { if (window.confirm('Are you sure you wish to delete your account?')) this.deleteAccount() }}
-            >
-              Delete Account
-            </Button>
 		      </Grid>
 	      </BrowserRouter>
       </div>

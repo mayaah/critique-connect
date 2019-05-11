@@ -17,6 +17,7 @@ import NewThreadForm from './components/NewThreadForm';
 import Thread from './components/Thread';
 import NoMatch from './NoMatch';
 import About from './About';
+import Settings from './components/Settings';
 import CookiePolicy from './CookiePolicy';
 import { firebaseDB } from './base';
 import ReactGA from 'react-ga';
@@ -236,6 +237,12 @@ class App extends Component {
               isLoggedIn={this.state.authenticated} 
               path="/thread/:threadId" 
               component={Thread} 
+              currentUserId={this.state.currentUserId}
+            />
+            <PrivateRoute
+              isLoggedIn={this.state.authenticated} 
+              path="/settings" 
+              component={Settings} 
               currentUserId={this.state.currentUserId}
             />
             <Route

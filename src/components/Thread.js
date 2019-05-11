@@ -223,7 +223,7 @@ class Thread extends Component {
                 <Col sm={10}>
                   {post.editing ? (
                     <div>
-                      <textarea ref={"newPost" + post.id} defaultValue={post.comment}></textarea>
+                      <textarea className="edit-post-textarea" ref={"newPost" + post.id} defaultValue={post.comment}></textarea>
                       <Button 
                           type='button'
                           className="black-bordered-button"
