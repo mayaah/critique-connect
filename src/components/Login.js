@@ -153,7 +153,7 @@ class Login extends Component {
           displayName: user.displayName.split(" ")[0]
         })
       }
-      if (user.displayName === null) {
+      if (user.displayName === null && !userDB.displayName) {
         userRef.update({
           displayName: "Anonymous"
         })
