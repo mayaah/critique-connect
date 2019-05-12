@@ -110,6 +110,9 @@ class Login extends Component {
           this.sendEmailVerification()
         }
       })
+      .catch((error) => {
+        this.toaster.show({ intent: Intent.DANGER, message: error.message })
+      })
   }
 
   sendEmailVerification() {

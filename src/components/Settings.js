@@ -208,7 +208,7 @@ class Settings extends Component {
               <p>Check your email (spam folder included) for a confirmation email or
               send another confirmation email.</p>
 
-              <Button className="black-bordered-button" onClick={this.sendEmailVerification()}>
+              <Button className="black-bordered-button" onClick={() => this.sendEmailVerification()}>
                 Send Confirmation Email
               </Button>
 
