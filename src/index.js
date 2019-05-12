@@ -12,6 +12,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'normalize.css/normalize.css';
 import '@blueprintjs/core/dist/blueprint.css';
 
+import * as Sentry from '@sentry/browser';
+
 import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
@@ -22,6 +24,9 @@ import './styles/search.css';
 import './styles/forum.css';
 import './HomePage.css';
 
+Sentry.init({
+	dsn: process.env.REACT_APP_SENTRY_DSN
+});
 
 ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();
