@@ -69,7 +69,7 @@ class App extends Component {
           function() {
               firebaseDB.auth().signOut()
           },
-          8640000
+          86400000
         );
       } else {
         this.setState({
