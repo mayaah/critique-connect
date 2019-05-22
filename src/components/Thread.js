@@ -15,11 +15,13 @@ class Thread extends Component {
       redirect: false,
       currentUserId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       threadId: this.props.match.params.threadId,
+      author: "",
       topic: "",
       posts: [],
       pinned: false,
       currentPosts: [],
       activePage: 1,
+      editingTopic: false,
       doesNotExist: false
     }
     this.threadRef = firebaseDB.database().ref(`Threads/${this.state.threadId}`);
@@ -43,6 +45,7 @@ class Thread extends Component {
       if (thread) {
         this.setState({
           topic: thread.topic ? thread.topic : "",
+          author: thread.author ? thread.author : "",
         });
         this.loadPosts();
       } else {
@@ -180,6 +183,26 @@ class Thread extends Component {
     this.setState({currentPosts: newData});
   }
 
+  editTitle(threadId) {
+    this.setState({editingTopic: true})
+  }
+
+  saveTitle(threadId) {
+    var ref = 'newTopic' + threadId
+    var newTopic = this.refs[ref].value;
+    if (newTopic.length < 1) {
+      alert("Topic cannot be blank.")
+      return false
+    }
+    firebaseDB.database().ref(`/Threads/${threadId}`).update({
+      topic: newTopic
+    })
+    this.setState({
+      topic: newTopic,
+      editingTopic: false
+    })
+  }
+
 	render() {
     if (this.state.doesNotExist === true) {
       return <Redirect to= {{pathname: '/not_found'}} />
@@ -189,9 +212,33 @@ class Thread extends Component {
 	  	<Grid style={{marginTop: "100px"}}>
         <Row className="forum-header">
           <Col sm={12}>
-            <div className="page-name">
-              {this.state.topic}
-            </div>
+            {this.state.editingTopic ? (
+              <div>
+                <textarea ref={"newTopic" + this.state.threadId} defaultValue={this.state.topic}></textarea>
+                <Button
+                    type='button'
+                    className="black-bordered-button"
+                    onClick={() => this.saveTitle(this.state.threadId)}
+                  >
+                    Save Title
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <div className="page-name">
+                  {this.state.topic}
+                </div>
+                {this.state.author === this.state.currentUserId && (
+                  <Button
+                    type='button'
+                    className="black-bordered-button"
+                    onClick={() => this.editTitle(this.state.threadId)}
+                  >
+                    Edit Title
+                  </Button>
+                )}
+              </div>
+            )}
           </Col>
         </Row>
         <div className="posts">
