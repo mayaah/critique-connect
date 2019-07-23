@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'normalize.css/normalize.css';
 import '@blueprintjs/core/dist/blueprint.css';
+import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import * as Sentry from '@sentry/browser';
 

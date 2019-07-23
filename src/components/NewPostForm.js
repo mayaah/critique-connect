@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { TextArea } from "@blueprintjs/core";
-import { firebaseDB } from '../base'
+import { firebaseDB } from '../base';
+import { convertFromRaw, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 
 class NewPostForm extends Component {
   constructor(props) {
     super(props)
+    const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
     this.state = {
       redirect: false,
       comment: "",
       authorId: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
       threadId: this.props.threadId,
+      contentState: convertFromRaw(content),
     }
     this.threadRef = firebaseDB.database().ref(`Threads/${this.state.threadId}`);
     this.postsRef = firebaseDB.database().ref(`Posts`)
@@ -17,6 +21,7 @@ class NewPostForm extends Component {
     this.threadPostsRef = firebaseDB.database().ref(`Threads/${this.state.threadId}/Posts`)
     this.handleChange = this.handleChange.bind(this);
     this.submitPost = this.submitPost.bind(this);
+    this.onContentStateChange = this.onContentStateChange.bind(this);
   }
 
   componentWillUnmount() {
@@ -30,6 +35,13 @@ class NewPostForm extends Component {
     });
   }
 
+  onContentStateChange(contentState) {
+    this.setState({
+      contentState,
+    });
+  };
+
+
 	simplifyDate(date) {
     let dateArray = date.split(" ")
     let dateOnly = dateArray.slice(1, 4)
@@ -38,12 +50,12 @@ class NewPostForm extends Component {
 
   submitPost(event) {
   	event.preventDefault()
-    if (this.state.comment.length === 0) {
+    if (this.state.contentState.length === 0) {
       alert("Post cannot be blank.")
       return false
     }
     const post = {
-      comment: this.state.comment,
+      comment: JSON.stringify(convertToRaw(this.state.contentState.getCurrentContent())),
       author: this.state.authorId,
       date: Date.now(),
       thread: this.state.threadId
@@ -55,7 +67,8 @@ class NewPostForm extends Component {
       [postId]: true
     })
     this.setState({
-      comment: ""
+      comment: "",
+      contentState: convertFromRaw(this.content),
     })
   }
 
@@ -71,14 +84,10 @@ class NewPostForm extends Component {
       <form onSubmit={(event) => this.submitPost(event)} 
             ref={(form) => this.submitPostForm = form}
       >
-        <TextArea 
-          className="thread-textarea" 
-          large={true} 
-          value={this.state.comment} 
-          name="comment" 
-          onChange={this.handleChange}
-          label="comment"
-          placeholder={'Add a comment...'}
+        <Editor
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={this.onContentStateChange}
         />
         <button 
           type="submit" 
