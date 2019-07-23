@@ -7,6 +7,9 @@ import Pagination from "react-js-pagination";
 import * as constants from '../constants';
 import { firebaseDB } from '../base'
 import update from 'immutability-helper';
+import { EditorState, convertToRaw, convertFromRaw, ContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { Editor } from 'react-draft-wysiwyg';
 
 class Thread extends Component {
 	constructor(props){
@@ -31,6 +34,8 @@ class Thread extends Component {
     this.loadPosts = this.loadPosts.bind(this);
     this.editPost = this.editPost.bind(this);
     this.savePost = this.savePost.bind(this);
+    this.isJson = this.isJson.bind(this);
+    this.onContentStateChange = this.onContentStateChange.bind(this);
   }
 
   componentWillUnmount() {
@@ -60,6 +65,15 @@ class Thread extends Component {
     }
   }
 
+  isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true && isNaN(parseInt(str));
+  }
+
   loadPosts() {
     this.postsRef.on('value', snapshot => {
       let posts = snapshot.val();
@@ -75,12 +89,17 @@ class Thread extends Component {
           let postAuthorName = ""
           let postAuthorAvatar = ""
           if (post.author === constants.DELETED_STRING) {
+            let postComment = EditorState.createEmpty()
+            if (this.isJson(post.comment))
+              postComment = post.comment
+            else
+              postComment = JSON.stringify(convertToRaw(ContentState.createFromText(post.comment)))
             newState.push({
               id: snapshot.key,
               authorId: null,
               author: constants.DELETED_STRING,
               authorAvatar: constants.DEFAULT_AVATAR_URL,
-              comment: post.comment,
+              comment: EditorState.createWithContent(convertFromRaw(JSON.parse(postComment))),
               date: post.date,
               editing: false,
               editedPostDate: post.editedPostDate ? post.editedPostDate : ""
@@ -104,12 +123,17 @@ class Thread extends Component {
               let postAuthor = snapshot2.val();
               postAuthorName = postAuthor.displayName
               postAuthorAvatar = postAuthor.avatarURL ? postAuthor.avatarURL : constants.DEFAULT_AVATAR_URL
+              let postComment = EditorState.createEmpty()
+              if (this.isJson(post.comment))
+                postComment = post.comment
+              else
+                postComment = JSON.stringify(convertToRaw(ContentState.createFromText(post.comment)))
               newState.push({
                 id: snapshot.key,
                 authorId: post.author,
                 author: postAuthorName,
                 authorAvatar: postAuthorAvatar,
-                comment: post.comment,
+                comment: EditorState.createWithContent(convertFromRaw(JSON.parse(postComment))),
                 date: post.date,
                 editing: false,
                 editedPostDate: post.editedPostDate ? post.editedPostDate : ""
@@ -160,11 +184,26 @@ class Thread extends Component {
     this.setState({currentPosts: newData}); 
   }
 
+  onContentStateChange(postId, contentState) {
+    var existingPosts = this.state.currentPosts
+    var ref = 'newPost' + postId
+    var newComment = this.refs[ref].getEditorState()
+    var postIndex = existingPosts.findIndex(function(p) { 
+        return p.id === postId;
+    });
+    var updatedPost = update(existingPosts[postIndex], {comment: {$set: contentState}});
+    var newData = update(existingPosts, {
+        $splice: [[postIndex, 1, updatedPost]]
+    });
+    this.setState({currentPosts: newData});
+  };
+
   savePost(postId) {
     var existingPosts = this.state.currentPosts
     // var stringPostId = postId.replace(/[^a-zA-Z ]/g, "")
     var ref = 'newPost' + postId
-    var newComment = this.refs[ref].value;
+    var newComment = this.refs[ref].getEditorState()
+    // var newComment = JSON.stringify(convertToRaw(this.refs[ref].value.getCurrentContent()));
     if (newComment.length < 1) {
       alert("Comment cannot be blank.")
       return false
@@ -177,7 +216,7 @@ class Thread extends Component {
         $splice: [[postIndex, 1, updatedPost]]
     });
     firebaseDB.database().ref(`/Posts/${postId}`).update({
-      comment: newComment,
+      comment: JSON.stringify(convertToRaw(newComment.getCurrentContent())),
       editedPostDate: Date.now()
     })
     this.setState({currentPosts: newData});
@@ -270,7 +309,13 @@ class Thread extends Component {
                 <Col sm={10}>
                   {post.editing ? (
                     <div>
-                      <textarea className="edit-post-textarea" ref={"newPost" + post.id} defaultValue={post.comment}></textarea>
+                      <Editor
+                        ref={"newPost" + post.id}
+                        editorState={post.comment}
+                        wrapperClassName="demo-wrapper"
+                        editorClassName="demo-editor"
+                        onEditorStateChange={(e) => {this.onContentStateChange(post.id, e)}}
+                      />
                       <Button 
                           type='button'
                           className="black-bordered-button"
@@ -282,7 +327,7 @@ class Thread extends Component {
                   ) : (
                     <div>
                       <div className="post-comment">
-                        {post.comment}
+                        <div dangerouslySetInnerHTML={{ __html: draftToHtml(convertToRaw(post.comment.getCurrentContent())) }}/>
                       </div>
                       {post.authorId === this.state.currentUserId && (
                         <Button 

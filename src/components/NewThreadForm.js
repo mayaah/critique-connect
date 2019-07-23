@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { BrowserRouter, Redirect } from 'react-router-dom';
 import { TextArea } from "@blueprintjs/core";
 import { Grid } from 'react-bootstrap';
-import { firebaseDB } from '../base'
+import { firebaseDB } from '../base';
+import { convertFromRaw, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 
 class NewThreadForm extends Component {
   constructor(props) {
     super(props)
+    const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
     this.state = {
       redirect: false,
       threadId: "",
@@ -14,7 +17,8 @@ class NewThreadForm extends Component {
       pinned: false,
       comment: "",
       author: firebaseDB.auth().currentUser ? firebaseDB.auth().currentUser.uid : "",
-      date: ""
+      date: "",
+      contentState: convertFromRaw(content),
     }
     this.userRef = firebaseDB.database().ref(`/Users/${this.state.author}`)
     this.userPostsRef = firebaseDB.database().ref(`/Users/${this.state.author}/Posts`)
@@ -22,6 +26,7 @@ class NewThreadForm extends Component {
     this.threadsRef = firebaseDB.database().ref(`/Threads`)
     this.postsRef = firebaseDB.database().ref(`/Posts`)
     this.handleChange = this.handleChange.bind(this);
+    this.onContentStateChange = this.onContentStateChange.bind(this);
     this.submitThread = this.submitThread.bind(this);
     this.addThreadToUser = this.addThreadToUser.bind(this);
     this.addPostToUser = this.addPostToUser.bind(this);
@@ -41,9 +46,15 @@ class NewThreadForm extends Component {
     });
   }
 
+  onContentStateChange(contentState) {
+    this.setState({
+      contentState,
+    });
+  };
+
   submitThread(event) {
   	event.preventDefault()
-    if (this.state.topic.length === 0 && this.state.comment.length === 0) {
+    if (this.state.topic.length === 0 && this.state.contentState.length === 0) {
       alert("Topic and comment cannot be blank.")
       return false
     }
@@ -51,7 +62,7 @@ class NewThreadForm extends Component {
       alert("Topic cannot be blank.")
       return false
     }
-    if (this.state.comment.length === 0) {
+    if (this.state.contentState.length === 0) {
       alert("Comment cannot be blank.")
       return false
     }
@@ -66,7 +77,7 @@ class NewThreadForm extends Component {
     this.setState({ threadId: threadId })
   	this.addThreadToUser(threadId)
   	const post = {
-  		comment: this.state.comment,
+  		comment: JSON.stringify(convertToRaw(this.state.contentState.getCurrentContent())),
   		author: this.state.author,
   		date: Date.now(),
   		thread: threadId
@@ -126,13 +137,10 @@ class NewThreadForm extends Component {
 		          	<span className="label-field-name">
                   Comment
                 </span>
-		          	<TextArea 
-                  className="thread-textarea" 
-                  large={true} 
-                  value={this.state.comment} 
-                  name="comment" 
-                  onChange={this.handleChange} 
-                  label="comment"
+                <Editor
+                  wrapperClassName="demo-wrapper"
+                  editorClassName="demo-editor"
+                  onEditorStateChange={this.onContentStateChange}
                 />
 		          </label>	
 		          <button 
