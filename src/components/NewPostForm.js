@@ -49,7 +49,8 @@ class NewPostForm extends Component {
   }
 
   submitPost(event) {
-  	event.preventDefault()
+    const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
+    // event.preventDefault()
     if (this.state.contentState.length === 0) {
       alert("Post cannot be blank.")
       return false
@@ -66,9 +67,10 @@ class NewPostForm extends Component {
     this.threadPostsRef.update({
       [postId]: true
     })
+
     this.setState({
       comment: "",
-      contentState: convertFromRaw(this.content),
+      contentState: convertFromRaw(content),
     })
   }
 
